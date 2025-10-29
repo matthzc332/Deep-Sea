@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public Vector3 enemy;
     public float initialSpeed;
     public Rigidbody2D rb;
-    public int pierce = 0;
+
     public bool collision = false;
 
     void Awake()
@@ -58,18 +58,9 @@ public class Bullet : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 Debug.Log("colisionó un enemigo");
-                if(pierce >= 0){
-                    pierce = pierce -1;
-                }
-                else {collision = true;}
-                
-
-                
-                
-                // collision = false;
+                collision = true;
             }
         }
 
 
 }
-

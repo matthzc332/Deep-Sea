@@ -9,7 +9,7 @@ public class Globo_Volando : State_Base
     {
         globo = controlledObject.GetComponent<Globo>();
         barco = GameObject.FindGameObjectWithTag("Ship")?.transform;
-        //Debug.Log("El globo comienza a volar hacia el barco.");
+        Debug.Log("El globo comienza a volar hacia el barco.");
     }
 
     public override void UpdateState()
@@ -33,7 +33,7 @@ public class Globo_Volando : State_Base
 
     public override void ExitState(string nextState)
     {
-        //Debug.Log($"El globo sale de Volando y va a {nextState}.");
+        Debug.Log($"El globo sale de Volando y va a {nextState}.");
         if (nextState == "Globo_Explotando"){
             state_machine.SetState<Globo_Explotando>();
         }

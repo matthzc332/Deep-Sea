@@ -9,6 +9,11 @@ public class Ship : Entity
 
     public float vida;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         Ships = GetComponent<Transform>();
