@@ -1,0 +1,64 @@
+﻿using UnityEngine;
+
+public class Gaviota_Volando : State_Base
+{
+    private Gaviota gaviota;
+    private bool enAreaBarco = false;
+    private float direccionX = 1f;
+
+    void Awake()
+    {
+        gaviota = controlledObject.GetComponent<Gaviota>();
+    }
+
+    public override void EnterState()
+    {
+        Debug.Log("Gaviota entra en Volando (solo X).");
+    }
+
+    public override void UpdateState()
+    {
+        if (gaviota == null) return;
+
+        // Movimiento solo en X
+        Vector3 movimiento = new Vector3(direccionX * gaviota.velocidadNormal * Time.deltaTime, 0, 0);
+        controlledObject.transform.Translate(movimiento);
+
+        // Invertir dirección si choca con los límites del área de vuelo
+        if (controlledObject.transform.position.x > gaviota.limiteXDerecha)
+            direccionX = -1f;
+        else if (controlledObject.transform.position.x < gaviota.limiteXIzquierda)
+            direccionX = 1f;
+
+        // Si entra en área del barco → Picada
+        if (enAreaBarco)
+        {
+            ExitState("Gaviota_Picada");
+            state_machine.SetState<Gaviota_Picada>();
+        }
+
+        // Si vida <= 0 → Explotando
+        if (gaviota.vida <= 0)
+        {
+            ExitState("Gaviota_Explotando");
+            state_machine.SetState<Gaviota_Explotando>();
+        }
+    }
+
+    public override void ExitState(string nextState)
+    {
+        Debug.Log($"Gaviota sale de Volando hacia {nextState}");
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Barco"))
+            enAreaBarco = true;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Barco"))
+            enAreaBarco = false;
+    }
+}
