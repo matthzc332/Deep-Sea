@@ -1283,6 +1283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveTimer: 0
   normalWaveTime: 10
+  normalWaveTime: 30
   timerUI: 
   GameManager: {fileID: 1300800121}
 --- !u!4 &482489649
@@ -3230,7 +3231,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1139118069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f002af71ff85a4aadbb101bbebc289, type: 3}
+  m_Script: {fileID: 11500000, guid: f34236d84fbde9145ae6327bc86d51cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shipTransform: {fileID: 1265282247}
@@ -3924,8 +3925,10 @@ MonoBehaviour:
   PauseMenu: {fileID: 111316424}
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 100556495}
+  IslandMenu: {fileID: 0}
   GameManagerScript: {fileID: 1300800121}
   WaveController: {fileID: 482489648}
+  transformIsland: {fileID: 0}
   waveTimerText: {fileID: 485831338}
 --- !u!114 &1339778292
 MonoBehaviour:
