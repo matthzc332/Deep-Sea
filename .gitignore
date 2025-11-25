@@ -1,0 +1,98 @@
+# =========================================
+# Unity
+# =========================================
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# Evita que se suban archivos de caché del sistema de compilación
+sysinfo.txt
+
+# =========================================
+# Visual Studio / Rider / VSCode
+# =========================================
+
+# Archivos de configuración local
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# =========================================
+# Compilación y dependencias externas
+# =========================================
+
+# Plugins y paquetes temporales
+/[Aa]ssets/AssetStoreTools*
+
+# Archivos generados por Unity Package Manager
+/[Aa]ssets/Packages/
+/Packages/manifest-temp.json
+
+# =========================================
+# Sistema operativo
+# =========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# =========================================
+# Archivos opcionales (comentar si deseas subirlos)
+# =========================================
+
+# Builds locales
+# /Build/
+# /Builds/
+
+# Cache del Addressable Asset System
+/[Aa]ssets/AddressableAssetsData//.bin*
+
+# Lightmap y otros datos generados automáticamente
+/[Aa]ssets//Lightmap-*
+/[Aa]ssets//LightingData.asset
+/[Aa]ssets//ReflectionProbe-*
+/[Aa]ssets//OcclusionCullingData.asset
+
+# =========================================
+# TextMesh Pro
+# =========================================
+
+# Archivos generados por TMP
+/[Aa]ssets/TextMesh Pro/Resources/*.asset
+
+# =========================================
+# Otros
+# =========================================
+
+# Archivos temporales de Unity Collaborate
+/[Uu]serSettings/Layouts/
+/[Aa]ssets/StreamingAssets/aa/*
