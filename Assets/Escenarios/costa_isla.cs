@@ -46,7 +46,7 @@ public class costa_isla : MonoBehaviour
         {
             Vector3 posicionDestino = new Vector3(
                 shipTransform.position.x,
-                shipTransform.position.y, // Usar -0.37f en lugar de la Y del barco
+                2.5165f, // Usar 2.5165f en lugar de la Y del barco
                 shipTransform.position.z
             );
 

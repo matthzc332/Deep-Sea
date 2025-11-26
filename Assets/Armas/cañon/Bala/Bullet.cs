@@ -58,7 +58,12 @@ public class Bullet : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 Debug.Log("colisionó un enemigo");
-                collision = true;
+                if(pierce >= 1){
+                    pierce = pierce -1;
+                }
+                else {collision = true;}
+                
+                // collision = false;
             }
         }
 

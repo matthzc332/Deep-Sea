@@ -780,8 +780,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 215, y: 208}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 213.61, y: 209.3869}
+  m_SizeDelta: {x: 230.37, y: 230.3695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234523782
 MonoBehaviour:
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveTimer: 0
-  normalWaveTime: 10
+  normalWaveTime: 45
   timerUI: 
   GameManager: {fileID: 1300800121}
 --- !u!4 &482489649
@@ -1500,7 +1500,7 @@ Transform:
   m_GameObject: {fileID: 517827160}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: -0.2100029, y: -7.0499997, z: 0}
+  m_LocalPosition: {x: -0, y: -7.0499997, z: 0}
   m_LocalScale: {x: 6.627552, y: 2.5402, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3139,17 +3139,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -37.7623, y: 33.992916}
+  m_Offset: {x: -37.204376, y: -20.671774}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 411, y: 33}
+    oldSize: {x: 421, y: 128}
     newSize: {x: 41.1, y: 3.3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 486.5246, y: 100.98583}
+  m_Size: {x: 485.40875, y: 122.16026}
   m_EdgeRadius: 0
 --- !u!212 &1139118071
 SpriteRenderer:
@@ -3195,7 +3195,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 323042128372000086, guid: 5c5146a1f9b9bb940bd13dc563e255db, type: 3}
+  m_Sprite: {fileID: 3620832944559417931, guid: 2740c17f35ea5714db1a3bbb2e36cb34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3215,8 +3215,8 @@ Transform:
   m_GameObject: {fileID: 1139118069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.01, y: -0.37, z: 0}
-  m_LocalScale: {x: 0.026737282, y: 0.026737282, z: 0.026737282}
+  m_LocalPosition: {x: 19.7812, y: 2.5165, z: 0}
+  m_LocalScale: {x: 0.04233423, y: 0.050966036, z: 0.026737282}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3626,6 +3626,7 @@ MonoBehaviour:
   isAlive: 1
   joystick: {fileID: 445337321}
   vida: 0
+  initialSpeed: 0.9
 --- !u!61 &1265282251
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5125,7 +5126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 127.41, y: -127.39}
+  m_AnchoredPosition: {x: 127.57, y: -126.925995}
   m_SizeDelta: {x: 2853.3608, y: 1722.0293}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1892548713
