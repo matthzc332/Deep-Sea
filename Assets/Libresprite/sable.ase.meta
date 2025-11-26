@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d7d233053466be14ca15352c6628063c
+guid: 9a4fcfacc5537ac49a3fffec73de6373
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: taberna
+  - name: sable
     originalName: 
-    pivot: {x: 0.503876, y: -0.13541666}
+    pivot: {x: 0.53333336, y: -0.06666667}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 129
-      height: 96
-    spriteID: 3b0c7b6711bfb6c4793f0dc1aaf6bd69
+      width: 15
+      height: 15
+    spriteID: 6ff7f8bf882bb0145a1873b682a588e3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,45 +153,33 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 3291603787
+      value0: 593476825
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: taberna
+    name: sable
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: taberna
+    - name: sable
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 5
-        y: 13
-        width: 129
-        height: 96
-      spriteId: 3b0c7b6711bfb6c4793f0dc1aaf6bd69
+        x: 0
+        y: 1
+        width: 15
+        height: 15
+      spriteId: 6ff7f8bf882bb0145a1873b682a588e3
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: Default
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 140, y: 124}
-  previousTextureSize: {x: 256, y: 128}
+  canvasSize: {x: 16, y: 16}
+  previousTextureSize: {x: 32, y: 32}
