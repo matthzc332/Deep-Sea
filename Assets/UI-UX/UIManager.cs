@@ -15,6 +15,18 @@ public class UIManager : MonoBehaviour
     public GameObject UIRoot;
     public GameObject IslandMenu;
 
+    [Header("Shops")]
+    public GameObject NPCShop;
+    public GameObject OpenNPCShopButton;
+    public GameObject CloseNPCShopButton;
+
+    public GameObject TreeShop;
+    public GameObject OpenTreehopButton;
+    public GameObject CloseTreeShopButton;
+
+    [Header("Botón de pausa")]
+    public Button PauseButton;
+
     public GameManager GameManagerScript;
     public WaveController WaveController;
     public RectTransform transformIsland;
@@ -25,8 +37,17 @@ public class UIManager : MonoBehaviour
 
     string escenaActual;
 
+    private RectTransform npcShopRect;
+    private RectTransform treeShopRect;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private float npcShopOriginalY;
+    private float treeShopOriginalY;
+
+    private const float shopOpenY = -200f;
+    private const float shopAnimTime = 0.25f;
+
+    private bool shopIsOpen = false;
+
     private void Awake()
     {
         DOTween.Init();
@@ -37,6 +58,21 @@ public class UIManager : MonoBehaviour
 #endif
         Button[] buttonsInScene = FindObjectsByType<Button>(FindObjectsSortMode.None);
         allButtons.AddRange(buttonsInScene);
+
+        // Cachear RectTransforms de las tiendas
+        if (NPCShop != null)
+        {
+            npcShopRect = NPCShop.GetComponent<RectTransform>();
+            if (npcShopRect != null)
+                npcShopOriginalY = npcShopRect.anchoredPosition.y; // debería ser 200
+        }
+
+        if (TreeShop != null)
+        {
+            treeShopRect = TreeShop.GetComponent<RectTransform>();
+            if (treeShopRect != null)
+                treeShopOriginalY = treeShopRect.anchoredPosition.y; // también 200 o lo que sea
+        }
     }
 
     void Start()
@@ -44,7 +80,6 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (waveTimerText != null && WaveController != null)
@@ -91,6 +126,7 @@ public class UIManager : MonoBehaviour
         }
         Time.timeScale = 0f;
     }
+
     public void CloseSkillTreeButton()
     {
         if (waveTimerText != null)
@@ -113,21 +149,21 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-
     //-------------------------------------------------------------
     //   ISLAND UI
     //-------------------------------------------------------------
-    
+
     public void GoTavern()
     {
         if (escenaActual == "ISLA")
         {
             DisableAllButtons();
             Debug.Log("GoTavern");
-            transformIsland.DOAnchorPosX(124f, 2f).SetEase(Ease.InOutCubic).SetUpdate(true).OnComplete(() =>
-            {
-                EnableAllButtons();
-            });
+            transformIsland
+                .DOAnchorPosX(124f, 1f)
+                .SetEase(Ease.InOutCubic)
+                .SetUpdate(true)
+                .OnComplete(() => { EnableAllButtons(); });
         }
     }
 
@@ -136,11 +172,12 @@ public class UIManager : MonoBehaviour
         if (escenaActual == "ISLA")
         {
             DisableAllButtons();
-            Debug.Log("GoTavern");
-            transformIsland.DOAnchorPosX(-1492f, 2f).SetEase(Ease.InOutCubic).SetUpdate(true).OnComplete(() =>
-            {
-                EnableAllButtons();
-            });
+            Debug.Log("GoAstillero");
+            transformIsland
+                .DOAnchorPosX(-1492f, 1f)
+                .SetEase(Ease.InOutCubic)
+                .SetUpdate(true)
+                .OnComplete(() => { EnableAllButtons(); });
         }
     }
 
@@ -149,11 +186,110 @@ public class UIManager : MonoBehaviour
         if (escenaActual == "ISLA")
         {
             DisableAllButtons();
-            transformIsland.DOAnchorPosX(-683f, 2f).SetEase(Ease.InOutCubic).SetUpdate(true).OnComplete(() =>
+            transformIsland
+                .DOAnchorPosX(-683f, 1f)
+                .SetEase(Ease.InOutCubic)
+                .SetUpdate(true)
+                .OnComplete(() => { EnableAllButtons(); });
+        }
+    }
+
+    //-------------------------------------------------------------
+    //   TAVERN / SHOPS MANAGER
+    //-------------------------------------------------------------
+
+    // ---- NPC SHOP ----
+    public void OpenNPCShop()
+    {
+        Debug.Log("OpenNPCShop1");
+        if (escenaActual != "ISLA" || npcShopRect == null)
+            return;
+
+        Debug.Log("OpenNPCShop2");
+
+        shopIsOpen = true;      // marcamos que hay una tienda abierta
+        DisableAllButtons();    // esto dejará solo pausa + cerrar activos
+
+        // Cambiar botones
+        if (OpenNPCShopButton != null) OpenNPCShopButton.SetActive(false);
+        if (CloseNPCShopButton != null) CloseNPCShopButton.SetActive(true);
+
+        // Bajar la tienda
+        npcShopRect
+            .DOAnchorPosY(shopOpenY, shopAnimTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                // NO habilitamos todo, queremos seguir en modo "solo cerrar + pausa"
+            });
+    }
+
+    public void CloseNPCShop()
+    {
+        if (escenaActual != "ISLA" || npcShopRect == null)
+            return;
+
+        DisableAllButtons(); // mientras anima, no tocamos otros botones
+
+        // Cambiar botones
+        if (CloseNPCShopButton != null) CloseNPCShopButton.SetActive(false);
+        if (OpenNPCShopButton != null) OpenNPCShopButton.SetActive(true);
+
+        // Volver a su posición original
+        npcShopRect
+            .DOAnchorPosY(npcShopOriginalY, shopAnimTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                EnableAllButtons(); // vuelve todo a la normalidad
+            });
+    }
+
+    // ---- TREE SHOP ----
+    public void OpenTreeShop()
+    {
+        Debug.Log("OpenTreeShop1");
+        if (escenaActual != "ISLA" || treeShopRect == null)
+            return;
+
+        Debug.Log("OpenTreeShop2");
+
+        shopIsOpen = true;
+        DisableAllButtons();    // solo pausa + cerrar
+
+        if (OpenTreehopButton != null) OpenTreehopButton.SetActive(false);
+        if (CloseTreeShopButton != null) CloseTreeShopButton.SetActive(true);
+
+        treeShopRect
+            .DOAnchorPosY(shopOpenY, shopAnimTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                // igual que en NPC, no habilitamos todos los botones todavía
+            });
+    }
+
+    public void CloseTreeShop()
+    {
+        if (escenaActual != "ISLA" || treeShopRect == null)
+            return;
+
+        DisableAllButtons();
+
+        if (CloseTreeShopButton != null) CloseTreeShopButton.SetActive(false);
+        if (OpenTreehopButton != null) OpenTreehopButton.SetActive(true);
+
+        treeShopRect
+            .DOAnchorPosY(treeShopOriginalY, shopAnimTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true)
+            .OnComplete(() =>
             {
                 EnableAllButtons();
             });
-        }
     }
 
     public void StartNextWave()
@@ -168,12 +304,41 @@ public class UIManager : MonoBehaviour
     public void DisableAllButtons()
     {
         foreach (Button btn in allButtons)
-            if (btn != null) btn.interactable = false;
+        {
+            if (btn == null) continue;
+
+            if (shopIsOpen)
+            {
+                // Si hay tienda abierta: solo permitir
+                // - Botón cerrar NPCShop
+                // - Botón cerrar TreeShop
+                // - Botón de pausa
+
+                bool esBotonCerrarNPC = (CloseNPCShopButton != null && btn.gameObject == CloseNPCShopButton);
+                bool esBotonCerrarTree = (CloseTreeShopButton != null && btn.gameObject == CloseTreeShopButton);
+                bool esBotonPausa = (PauseButton != null && btn == PauseButton);
+
+                if (esBotonCerrarNPC || esBotonCerrarTree || esBotonPausa)
+                    btn.interactable = true;
+                else
+                    btn.interactable = false;
+            }
+            else
+            {
+                // Si no hay tienda abierta, se comporta como antes: todo desactivado
+                btn.interactable = false;
+            }
+        }
     }
 
     public void EnableAllButtons()
     {
+        shopIsOpen = false; // ya no hay tienda abierta
+
         foreach (Button btn in allButtons)
-            if (btn != null) btn.interactable = true;
-    } 
+        {
+            if (btn != null)
+                btn.interactable = true;
+        }
+    }
 }
