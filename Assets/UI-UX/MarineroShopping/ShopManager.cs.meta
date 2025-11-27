@@ -1,16 +1,2 @@
 fileFormatVersion: 2
 guid: f71568ae1682d594290abde241707220
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - container: {instanceID: 0}
-  - cartaPrefab: {fileID: 3246834359356223659, guid: 757c1c79d0d85664ab92c56beaf034ab, type: 3}
-  - panelDetalle: {instanceID: 0}
-  - detalleNombre: {instanceID: 0}
-  - detalleBotonComprar: {instanceID: 0}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
