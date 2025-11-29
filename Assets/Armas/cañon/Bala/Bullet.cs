@@ -53,22 +53,20 @@ public class Bullet : MonoBehaviour
 
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+        if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
-            if (other.CompareTag("Enemy"))
+            Debug.Log("colisionó un enemigo");
+            if (pierce >= 1)
             {
-                Debug.Log("colisionó un enemigo");
-                if(pierce >= 0){
-                    pierce = pierce -1;
-                }
-                else {collision = true;}
-                
-
-                
-                
-                // collision = false;
+                pierce = pierce - 1;
             }
+            else { collision = true; }
+
+            // collision = false;
         }
+    }
 
 
 }

@@ -35,16 +35,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            // DontDestroyOnLoad(gameObject); // opcional
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
         Time.timeScale = 0f;
 
         // Crear fade image si no existe
@@ -56,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Asegurarse de que el fade estÃ© transparente al inicio
+        // Asegurarse de que el fade esté transparente al inicio
         if (fadeImage != null)
         {
             Color color = fadeImage.color;
@@ -64,6 +54,7 @@ public class GameManager : MonoBehaviour
             fadeImage.color = color;
             fadeImage.gameObject.SetActive(false);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update()
@@ -71,13 +62,13 @@ public class GameManager : MonoBehaviour
         woodText.text = wood.ToString();
     }
 
-    // FunciÃ³n para crear el fade image si no existe
+    // Función para crear el fade image si no existe
     private void CreateFadeImage()
     {
         GameObject fadeObject = new GameObject("FadeImage");
         fadeImage = fadeObject.AddComponent<Image>();
         fadeImage.color = Color.black; // Fondo negro
-        
+
         // Hacer que ocupe toda la pantalla
         RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
         rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
@@ -86,8 +77,8 @@ public class GameManager : MonoBehaviour
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
         rectTransform.localScale = Vector3.one;
-        
-        // Establecer el orden en la jerarquÃ­a para que estÃ© encima de todo
+
+        // Establecer el orden en la jerarquía para que esté encima de todo
         fadeObject.transform.SetAsLastSibling();
         fadeObject.SetActive(false);
     }
@@ -104,7 +95,7 @@ public class GameManager : MonoBehaviour
         waveController.StartWave();
         uiManager.CloseSkillTreeButton();
         Time.timeScale = 1f;
-        
+
         // Opcional: Desactivar el objeto al empezar la wave
         if (costaIsla0 != null)
             costaIsla0.SetActive(false);
@@ -144,7 +135,7 @@ public class GameManager : MonoBehaviour
         currentGameState = gameStateBeforePause;
     }
 
-    // Nueva funciÃ³n de transiciÃ³n suave - VersiÃ³n simplificada
+    // Nueva función de transición suave - Versión simplificada
     public void softTransition()
     {
         StartCoroutine(SoftTransitionCoroutine());
@@ -157,7 +148,7 @@ public class GameManager : MonoBehaviour
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-            
+
             // Configurar color negro con alpha 0 (completamente transparente)
             Color startColor = Color.black;
             startColor.a = 0f;
@@ -172,18 +163,18 @@ public class GameManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
-            
+
             if (fadeImage != null)
             {
                 Color color = fadeImage.color;
                 color.a = alpha; // Solo modificamos el canal alpha
                 fadeImage.color = color;
             }
-            
+
             yield return null;
         }
 
-        // Asegurar que estÃ© completamente opaco (alpha = 1)
+        // Asegurar que esté completamente opaco (alpha = 1)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;
@@ -193,7 +184,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Fade completado. Cambiando de escena...");
 
-        // Cambiar de escena despuÃ©s del fade
+        // Cambiar de escena después del fade
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
         int totalScenes = SceneManager.sceneCountInBuildSettings;
@@ -204,12 +195,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No hay mÃ¡s escenas. Volviendo al menÃº principal.");
+            Debug.LogWarning("No hay más escenas. Volviendo al menú principal.");
             SceneManager.LoadScene(0);
         }
     }
 
-    // FunciÃ³n opcional para hacer fade out (volver a transparente)
+    // Función opcional para hacer fade out (volver a transparente)
     public void FadeOut()
     {
         StartCoroutine(FadeOutCoroutine());
@@ -220,7 +211,7 @@ public class GameManager : MonoBehaviour
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-            
+
             // Comenzar con alpha 1 (completamente opaco)
             Color startColor = Color.black;
             startColor.a = 1f;
@@ -235,18 +226,18 @@ public class GameManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float alpha = 1f - Mathf.Clamp01(elapsedTime / fadeDuration);
-            
+
             if (fadeImage != null)
             {
                 Color color = fadeImage.color;
                 color.a = alpha; // Reducir el alpha gradualmente
                 fadeImage.color = color;
             }
-            
+
             yield return null;
         }
 
-        // Asegurar que estÃ© completamente transparente (alpha = 0)
+        // Asegurar que esté completamente transparente (alpha = 0)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;
