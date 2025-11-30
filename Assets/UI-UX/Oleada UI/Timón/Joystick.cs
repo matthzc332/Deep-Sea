@@ -4,22 +4,23 @@ using UnityEngine.EventSystems;
 
 public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    public RectTransform baseTimon;   // La base del timón
-    public RectTransform mango;        // El timón que vamos a girar
+    public RectTransform baseTimon;   // La base del timï¿½n
+    public RectTransform mango;        // El timï¿½n que vamos a girar
 
     public float velocidadMinima = 100f;  // velocidad base de regreso
-    public float factorGrados = 2f;       // cuánto aumenta la velocidad según cuánto giraste
+    public float factorGrados = 2f;       // cuï¿½nto aumenta la velocidad segï¿½n cuï¿½nto giraste
 
-    private bool estoyTocando = false;
-    [SerializeField] public float angulo = 0;           // ángulo actual
-    private float gradosAcumulados = 0; // cuánto giré desde que agarre el timón
-    private float anguloAnterior;       // para guardar el ángulo del frame anterior
+    public static bool estoyTocando = false;
+    [SerializeField] public float angulo = 0;           // ï¿½ngulo actual
+    private float gradosAcumulados = 0; // cuï¿½nto girï¿½ desde que agarre el timï¿½n
+    private float anguloAnterior;       // para guardar el ï¿½ngulo del frame anterior
+    public static bool IsTouchingJoystick { get; private set; } // para saber si estÃ¡ tocando el joystick
 
     // Cuando empiezo a tocar
     public void OnPointerDown(PointerEventData e)
     {
         estoyTocando = true;
-        anguloAnterior = CalcularAngulo(e); // guardo el ángulo inicial
+        anguloAnterior = CalcularAngulo(e); // guardo el ï¿½ngulo inicial
     }
 
     // Mientras arrastro
@@ -27,17 +28,17 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     {
         if (!estoyTocando) return;
 
-        // calculo ángulo actual
+        // calculo ï¿½ngulo actual
         float anguloActual = CalcularAngulo(e);
 
-        // diferencia entre el último y este
+        // diferencia entre el ï¿½ltimo y este
         float diferencia = anguloActual - anguloAnterior;
 
         // esto es para que funcione cuando pasa de 180 a -180
         if (diferencia > 180) diferencia -= 360;
         if (diferencia < -180) diferencia += 360;
 
-        // sumo al ángulo del timón
+        // sumo al ï¿½ngulo del timï¿½n
         angulo += diferencia;
         gradosAcumulados += diferencia;
 
@@ -47,16 +48,17 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         gradosAcumulados = Mathf.Clamp(gradosAcumulados, -170f, 170f);
 
 
-        // guardo para el próximo frame
+        // guardo para el prï¿½ximo frame
         anguloAnterior = anguloActual;
 
-        // aplico la rotación
+        // aplico la rotaciï¿½n
         mango.localRotation = Quaternion.Euler(0, 0, angulo);
     }
 
     // Cuando dejo de tocar
     public void OnPointerUp(PointerEventData e)
     {
+
         estoyTocando = false;
     }
 
@@ -80,13 +82,13 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         }
     }
 
-    // Función simple para calcular el ángulo desde el centro
+    // Funciï¿½n simple para calcular el ï¿½ngulo desde el centro
     float CalcularAngulo(PointerEventData e)
     {
         Vector2 pos;
-        // obtenemos la posición local del toque dentro del timón
+        // obtenemos la posiciï¿½n local del toque dentro del timï¿½n
         RectTransformUtility.ScreenPointToLocalPointInRectangle(baseTimon, e.position, e.pressEventCamera, out pos);
-        // calculamos el ángulo usando Atan2
+        // calculamos el ï¿½ngulo usando Atan2
         return Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
     }
 }

@@ -9,6 +9,14 @@ public class Shoot_Cannon : State_Base
     public override void EnterState()
     {
 
+        // VERIFICAR SI SE ESTÁ TOCANDO EL JOYSTICK
+        if (Joystick.estoyTocando)
+        {
+            Debug.Log("No se puede disparar - Joystick en uso");
+            ExitState("Idle");
+            return;
+        }
+
         cannon = controlledObject.GetComponent<Cannon2>();
 
 
