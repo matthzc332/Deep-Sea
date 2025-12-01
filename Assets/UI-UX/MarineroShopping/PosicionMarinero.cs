@@ -239,11 +239,26 @@ public class PosicionMarinero : MonoBehaviour
     
     public void OnClickPosicion()
 {
+    Debug.Log("CLICKEANDO POSICION");
+    
     // Verificar si está disponible
     if (!EstaDisponible())
     {
         Debug.Log($"Posición ocupada: {GetNombreMarinero()}");
         return;
+    }
+    
+    // Cambiar material a "None" y color a blanco
+    if (imagenPosicion != null)
+    {
+        imagenPosicion.material = null; // Material = None
+        imagenPosicion.color = new Color(1f, 1f, 1f, 1f); // Color blanco
+        
+        Debug.Log($"Imagen actualizada: Material = None, Color = Blanco");
+    }
+    else
+    {
+        Debug.LogWarning("imagenPosicion es null, no se puede actualizar");
     }
     
     // Notificar al ShopManager que esta posición fue seleccionada

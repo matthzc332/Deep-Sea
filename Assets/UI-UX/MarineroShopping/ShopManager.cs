@@ -25,8 +25,8 @@ public class ShopManager : MonoBehaviour
     public List<PosicionMarinero> posicionesExistentes = new List<PosicionMarinero>();
 
     // Variable para guardar el marinero seleccionado temporalmente
-    private PlantillaObjeto marineroSeleccionadoTemporal;
-    private GameObject objetoTiendaOrigen; // Referencia al objeto de tienda que se compró
+    public PlantillaObjeto marineroSeleccionadoTemporal;
+    public GameObject objetoTiendaOrigen; // Referencia al objeto de tienda que se compró
 
     [Header("Datos")]
     public List<PlantillaObjeto> todosLosObjetos = new List<PlantillaObjeto>();
