@@ -1,236 +1,184 @@
-
-////}
-
-//using UnityEngine;
-//using UnityEngine.UI; // Necesario para manipular la UI
-//using System.Collections.Generic;
-//using TMPro;
-
-//public class ShopManager : MonoBehaviour
-//{
-//    public static ShopManager Instance { get; private set; }
-
-//    [Header("ConfiguraciÛn Lista (Izquierda)")]
-//    public Transform container;
-//    public GameObject cartaPrefab;
-//    public List<MarineroShopping> marinerosDisponibles = new List<MarineroShopping>();
-
-//    [Header("ConfiguraciÛn Detalle (Derecha)")]
-//    public GameObject panelDetalle; // Para activar/desactivar si no hay selecciÛn
-//    public TMP_Text detalleNombre;
-//  //  public TMP_Text detalleDescripcion;
-//  //  public TMP_Text detallePrecio;
-//    public Button detalleBotonComprar;
-
-//    private MarineroShopping seleccionActual;
-//    public int monedaJugador = 500;
-
-//    void Awake()
-//    {
-//        if (Instance == null) Instance = this;
-//        else Destroy(gameObject);
-//    }
-
-//    void Start()
-//    {
-//        //// Configurar botÛn de compra del panel derecho una ˙nica vez
-//        //if (detalleBotonComprar != null)
-//        //{
-//        //    detalleBotonComprar.onClick.AddListener(ComprarSeleccionado);
-//        //}
-
-//        //// (Tu cÛdigo de poblar lista sigue aquÌ...)
-//        //CargarDatosEjemplo();
-//        //LlenarShop();
-
-//        //// Opcional: Seleccionar el primero por defecto o ocultar el panel
-//        //if (marinerosDisponibles.Count > 0)
-//        //    SeleccionarMarinero(marinerosDisponibles[0]);
-//        //else
-//        //    panelDetalle.SetActive(false);
-//        // Ya no creamos datos aquÌ. Los leeremos del Inspector.
-//        // Solo configuramos el botÛn y llenamos la tienda.
-
-//        if (detalleBotonComprar != null)
-//            detalleBotonComprar.onClick.AddListener(ComprarSeleccionado);
-
-//        LlenarShop(); // Usar· la lista que llenes manualmente en Unity
-
-//        if (marinerosDisponibles.Count > 0)
-//            SeleccionarMarinero(marinerosDisponibles[0]);
-//        else if (panelDetalle != null)
-//            panelDetalle.SetActive(false);
-//    }
-
-//    void CargarDatosEjemplo()
-//    {
-//        marinerosDisponibles.Clear();
-//        marinerosDisponibles.Add(new MarineroShopping { nombre = "Pistolero", ventajasGenerales = "AntiaÈreo", descripcion = "DaÒa unidades voladoras...", precio = 120 });
-//        marinerosDisponibles.Add(new MarineroShopping { nombre = "Apostador", ventajasGenerales = "EconomÌa", descripcion = "Gana monedas extra...", precio = 200 });
-//        marinerosDisponibles.Add(new MarineroShopping { nombre = "Capit·n", ventajasGenerales = "Defensa", descripcion = "Otorga escudo...", precio = 300 });
-//        marinerosDisponibles.Add(new MarineroShopping { nombre = "Explorador", ventajasGenerales = "VisiÛn", descripcion = "Revela zonas ocultas...", precio = 180 });
-//    }
-
-//    public void LlenarShop()
-//    {
-//        foreach (Transform child in container) Destroy(child.gameObject);
-//        foreach (var m in marinerosDisponibles)
-//        {
-//            var go = Instantiate(cartaPrefab, container);
-//            var ui = go.GetComponent<CartaMarineroUI>();
-//            ui.ConfigurarCarta(m);
-//        }
-//    }
-
-//    // --- NUEVA L”GICA DE SELECCI”N ---
-
-//    public void SeleccionarMarinero(MarineroShopping m)
-//    {
-//        seleccionActual = m;
-//        panelDetalle.SetActive(true);
-
-//        // Actualizar UI del panel derecho
-//        detalleNombre.text = m.nombre;
-//       // detalleVentajas.text = m.ventajasGenerales;
-//      //  detalleDescripcion.text = m.descripcion;
-//      //  detallePrecio.text = "$ " + m.precio.ToString();
-//    }
-
-//    public void ComprarSeleccionado()
-//    {
-//        if (seleccionActual != null)
-//        {
-//            IntentarComprar(seleccionActual);
-//        }
-//    }
-
-//    public void IntentarComprar(MarineroShopping m)
-//    {
-//        if (monedaJugador >= m.precio)
-//        {
-//            monedaJugador -= m.precio;
-//            ProcesarCompra(m);
-//            Debug.Log($"Comprado: {m.nombre} - Moneda restante: {monedaJugador}");
-//        }
-//        else
-//        {
-//            MostrarErrorNoSuficienteMoneda();
-//        }
-//    }
-
-//    void ProcesarCompra(MarineroShopping m)
-//    {
-//        Debug.Log($"Procesando compra de: {m.nombre}");
-//        // AquÌ tu lÛgica de desbloqueo
-//    }
-
-//    void MostrarErrorNoSuficienteMoneda()
-//    {
-//        Debug.Log("No tienes suficiente dinero.");
-//    }
-//}
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager Instance { get; private set; }
 
-    [Header("ConfiguraciÛn Lista (Izquierda)")]
-    public Transform container;
+    [Header("UI References")]
+    public Transform containerTienda;
     public GameObject cartaPrefab;
-    // Esta lista la llenas desde el Inspector de Unity
-    public List<MarineroShopping> marinerosDisponibles = new List<MarineroShopping>();
+    public GameObject inspeccionPrefab;
+    public Transform inspeccionContainer;
+    public TextMeshProUGUI textoMonedas;
 
-    [Header("ConfiguraciÛn Detalle (Derecha)")]
-    public GameObject panelDetalle;
+    [Header("Configuraci√≥n Tienda")]
+    [SerializeField] private int numeroObjetosEnTienda = 6;
+    [SerializeField] private bool usarTiendaAleatoria = true;
 
-    // VARIABLES DESCOMENTADAS Y AGREGADAS
-    public TMP_Text detalleNombre;
-    public TMP_Text detalleVentajas;    // <--- Agregado
-    public TMP_Text detalleDescripcion; // <--- Descomentado
-    public TMP_Text detallePrecio;      // <--- Descomentado
-    public Image detalleRetrato;        // <--- Agregado (opcional, para ver la foto en grande)
+    [Header("Posiciones de Barco")]
+    public GameObject fondoModal; // Referencia al GameObject del fondo modal (ya creado en escena)
+    public GameObject PosicionBarco;
+    public List<PosicionMarinero> posicionesExistentes = new List<PosicionMarinero>();
 
-    public Button detalleBotonComprar;
+    // Variable para guardar el marinero seleccionado temporalmente
+    private PlantillaObjeto marineroSeleccionadoTemporal;
+    private GameObject objetoTiendaOrigen; // Referencia al objeto de tienda que se compr√≥
 
-    private MarineroShopping seleccionActual;
+    [Header("Datos")]
+    public List<PlantillaObjeto> todosLosObjetos = new List<PlantillaObjeto>();
+    private List<PlantillaObjeto> objetosDisponibles = new List<PlantillaObjeto>();
+
+    [Header("Econom√≠a")]
     public int monedaJugador = 500;
+
+    private PlantillaObjeto seleccionActual;
+    private GameObject inspeccionActual;
 
     void Awake()
     {
+        Debug.Log("Instancia de ShopManager viva: " + gameObject.name);
+
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Debug.LogError("ShopManager duplicado destruido: " + gameObject.name);
+            Destroy(gameObject);
+        }
     }
 
     void Start()
     {
-        if (detalleBotonComprar != null)
-            detalleBotonComprar.onClick.AddListener(ComprarSeleccionado);
-
-        LlenarShop();
-
-        // Si hay marineros, seleccionamos el primero por defecto
-        if (marinerosDisponibles.Count > 0)
+        InicializarTienda();
+        ActualizarUI();
+        
+        if (objetosDisponibles.Count > 0)
         {
-            SeleccionarMarinero(marinerosDisponibles[0]);
+            SeleccionarMarinero(objetosDisponibles[0]);
         }
-        else if (panelDetalle != null)
-        {
-            panelDetalle.SetActive(false);
-        }
-
-        // Actualizar estado del botÛn inicial (si alcanza la plata o no)
-        ActualizarBotonCompra();
     }
 
-    public void LlenarShop()
+    public void InicializarTienda()
     {
-        // Limpiar contenedor por si acaso
-        foreach (Transform child in container) Destroy(child.gameObject);
-
-        foreach (var m in marinerosDisponibles)
+        objetosDisponibles.Clear();
+        
+        if (usarTiendaAleatoria)
         {
-            var go = Instantiate(cartaPrefab, container);
-            var ui = go.GetComponent<CartaMarineroUI>();
-            ui.ConfigurarCarta(m);
+            objetosDisponibles = GenerarTiendaAleatoria(numeroObjetosEnTienda);
+        }
+        else
+        {
+            objetosDisponibles = new List<PlantillaObjeto>(todosLosObjetos);
+            numeroObjetosEnTienda = objetosDisponibles.Count;
+        }
+        
+        LlenarTienda();
+    }
+
+    List<PlantillaObjeto> GenerarTiendaAleatoria(int cantidad)
+    {
+        if (todosLosObjetos.Count == 0)
+        {
+            Debug.LogError("No hay objetos en la lista 'todosLosObjetos'");
+            return new List<PlantillaObjeto>();
+        }
+        
+        List<PlantillaObjeto> listaMezclada = new List<PlantillaObjeto>(todosLosObjetos);
+        listaMezclada = MezclarLista(listaMezclada);
+        
+        int cantidadFinal = Mathf.Min(cantidad, listaMezclada.Count);
+        return listaMezclada.Take(cantidadFinal).ToList();
+    }
+
+    List<PlantillaObjeto> MezclarLista(List<PlantillaObjeto> lista)
+    {
+        for (int i = lista.Count - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            PlantillaObjeto temp = lista[i];
+            lista[i] = lista[randomIndex];
+            lista[randomIndex] = temp;
+        }
+        return lista;
+    }
+
+    void LlenarTienda()
+    {
+        foreach (Transform child in containerTienda)
+            Destroy(child.gameObject);
+
+        foreach (var objeto in objetosDisponibles)
+        {
+            GameObject carta = Instantiate(cartaPrefab, containerTienda);
+            Objeto objetoScript = carta.GetComponent<Objeto>();
+            
+            if (objetoScript != null)
+            {
+                objetoScript.ConfigurarObjeto(objeto);
+            }
+            else
+            {
+                Debug.LogError("Prefab carta no tiene componente Objeto");
+            }
         }
     }
 
-    // --- L”GICA DE SELECCI”N ---
-
-    public void SeleccionarMarinero(MarineroShopping m)
+    public void SeleccionarMarinero(PlantillaObjeto objeto)
     {
-        seleccionActual = m;
-        if (panelDetalle != null) panelDetalle.SetActive(true);
-
-        // Actualizar UI del panel derecho (Validamos que no sean null para evitar errores)
-        if (detalleNombre != null) StartCoroutine(EscribirTexto(detalleNombre, m.nombre)); // O simplemente .text = m.nombre
-        else if (detalleNombre != null) detalleNombre.text = m.nombre;
-
-        if (detalleVentajas != null) detalleVentajas.text = m.ventajasGenerales;
-        if (detalleDescripcion != null) detalleDescripcion.text = m.descripcion;
-        if (detallePrecio != null) detallePrecio.text = "$ " + m.precio.ToString();
-
-        // Si quieres mostrar la imagen en grande a la derecha tambiÈn:
-        if (detalleRetrato != null && m.retrato != null) detalleRetrato.sprite = m.retrato;
-
-        ActualizarBotonCompra();
+        Debug.Log("Entrando a Seleccionar marinero");
+        seleccionActual = objeto;
+        CrearVistaInspeccion(objeto);
+        Debug.Log($"Objeto seleccionado: {objeto.nombreMarinero}");
     }
 
-    // Opcional: Actualizar visualmente si el botÛn es interactuable o no seg˙n el dinero
-    void ActualizarBotonCompra()
+    void CrearVistaInspeccion(PlantillaObjeto objeto)
     {
-        if (detalleBotonComprar != null && seleccionActual != null)
+        Debug.Log("PREFAB " + inspeccionPrefab);
+        Debug.Log("CONTENDOR " + inspeccionContainer);
+        
+        if (inspeccionActual != null)
         {
-            // Si tienes dinero, el botÛn es interactuable, si no, se desactiva (o cambia de color)
-            detalleBotonComprar.interactable = (monedaJugador >= seleccionActual.precio);
+            Destroy(inspeccionActual);
+        }
+
+        if (inspeccionPrefab == null || inspeccionContainer == null)
+        {
+            Debug.LogError("Faltan referencias en ShopManager");
+            return;
+        }
+
+        inspeccionActual = Instantiate(inspeccionPrefab, inspeccionContainer);
+        
+        RectTransform rt = inspeccionActual.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchoredPosition = new Vector2(-950f, 270f);
+            rt.localPosition = new Vector3(-950f, 270f, 0f);
+            rt.localScale = Vector3.one;
+            Debug.Log($"Inspecci√≥n posicionada en: {rt.anchoredPosition}");
+        }
+        else
+        {
+            inspeccionActual.transform.localPosition = new Vector3(-950f, 270f, 0f);
+            inspeccionActual.transform.localScale = Vector3.one;
+        }
+
+        Objeto objetoScript = inspeccionActual.GetComponent<Objeto>();
+        if (objetoScript != null)
+        {
+            objetoScript.ConfigurarObjeto(objeto);
+            objetoScript.ConfigurarBotonCompra(ComprarObjetoActual);
+        }
+        else
+        {
+            Debug.LogError("El prefab no tiene componente Objeto");
         }
     }
 
-    public void ComprarSeleccionado()
+    public void ComprarObjetoActual()
     {
         if (seleccionActual != null)
         {
@@ -238,37 +186,294 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void IntentarComprar(MarineroShopping m)
+    public void IntentarComprar(PlantillaObjeto objeto)
     {
-        if (monedaJugador >= m.precio)
+        if (monedaJugador >= objeto.precio)
         {
-            monedaJugador -= m.precio;
-            ProcesarCompra(m);
-            ActualizarBotonCompra(); // Actualizamos botÛn tras gastar dinero
-            Debug.Log($"Comprado: {m.nombre} - Moneda restante: {monedaJugador}");
+            // Guardar el marinero seleccionado temporalmente
+            marineroSeleccionadoTemporal = objeto;
+            
+            // Reducir monedas INMEDIATAMENTE
+            monedaJugador -= objeto.precio;
+            ActualizarUI();
+            
+            // Buscar y guardar referencia al objeto de tienda
+            objetoTiendaOrigen = EncontrarObjetoTiendaOrigen();
+            
+            // Activar la selecci√≥n de posici√≥n
+            ActivarSeleccionPosicion();
+            
+            Debug.Log($"¬°{objeto.nombreMarinero} comprado! Selecciona una posici√≥n en el barco.");
         }
         else
         {
-            MostrarErrorNoSuficienteMoneda();
+            Debug.Log("¬°Fondos insuficientes!");
         }
     }
 
-    void ProcesarCompra(MarineroShopping m)
+    private void ProcesarCompraCompleta()
     {
-        // LÛgica futura: Agregar a la lista de "Marineros Desbloqueados" del GameManager
-        Debug.Log($"Procesando lÛgica de desbloqueo para: {m.nombre}");
+        Debug.Log($"Compra completada: {marineroSeleccionadoTemporal.nombreMarinero} por {marineroSeleccionadoTemporal.precio} monedas");
     }
 
-    void MostrarErrorNoSuficienteMoneda()
+    public void RemoverObjetoDeTienda(PlantillaObjeto objeto)
     {
-        Debug.Log("No tienes suficiente dinero.");
-        // AquÌ podrÌas poner una animaciÛn de "Dinero en rojo" o un sonido de error
+        if (objetosDisponibles.Contains(objeto))
+        {
+            objetosDisponibles.Remove(objeto);
+            
+            // Destruir el GameObject de la tienda si existe
+            if (objetoTiendaOrigen != null)
+            {
+                Destroy(objetoTiendaOrigen);
+                objetoTiendaOrigen = null;
+            }
+            
+            LlenarTienda();
+            
+            if (seleccionActual == objeto && objetosDisponibles.Count > 0)
+            {
+                SeleccionarMarinero(objetosDisponibles[0]);
+            }
+            else if (objetosDisponibles.Count == 0)
+            {
+                if (inspeccionActual != null)
+                {
+                    Destroy(inspeccionActual);
+                    inspeccionActual = null;
+                }
+                seleccionActual = null;
+            }
+        }
     }
 
-    // Corrutina simple por si quieres efecto de escritura (opcional)
-    System.Collections.IEnumerator EscribirTexto(TMP_Text label, string texto)
+    void ActualizarUI()
     {
-        label.text = texto;
-        yield return null;
+        if (textoMonedas != null)
+        {
+            textoMonedas.text = $"Monedas: {monedaJugador}";
+        }
+    }
+
+    public void AgregarMonedas(int cantidad)
+    {
+        monedaJugador += cantidad;
+        ActualizarUI();
+    }
+
+    public void ForzarRefrescoTienda()
+    {
+        InicializarTienda();
+    }
+
+    public void CambiarModoTienda(bool aleatorio)
+    {
+        usarTiendaAleatoria = aleatorio;
+        InicializarTienda();
+    }
+
+    public void CambiarNumeroObjetos(int nuevoNumero)
+    {
+        numeroObjetosEnTienda = nuevoNumero;
+        InicializarTienda();
+    }
+
+    // Nueva funci√≥n para activar la selecci√≥n de posici√≥n
+    public void ActivarSeleccionPosicion()
+    {
+        // Activar fondo modal y PosicionBarco
+
+            fondoModal.SetActive(true);
+            PosicionBarco.SetActive(true);
+            
+        
+        // Activar y resaltar solo las posiciones DISPONIBLES
+        bool hayPosicionesDisponibles = false;
+        
+        foreach (var posicion in posicionesExistentes)
+        {
+            if (posicion != null)
+            {
+                posicion.gameObject.SetActive(true);
+                
+                if (posicion.EstaDisponible())
+                {
+                    posicion.ActivarParpadeo(true);
+                    posicion.SetColorParpadeo(Color.green);
+                    posicion.SetVelocidadParpadeo(3f);
+                    
+                    Button botonPosicion = posicion.GetComponent<Button>();
+                    if (botonPosicion != null)
+                    {
+                        botonPosicion.interactable = true;
+                    }
+                    
+                    hayPosicionesDisponibles = true;
+                }
+                else
+                {
+                    Button botonPosicion = posicion.GetComponent<Button>();
+                    if (botonPosicion != null)
+                    {
+                        botonPosicion.interactable = false;
+                    }
+                }
+            }
+        }
+        
+        if (!hayPosicionesDisponibles)
+        {
+            Debug.LogWarning("No hay posiciones disponibles en el barco.");
+            CancelarSeleccionPosicion();
+            return;
+        }
+        
+    
+    }
+
+    // Nueva funci√≥n para cerrar modo selecci√≥n
+    private void CerrarModoSeleccionPosicion()
+    {
+        // Desactivar fondo modal
+            fondoModal.SetActive(false);
+            PosicionBarco.SetActive(false);
+        
+        // Restaurar estado normal de las posiciones
+        foreach (var posicion in posicionesExistentes)
+        {
+            if (posicion != null)
+            {
+                posicion.ActivarParpadeo(false);
+                posicion.SetColorParpadeo(Color.white);
+                posicion.SetVelocidadParpadeo(2f);
+                
+                Button botonPosicion = posicion.GetComponent<Button>();
+                if (botonPosicion != null)
+                {
+                    botonPosicion.interactable = true;
+                }
+                
+                if (!posicion.EstaDisponible())
+                {
+                    posicion.gameObject.SetActive(true);
+                }
+            }
+        }
+        
+        // Reactivar la UI de la tienda
+        if (containerTienda != null)
+            containerTienda.gameObject.SetActive(true);
+        
+        // Reactivar la inspecci√≥n si existe
+        if (inspeccionActual != null)
+            inspeccionActual.SetActive(true);
+    }
+
+    // Nueva funci√≥n para asignar el marinero a una posici√≥n espec√≠fica
+    public void AsignarMarineroAPosicion(PosicionMarinero posicionSeleccionada)
+    {
+        if (marineroSeleccionadoTemporal == null)
+        {
+            Debug.LogWarning("No hay marinero seleccionado para asignar");
+            return;
+        }
+        
+        if (!posicionesExistentes.Contains(posicionSeleccionada))
+        {
+            Debug.LogWarning("La posici√≥n seleccionada no est√° en la lista de posiciones del barco");
+            return;
+        }
+        
+        if (!posicionSeleccionada.EstaDisponible())
+        {
+            Debug.LogWarning("La posici√≥n seleccionada ya est√° ocupada");
+            return;
+        }
+        
+        bool asignado = posicionSeleccionada.AsignarMarinero(marineroSeleccionadoTemporal);
+        
+        if (asignado)
+        {
+            Debug.Log($"¬°{marineroSeleccionadoTemporal.nombreMarinero} asignado al barco en posici√≥n {posicionSeleccionada.gameObject.name}!");
+            
+            ProcesarCompraCompleta();
+            marineroSeleccionadoTemporal = null;
+            CerrarModoSeleccionPosicion();
+            
+            if (inspeccionActual != null)
+            {
+                Destroy(inspeccionActual);
+                inspeccionActual = null;
+            }
+            
+            RemoverObjetoDeTienda(seleccionActual);
+            
+            if (objetosDisponibles.Count > 0)
+            {
+                SeleccionarMarinero(objetosDisponibles[0]);
+            }
+            
+            ActualizarUI();
+        }
+        else
+        {
+            Debug.LogWarning("No se pudo asignar el marinero a esta posici√≥n");
+        }
+    }
+
+    // Nueva funci√≥n para cancelar la selecci√≥n de posici√≥n
+    public void CancelarSeleccionPosicion()
+    {
+        if (marineroSeleccionadoTemporal != null)
+        {
+            // Reembolsar al jugador
+            monedaJugador += marineroSeleccionadoTemporal.precio;
+            Debug.Log($"Selecci√≥n cancelada. {marineroSeleccionadoTemporal.precio} monedas reembolsadas.");
+            marineroSeleccionadoTemporal = null;
+        }
+        
+        CerrarModoSeleccionPosicion();
+        ActualizarUI();
+        Debug.Log("Modo selecci√≥n de posici√≥n CANCELADO.");
+    }
+
+    private GameObject EncontrarObjetoTiendaOrigen()
+    {
+        foreach (Transform child in containerTienda)
+        {
+            Objeto objetoScript = child.GetComponent<Objeto>();
+            if (objetoScript != null && objetoScript.GetDatosMarinero() == seleccionActual)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
+    }
+
+    public int ContarPosicionesDisponibles()
+    {
+        int disponibles = 0;
+        foreach (var posicion in posicionesExistentes)
+        {
+            if (posicion != null && posicion.EstaDisponible())
+            {
+                disponibles++;
+            }
+        }
+        return disponibles;
+    }
+
+    public void MostrarEstadoBarco()
+    {
+        Debug.Log("=== ESTADO DEL BARCO ===");
+        for (int i = 0; i < posicionesExistentes.Count; i++)
+        {
+            if (posicionesExistentes[i] != null)
+            {
+                string estado = posicionesExistentes[i].EstaDisponible() ? "Disponible" : $"Ocupado: {posicionesExistentes[i].GetNombreMarinero()}";
+                Debug.Log($"Posici√≥n {i} ({posicionesExistentes[i].gameObject.name}): {estado}");
+            }
+        }
+        Debug.Log($"Total disponibles: {ContarPosicionesDisponibles()}/{posicionesExistentes.Count}");
     }
 }
