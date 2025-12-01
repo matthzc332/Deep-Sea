@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.SearchService;
 using DG.Tweening;
 using System.Collections.Generic;
-using NUnit.Framework.Interfaces;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
@@ -294,7 +292,7 @@ public class UIManager : MonoBehaviour
 
     public void StartNextWave()
     {
-        //Funcion preparada para comenzar la siguiente oleada, deberia llamar una funcion del GameManager.
+        SceneManager.LoadScene(0);
     }
 
     //-------------------------------------------------------------
