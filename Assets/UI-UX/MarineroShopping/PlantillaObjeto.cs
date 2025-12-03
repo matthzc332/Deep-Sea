@@ -3,12 +3,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
-[CreateAssetMenu (fileName = "objeto", menuName = "Objeto Tienda")]
-
+[CreateAssetMenu(fileName = "MarineroData", menuName = "Tienda/Marinero Data")]
 public class PlantillaObjeto : ScriptableObject
 {
-    public Sprite imagenObjeto;
-    public string textoObjeto;
-    public int precioObjeto;
+    public string nombreMarinero;
+    public string strongWith;
+    public string weakWith;
+    public string descripcion;
+    public int precio;
+    public Sprite[] idleAnimationSprites; // Sprites de la animación idle
+    public float animationSpeed = 1f;
 }

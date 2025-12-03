@@ -167,6 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8739f6715b7db7342bb3c45ceb368052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  marineroName: Pistolero
+  strongWith: Nada
+  weakWith: Nada
+  description: 
+  price: 20
   enemiesInArea: 0
 --- !u!114 &2276081143414086356
 MonoBehaviour:
