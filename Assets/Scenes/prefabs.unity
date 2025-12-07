@@ -3926,6 +3926,13 @@ MonoBehaviour:
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 100556495}
   IslandMenu: {fileID: 0}
+  NPCShop: {fileID: 0}
+  OpenNPCShopButton: {fileID: 0}
+  CloseNPCShopButton: {fileID: 0}
+  TreeShop: {fileID: 0}
+  OpenTreehopButton: {fileID: 0}
+  CloseTreeShopButton: {fileID: 0}
+  PauseButton: {fileID: 0}
   GameManagerScript: {fileID: 1300800121}
   WaveController: {fileID: 482489648}
   transformIsland: {fileID: 0}
@@ -4418,7 +4425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3754179345252744707, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: amount_ammunition
-      value: 35
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3790320220068009559, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: m_LocalPosition.x
