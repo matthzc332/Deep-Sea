@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = GameState.OnWave;
         waveController.StartWave();
-        uiManager.CloseSkillTreeButton();
         Time.timeScale = 1f;
 
         // Opcional: Desactivar el objeto al empezar la wave

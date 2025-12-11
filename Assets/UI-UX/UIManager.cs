@@ -115,24 +115,6 @@ public class UIManager : MonoBehaviour
     {
         PauseMenu.SetActive(false);
     }
-
-    public void SpawnSkillTreeButton()
-    {
-        if (waveTimerText != null)
-        {
-            waveTimerText.gameObject.SetActive(false);
-        }
-        Time.timeScale = 0f;
-    }
-
-    public void CloseSkillTreeButton()
-    {
-        if (waveTimerText != null)
-        {
-            waveTimerText.gameObject.SetActive(true);
-        }
-    }
-
     public void OpenMainMenu()
     {
         if (waveTimerText != null)
@@ -145,51 +127,6 @@ public class UIManager : MonoBehaviour
     public void CloseGame()
     {
         Application.Quit();
-    }
-
-    //-------------------------------------------------------------
-    //   ISLAND UI
-    //-------------------------------------------------------------
-
-    public void GoTavern()
-    {
-        if (escenaActual == "ISLA")
-        {
-            DisableAllButtons();
-            Debug.Log("GoTavern");
-            transformIsland
-                .DOAnchorPosX(124f, 1f)
-                .SetEase(Ease.InOutCubic)
-                .SetUpdate(true)
-                .OnComplete(() => { EnableAllButtons(); });
-        }
-    }
-
-    public void GoAstillero()
-    {
-        if (escenaActual == "ISLA")
-        {
-            DisableAllButtons();
-            Debug.Log("GoAstillero");
-            transformIsland
-                .DOAnchorPosX(-1492f, 1f)
-                .SetEase(Ease.InOutCubic)
-                .SetUpdate(true)
-                .OnComplete(() => { EnableAllButtons(); });
-        }
-    }
-
-    public void GoBackToMenu()
-    {
-        if (escenaActual == "ISLA")
-        {
-            DisableAllButtons();
-            transformIsland
-                .DOAnchorPosX(-683f, 1f)
-                .SetEase(Ease.InOutCubic)
-                .SetUpdate(true)
-                .OnComplete(() => { EnableAllButtons(); });
-        }
     }
 
     //-------------------------------------------------------------
