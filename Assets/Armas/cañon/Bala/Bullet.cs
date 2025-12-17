@@ -2,72 +2,45 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private int power = 1;
-    [SerializeField] private float spriteForwardOffsetDeg = 0f; // si tu sprite mira +Y, poné -90
-    [SerializeField] public State_Machine state_machine;
-    public Vector3 enemy;
-    public float initialSpeed;
-    public Rigidbody2D rb;
-    public int pierce = 0;
-    public bool collision = false;
+    int damage;
+    int pierce;
+
+    Rigidbody2D rb;
 
     void Awake()
     {
-        state_machine = GetComponent<State_Machine>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-
-    public int getDamage()
+    public void Initialize(
+        Vector3 target,
+        float initialSpeed,
+        int power,
+        int pierce
+    )
     {
-        return power;
-    }
+        damage = power;
+        this.pierce = pierce;
 
-    public void Initialize(Vector3 enemy, float initialSpeed, int power)
-    {
-        this.power = power;
-        this.enemy = enemy;
-        this.initialSpeed = initialSpeed;
-
-    }
-
-    public void LaunchTowards(Vector3 targetWorld, float initialSpeed)
-    {
-        Vector2 dir = ((Vector2)(targetWorld - transform.position)).normalized;
+        Vector2 dir = (target - transform.position).normalized;
         rb.linearVelocity = dir * initialSpeed;
-        OrientToVelocity();
     }
 
-
-
-    public void OrientToVelocity()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Vector2 v = rb.linearVelocity;
-        if (v.sqrMagnitude > 1e-6f)
+        if (!other.CompareTag("Enemy")) return;
+
+        Entity e = other.GetComponent<Entity>();
+        if (e != null)
+            e.takeDamage(damage);
+
+        if (pierce > 0)
         {
-            float ang = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + spriteForwardOffsetDeg;
-            transform.rotation = Quaternion.Euler(0f, 0f, ang);
+            pierce--;
+            return;
         }
+
+        Destroy(gameObject);
     }
-
-
-
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
-        if (other.CompareTag("Enemy"))
-        {
-            Debug.Log("colisionó un enemigo");
-            if (pierce >= 1)
-            {
-                pierce = pierce - 1;
-            }
-            else { collision = true; }
-
-            // collision = false;
-        }
-    }
-
-
 }
 
