@@ -64,6 +64,12 @@ public class Objeto : MonoBehaviour
         }
         // Si es inspección, NO configurar botonSeleccionar
     }
+
+
+    public PlantillaObjeto GetPlantillaObjeto()
+    {
+        return datosMarinero;
+    }
     
     public void ConfigurarObjeto(PlantillaObjeto datosObjeto)
     {
