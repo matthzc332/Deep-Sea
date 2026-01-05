@@ -6,6 +6,7 @@ public class costa_isla : MonoBehaviour
     public Transform shipTransform; // Referencia al barco
     public GameManager gameManager;
     
+    
     [Header("Configuración de Movimiento")]
     public float velocidad = 2f;
 
@@ -20,9 +21,9 @@ public class costa_isla : MonoBehaviour
         // Buscar el barco por nombre si no se asigna por inspector
         if (shipTransform == null)
         {
-            GameObject shipObject = GameObject.Find("ship");
-            if (shipObject != null)
-                shipTransform = shipObject.transform;
+
+            GameObject shipObject = GameObject.Find("Ship");
+            shipTransform = shipObject.transform;
         }
 
         // Buscar el GameManager si no se asigna por inspector
@@ -45,7 +46,7 @@ public class costa_isla : MonoBehaviour
         {
             Vector3 posicionDestino = new Vector3(
                 shipTransform.position.x,
-                -0.37f, // Usar -0.37f en lugar de la Y del barco
+                2.5165f, // Usar 2.5165f en lugar de la Y del barco
                 shipTransform.position.z
             );
 

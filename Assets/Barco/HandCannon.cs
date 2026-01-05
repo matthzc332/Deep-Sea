@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class HandCannon : Cannon
 {
@@ -12,14 +11,18 @@ public class HandCannon : Cannon
     public GameObject bulletPrefab;
 
     [Header("Tuning")]
-    public float shootCooldown = 0.3f;     
-    public int timeShoot = 2;             
-    public float multiShotRadiusPx = 80f; 
+    public float shootCooldown = 0.3f;
+    public int timeShoot = 2;
+    public float multiShotRadiusPx = 80f;
+
     private Camera cam;
     private float lastShootTime = -999f;
 
     static readonly List<RaycastResult> _uiHits = new List<RaycastResult>();
 
+    // =============================
+    // Unity
+    // =============================
 
     void OnEnable()
     {
@@ -36,18 +39,22 @@ public class HandCannon : Cannon
     void Start()
     {
         cam = Camera.main;
+
+        // stats base
         speed = 5f;
         power = 1;
+        ammunition = 9999;
 
         if (cam == null)
-            Debug.LogError("No hay c�mara con tag MainCamera en la escena.");
+            Debug.LogError("No hay cámara con tag MainCamera.");
         if (bulletPrefab == null)
             Debug.LogError("bulletPrefab no asignado.");
     }
 
     void Update()
     {
-        foreach (var t in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
+        // Touch
+        foreach (var t in Touch.activeTouches)
         {
             if (t.phase == UnityEngine.InputSystem.TouchPhase.Began)
             {
@@ -58,32 +65,29 @@ public class HandCannon : Cannon
             }
         }
 
+        // Mouse
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 pos = Mouse.current.position.ReadValue();
-
             if (!IsOverUI(pos))
                 TryShoot(pos);
         }
     }
 
+    // =============================
+    // Shooting
+    // =============================
+
     private void TryShoot(Vector2 screenPos)
     {
-        if (!float.IsFinite(screenPos.x) || !float.IsFinite(screenPos.y))
-            return;
-
         if (Time.time - lastShootTime < shootCooldown) return;
         if (cam == null || bulletPrefab == null) return;
         if (ammunition <= 0) return;
 
         DispararHaciaPantalla(screenPos);
 
-        // *** MUNICI?N: se descuenta 1 por disparo (igual que en tu versi�n) ***
-        ammunition -= 1;
-        if (ammunition < 0) ammunition = 0;
-
+        ammunition--;
         lastShootTime = Time.time;
-        Debug.Log($"Disparo! Ammo restante: {ammunition}");
     }
 
     private void DispararHaciaPantalla(Vector2 screenPos)
@@ -93,26 +97,45 @@ public class HandCannon : Cannon
             : Mathf.Abs(cam.transform.position.z - transform.position.z);
 
         if (distanceZ <= 0f) distanceZ = 1f;
-        // bala central
-        Vector3 worldPos = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, distanceZ));
+
+        // Bala central
+        Vector3 worldPos = cam.ScreenToWorldPoint(
+            new Vector3(screenPos.x, screenPos.y, distanceZ)
+        );
+
         SpawnBullet(worldPos);
 
-        // balas extra seg�n MultipleShoot usando offsets en p�xeles (patr�n circular)
-        var extraOffsets = GetExtraScreenOffsets(MultipleShoot, multiShotRadiusPx);
-        for (int i = 0; i < extraOffsets.Count; i++)
+        // Balas extra (MULTISHOT PERMANENTE)
+        var offsets = GetExtraScreenOffsets(multiShotLevel, multiShotRadiusPx);
+        foreach (var o in offsets)
         {
-            Vector2 extraScreen = screenPos + extraOffsets[i];
-            Vector3 extraWorld = cam.ScreenToWorldPoint(new Vector3(extraScreen.x, extraScreen.y, distanceZ));
+            Vector2 extraScreen = screenPos + o;
+            Vector3 extraWorld = cam.ScreenToWorldPoint(
+                new Vector3(extraScreen.x, extraScreen.y, distanceZ)
+            );
             SpawnBullet(extraWorld);
         }
     }
 
     private void SpawnBullet(Vector3 targetWorld)
     {
-        var b = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
-        b.Initialize(targetWorld, initialSpeed: 18f, power: 2); 
-        
+        var bullet = Instantiate(
+            bulletPrefab,
+            transform.position,
+            Quaternion.identity
+        ).GetComponent<Bullet>();
+
+        bullet.Initialize(
+            targetWorld,
+            initialSpeed: 18f,
+            power: power + bonusPower,
+            pierce: pierceLevel
+        );
     }
+
+    // =============================
+    // Utils
+    // =============================
 
     private List<Vector2> GetExtraScreenOffsets(int count, float radiusPx)
     {
@@ -125,23 +148,22 @@ public class HandCannon : Cannon
             list.Add(new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * radiusPx);
         }
         return list;
-        // Si quer�s �fan� en lugar de c�rculo:
-        // - triple: �ngulos [-10�, 0�, 10�] con offsets en X/Y calculados por seno/coseno
-        // - doble horizontal: {(-radiusPx,0), (radiusPx,0)}
-        // - cruz: {(�r,0),(0,�r)}
     }
 
     private bool IsOverUI(Vector2 screenPos)
     {
         if (EventSystem.current == null) return false;
 
-        var data = new PointerEventData(EventSystem.current) { position = screenPos };
+        var data = new PointerEventData(EventSystem.current)
+        {
+            position = screenPos
+        };
+
         _uiHits.Clear();
         EventSystem.current.RaycastAll(data, _uiHits);
 
-        // Solo consideramos UI de Canvas (GraphicRaycaster). Ignoramos PhysicsRaycaster/2D
-        for (int i = 0; i < _uiHits.Count; i++)
-            if (_uiHits[i].module is GraphicRaycaster)
+        foreach (var hit in _uiHits)
+            if (hit.module is GraphicRaycaster)
                 return true;
 
         return false;

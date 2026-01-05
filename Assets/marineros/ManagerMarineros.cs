@@ -3,8 +3,19 @@ using System.Collections.Generic;
 
 public class ManagerMarineros : MonoBehaviour
 {
+    
+// [Header("Datos de Compra")]
+//     public string marineroName;
+//     public string strongWith;
+//     public string weakWith;
+//     public string description;
+//     public int price;
+
+[Header("Datos de Combate")]
     public  bool enemiesInArea = false;
     protected List<GameObject> enemiesInTrigger = new List<GameObject>();
+
+
 
     protected virtual void Start()
     {
