@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        woodText.text = wood.ToString();
+
     }
 
     // Función para crear el fade image si no existe
@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = GameState.OnWave;
         waveController.StartWave();
-        uiManager.CloseSkillTreeButton();
         Time.timeScale = 1f;
 
         // Opcional: Desactivar el objeto al empezar la wave
@@ -118,6 +117,11 @@ public class GameManager : MonoBehaviour
         // Activar el objeto Costa_Isla_0
         if (costaIsla0 != null)
             costaIsla0.SetActive(true);
+    }
+
+    public void GoIsland()
+    {
+
     }
 
     public void Pause()
@@ -196,7 +200,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("No hay más escenas. Volviendo al menú principal.");
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 
