@@ -1,6 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,21 +11,31 @@ public class UIManager : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject UpgradesMenu;
     public GameObject UIRoot;
+    public GameObject IslandMenu;
+
+    [Header("Botón de pausa")]
+    public Button PauseButton;
 
     public GameManager GameManagerScript;
     public WaveController WaveController;
+    public RectTransform transformIsland;
 
     public TMP_Text waveTimerText;
 
+    private List<Button> allButtons = new List<Button>();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    string escenaActual;
+
     private void Awake()
     {
-        #if UNITY_EDITOR
-            UnityEngine.Object debugCanvas = GameObject.Find("Debug Canvas");
-            if (debugCanvas != null)
-                GameObject.DestroyImmediate(debugCanvas);   
-        #endif
+        DOTween.Init();
+#if UNITY_EDITOR
+        UnityEngine.Object debugCanvas = GameObject.Find("Debug Canvas");
+        if (debugCanvas != null)
+            GameObject.DestroyImmediate(debugCanvas);
+#endif
+        Button[] buttonsInScene = FindObjectsByType<Button>(FindObjectsSortMode.None);
+        allButtons.AddRange(buttonsInScene);
     }
 
     void Start()
@@ -30,10 +43,18 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        waveTimerText.text = WaveController.timerUI;
+        if (waveTimerText != null && WaveController != null)
+        {
+            waveTimerText.text = WaveController.timerUI;
+        }
+
+        escenaActual = SceneManager.GetActiveScene().name;
+        if (escenaActual == "ISLA")
+        {
+            transformIsland = IslandMenu.GetComponent<RectTransform>();
+        }
     }
 
     //Start Game
@@ -41,10 +62,15 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         MainMenu.SetActive(false);
-        waveTimerText.gameObject.SetActive(true);
+        if (waveTimerText != null)
+        {
+            waveTimerText.gameObject.SetActive(true);
+        }
     }
 
-    //Pause and Resume Menu
+    //-------------------------------------------------------------
+    //   MENUS
+    //-------------------------------------------------------------
     public void PauseGame()
     {
         PauseMenu.SetActive(true);
@@ -54,27 +80,40 @@ public class UIManager : MonoBehaviour
     {
         PauseMenu.SetActive(false);
     }
-
-    public void SpawnSkillTreeButton()
-    {
-        UIRoot.SetActive(true);
-        waveTimerText.gameObject.SetActive(false);
-        Time.timeScale = 0f;
-    }
-    public void CloseSkillTreeButton()
-    {
-        UIRoot.SetActive(false);
-        waveTimerText.gameObject.SetActive(true);
-    }
-
     public void OpenMainMenu()
     {
-        waveTimerText.gameObject.SetActive(false);
+        if (waveTimerText != null)
+        {
+            waveTimerText.gameObject.SetActive(false);
+        }
         MainMenu.SetActive(true);
     }
 
     public void CloseGame()
     {
         Application.Quit();
+    }
+
+    public void StartNextWave()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void DisableAllButtons()
+    {
+        foreach (Button btn in allButtons)
+        {
+            if (btn != null)
+                btn.interactable = false;
+        }
+    }
+
+    public void EnableAllButtons()
+    {
+        foreach (Button btn in allButtons)
+        {
+            if (btn != null)
+                btn.interactable = true;
+        }
     }
 }

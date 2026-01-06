@@ -5,7 +5,7 @@ public class costa_isla : MonoBehaviour
     [Header("Referencias")]
     public Transform shipTransform; // Referencia al barco
     public GameManager gameManager;
-    
+
     [Header("Configuración de Movimiento")]
     public float velocidad = 2f;
 
@@ -14,22 +14,11 @@ public class costa_isla : MonoBehaviour
 
     void Start()
     {
-        // Crear instancia de MoveRect (ahora es una clase normal)
+        // Crear instancia de MoveRect
         moveRect = new MoveRect();
-        
-        // Buscar el barco por nombre si no se asigna por inspector
-        if (shipTransform == null)
-        {
-            GameObject shipObject = GameObject.Find("ship");
-            if (shipObject != null)
-                shipTransform = shipObject.transform;
-        }
 
-        // Buscar el GameManager si no se asigna por inspector
-        if (gameManager == null)
-        {
-            gameManager = GameManager.instance;
-        }
+        // Intentamos buscar referencias al inicio
+        BuscarReferencias();
     }
 
     void OnEnable()
@@ -40,17 +29,25 @@ public class costa_isla : MonoBehaviour
 
     void Update()
     {
-        // Mover la isla hacia el barco si está activo el movimiento y tenemos referencia al barco
-        if (movimientoActivo && shipTransform != null && moveRect != null)
+        // 1. SI NO TENEMOS BARCO, LO BUSCAMOS
+        if (shipTransform == null)
+        {
+            BuscarReferencias();
+            // Si después de buscar sigue siendo null, no hacemos nada este frame
+            if (shipTransform == null) return;
+        }
+
+        // 2. LÓGICA DE MOVIMIENTO
+        if (movimientoActivo && moveRect != null)
         {
             Vector3 posicionDestino = new Vector3(
                 shipTransform.position.x,
-                -0.37f, // Usar -0.37f en lugar de la Y del barco
+                2.5165f, // Usar 2.5165f en lugar de la Y del barco
                 shipTransform.position.z
             );
 
             moveRect.MovimientoRecto(transform, posicionDestino, velocidad);
-            
+
             // Opcional: Detener el movimiento cuando esté muy cerca del barco
             if (Vector3.Distance(transform.position, posicionDestino) < 0.1f)
             {
@@ -60,10 +57,36 @@ public class costa_isla : MonoBehaviour
         }
     }
 
+    // Función dedicada a encontrar lo que falta
+    void BuscarReferencias()
+    {
+        // Buscar el barco por su Script si no lo tenemos
+        if (shipTransform == null)
+        {
+            // FindFirstObjectByType es mejor que buscar por nombre
+            Ship barcoScript = FindFirstObjectByType<Ship>();
+            if (barcoScript != null)
+            {
+                shipTransform = barcoScript.transform;
+            }
+        }
+
+        // Buscar el GameManager si no se asigna por inspector
+        if (gameManager == null)
+        {
+            gameManager = GameManager.instance;
+            // Fallback por si instance no está listo aún
+            if (gameManager == null)
+                gameManager = FindFirstObjectByType<GameManager>();
+        }
+    }
+
     // Detectar colisión con el barco
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ship"))
+        // Nota: Asegúrate que tu barco tenga el Tag "Ship" o "Player" (según hayas configurado)
+        // O mejor aún, verifica si tiene el componente Ship:
+        if (other.GetComponent<Ship>() != null || other.CompareTag("Player") || other.CompareTag("Ship"))
         {
             Debug.Log("¡Colisión detectada con el barco!");
             if (gameManager != null)
@@ -73,7 +96,6 @@ public class costa_isla : MonoBehaviour
         }
     }
 
-    // Función para activar/desactivar el movimiento manualmente
     public void ActivarMovimiento(bool activar)
     {
         movimientoActivo = activar;
