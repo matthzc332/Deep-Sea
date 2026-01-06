@@ -38,6 +38,21 @@ TextureImporter:
   - first:
       213: -9037942502620538145
     second: personaje dentro del  barril 1-sheet_11
+  - first:
+      213: -201619395603159661
+    second: personaje dentro del  barril 1-sheet_12
+  - first:
+      213: -6699214040288699387
+    second: personaje dentro del  barril 1-sheet_13
+  - first:
+      213: 7009818179447637640
+    second: personaje dentro del  barril 1-sheet_14
+  - first:
+      213: -2202701254354906677
+    second: personaje dentro del  barril 1-sheet_15
+  - first:
+      213: 6155441744833742459
+    second: personaje dentro del  barril 1-sheet_16
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -168,9 +183,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7f4c7bbc75a1b0890800000000000000
+      spriteID: b2d5544dde24e18489fd1a9824dc2c96
       internalID: -7490864590818392841
       vertices: []
       indices: 
@@ -190,9 +205,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d73a8718e8d6b2d80800000000000000
+      spriteID: 3f75f28ae91f650438cc057f35b0980f
       internalID: -8274399431538203779
       vertices: []
       indices: 
@@ -212,9 +227,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9fd7a09f610296240800000000000000
+      spriteID: c20e0287cac0f114ea32a0883526d5b6
       internalID: 4785391362097446393
       vertices: []
       indices: 
@@ -234,9 +249,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: df2e9855f27bcf5d0800000000000000
+      spriteID: 896bf77d143efc64a884cc724b2535c1
       internalID: -3027343435573370115
       vertices: []
       indices: 
@@ -256,9 +271,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf863ea33d006b570800000000000000
+      spriteID: 888b604d119dbbd4f85b548ead47a236
       internalID: 8481967855424989435
       vertices: []
       indices: 
@@ -278,9 +293,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 27735a3fbf6f6e210800000000000000
+      spriteID: b757363fcdd9d3a47b91bf53acef48e1
       internalID: 1362047499311069042
       vertices: []
       indices: 
@@ -300,9 +315,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 98c89621bd74e5d70800000000000000
+      spriteID: ba6aaf7997e44ea4e9441e71978fba72
       internalID: 9033736908784110729
       vertices: []
       indices: 
@@ -322,9 +337,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0daf0aa24b69108b0800000000000000
+      spriteID: b2e03551efc478a43a79af4e237168e5
       internalID: -5187699595200628016
       vertices: []
       indices: 
@@ -344,9 +359,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ad49c9ebe1ada8f00800000000000000
+      spriteID: 5c7e87809645125409ad30d774ffa5dd
       internalID: 1119947282936796378
       vertices: []
       indices: 
@@ -366,9 +381,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 567e042b060af4fe0800000000000000
+      spriteID: 417ad026f829629409325fe9d45870ed
       internalID: -1202566238316730523
       vertices: []
       indices: 
@@ -388,10 +403,98 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fdad5eecd27c29280800000000000000
+      spriteID: 66d1063a74a342a41b309e19baf1e790
       internalID: -9037942502620538145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: personaje dentro del  barril 1-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ab00d3ef9b50f5428d09188a358115d
+      internalID: -201619395603159661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: personaje dentro del  barril 1-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a75b6d2173d693f4eb4ccde6798d8d96
+      internalID: -6699214040288699387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: personaje dentro del  barril 1-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c07d8572a293cea499305044871246ee
+      internalID: 7009818179447637640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: personaje dentro del  barril 1-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a237b88736198374a87b116a02a836da
+      internalID: -2202701254354906677
       vertices: []
       indices: 
       edges: []
@@ -400,7 +503,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 46ae9522b5710ad4b875788d5a554a88
+    spriteID: 7c18097359e0b4249a743803abd86023
     internalID: 0
     vertices: []
     indices: 
@@ -414,6 +517,10 @@ TextureImporter:
       personaje dentro del  barril 1-sheet_1: -7490864590818392841
       personaje dentro del  barril 1-sheet_10: -1202566238316730523
       personaje dentro del  barril 1-sheet_11: -9037942502620538145
+      personaje dentro del  barril 1-sheet_12: -201619395603159661
+      personaje dentro del  barril 1-sheet_13: -6699214040288699387
+      personaje dentro del  barril 1-sheet_14: 7009818179447637640
+      personaje dentro del  barril 1-sheet_15: -2202701254354906677
       personaje dentro del  barril 1-sheet_2: -8274399431538203779
       personaje dentro del  barril 1-sheet_3: 4785391362097446393
       personaje dentro del  barril 1-sheet_4: -3027343435573370115
