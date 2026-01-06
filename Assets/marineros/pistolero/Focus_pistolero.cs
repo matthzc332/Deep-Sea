@@ -97,59 +97,53 @@ public class Focus_pistolero : State_Base
 
 
 
-    public override void ExitState(string nextState){
-    // Desactivar el brazo al salir del estado si es necesario
-    if (brazoPistola != null && nextState != "disparando")
+    public override void ExitState(string nextState)
     {
-        brazoPistola.SetActive(false);
-    }
-    
-    if (nextState == "Charge_pistolero"){
-        // Instanciar y configurar el proyectil
-        
-        if (proyectilPrefab != null)
+        // Desactivar el brazo al salir del estado si es necesario
+        if (brazoPistola != null && nextState != "disparando")
         {
-            // Obtener el enemigo más cercano
-            GameObject enemigoCercano = marineroManager.FindClosestEnemy();
-            
-            if (enemigoCercano != null)
+            brazoPistola.SetActive(false);
+        }
+        
+        if (nextState == "Charge_pistolero")
+        {
+            if (proyectilPrefab != null)
             {
-                // Posición de instancia (en el brazo o marinero)
-                Vector3 posicionInstancia = brazoPistola != null ? 
-                    brazoPistola.transform.position : 
-                    controlledObject.transform.position;
+                GameObject enemigoCercano = marineroManager.FindClosestEnemy();
                 
-                // Instanciar el proyectil
-                GameObject proyectilObj = Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
-                proyectilObj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-                Bullet bulletScript = proyectilObj.GetComponent<Bullet>();
-                
-                if (bulletScript != null)
+                if (enemigoCercano != null)
                 {
-                    // Configurar el proyectil con los parámetros necesarios
-                    int power = 1; // daño
-                    float speed = 20f; // Ajusta la velocidad según necesites
+                    Vector3 posicionInstancia = brazoPistola != null ? 
+                        brazoPistola.transform.position : 
+                        controlledObject.transform.position;
                     
-                    bulletScript.Initialize(enemigoCercano.transform.position, speed, power);
-                    bulletScript.LaunchTowards(enemigoCercano.transform.position, speed);
-                }
-                else
-                {
-                    Debug.LogError("El prefab Proyectil no tiene el componente Bullet");
+                    GameObject proyectilObj = Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
+                    proyectilObj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                    Bullet bulletScript = proyectilObj.GetComponent<Bullet>();
+                    
+                    if (bulletScript != null)
+                    {
+                        int power = 1; 
+                        float speed = 20f; 
+                        int pierce = 0; // Añadimos el parámetro que faltaba
+
+                        // ERROR 1 CORREGIDO: Ahora enviamos los 4 parámetros (Vector3, float, int, int)
+                        bulletScript.Initialize(enemigoCercano.transform.position, speed, power, pierce);
+                        
+                        // ERROR 2 CORREGIDO: 
+                        // Si quieres usar LaunchTowards con un Transform (el enemigo), 
+                        // debes pasar el objeto completo, no solo su .position
+                        bulletScript.LaunchTowards(enemigoCercano.transform, speed);
+                    }
+                    else
+                    {
+                        Debug.LogError("El prefab Proyectil no tiene el componente Bullet");
+                    }
                 }
             }
-            else
-            {
-                Debug.LogWarning("No hay enemigos cercanos para disparar");
-            }
+            
+            // Cambiar al siguiente estado
+            state_machine.SetState<Charge_pistolero>();
         }
-        else
-        {
-            Debug.LogError("No se pudo cargar el prefab del Proyectil en: Assets/Scripts/Prefab/Proyectil.prefab");
-        }
-        
-        // Cambiar al siguiente estado
-        state_machine.SetState<Charge_pistolero>();
     }
-}
 }
