@@ -196,9 +196,9 @@ public class PosicionMarinero : MonoBehaviour
         return marineroAsignado == null;
     }
     
-    public string GetNombreMarinero()
+    public string Getnombre()
     {
-        return marineroAsignado != null ? marineroAsignado.nombreMarinero : "Vacío";
+        return marineroAsignado != null ? marineroAsignado.nombre : "Vacío";
     }
     
     public string GetHabilidades()
@@ -244,7 +244,7 @@ public class PosicionMarinero : MonoBehaviour
     // Verificar si está disponible
     if (!EstaDisponible())
     {
-        Debug.Log($"Posición ocupada: {GetNombreMarinero()}");
+        Debug.Log($"Posición ocupada: {Getnombre()}");
         return;
     }
     

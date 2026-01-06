@@ -131,7 +131,7 @@ public class ShopManager : MonoBehaviour
         Debug.Log("Entrando a Seleccionar marinero");
         seleccionActual = objeto;
         CrearVistaInspeccion(objeto);
-        Debug.Log($"Objeto seleccionado: {objeto.nombreMarinero}");
+        Debug.Log($"Objeto seleccionado: {objeto.nombre}");
     }
 
     void CrearVistaInspeccion(PlantillaObjeto objeto)
@@ -203,7 +203,7 @@ public class ShopManager : MonoBehaviour
             // Activar la selección de posición
             ActivarSeleccionPosicion();
             
-            Debug.Log($"¡{objeto.nombreMarinero} comprado! Selecciona una posición en el barco.");
+            Debug.Log($"¡{objeto.nombre} comprado! Selecciona una posición en el barco.");
         }
         else
         {
@@ -213,7 +213,7 @@ public class ShopManager : MonoBehaviour
 
     private void ProcesarCompraCompleta()
     {
-        Debug.Log($"Compra completada: {marineroSeleccionadoTemporal.nombreMarinero} por {marineroSeleccionadoTemporal.precio} monedas");
+        Debug.Log($"Compra completada: {marineroSeleccionadoTemporal.nombre} por {marineroSeleccionadoTemporal.precio} monedas");
     }
 
     public void RemoverObjetoDeTienda(PlantillaObjeto objeto)
@@ -394,7 +394,7 @@ public class ShopManager : MonoBehaviour
         
         if (asignado)
         {
-            Debug.Log($"¡{marineroSeleccionadoTemporal.nombreMarinero} asignado al barco en posición {posicionSeleccionada.gameObject.name}!");
+            Debug.Log($"¡{marineroSeleccionadoTemporal.nombre} asignado al barco en posición {posicionSeleccionada.gameObject.name}!");
             
             ProcesarCompraCompleta();
             marineroSeleccionadoTemporal = null;
@@ -470,7 +470,7 @@ public class ShopManager : MonoBehaviour
         {
             if (posicionesExistentes[i] != null)
             {
-                string estado = posicionesExistentes[i].EstaDisponible() ? "Disponible" : $"Ocupado: {posicionesExistentes[i].GetNombreMarinero()}";
+                string estado = posicionesExistentes[i].EstaDisponible() ? "Disponible" : $"Ocupado: {posicionesExistentes[i].Getnombre()}";
                 Debug.Log($"Posición {i} ({posicionesExistentes[i].gameObject.name}): {estado}");
             }
         }

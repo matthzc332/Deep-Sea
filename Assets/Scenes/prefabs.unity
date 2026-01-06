@@ -3146,7 +3146,7 @@ BoxCollider2D:
     oldSize: {x: 421, y: 128}
     newSize: {x: 41.1, y: 3.3}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 485.40875, y: 122.16026}
@@ -3199,7 +3199,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 41.1, y: 3.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -3216,7 +3216,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.7812, y: 2.5165, z: 0}
-  m_LocalScale: {x: 0.04233423, y: 0.050966036, z: 0.026737282}
+  m_LocalScale: {x: 0.4336426, y: 1.9768645, z: 0.026737282}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4102,7 +4102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1379284324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5610,6 +5610,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 420317800}
     m_Modifications:
     - target: {fileID: 1300186065022929613, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6875
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300186065022929613, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.59375
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300186065022929613, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.64
       objectReference: {fileID: 0}
@@ -5667,6 +5675,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6195611101833645985, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013624736170178749, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
+      propertyPath: m_DrawMode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8515881614923415943, guid: c395ce9c1a6407440b71a13e4f1afaf5, type: 3}
@@ -5741,7 +5753,7 @@ BoxCollider2D:
     oldSize: {x: 1.6875, y: 2.59375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 2.0013466, y: 2.7332373}
