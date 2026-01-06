@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class UpDownButton : MonoBehaviour, IPointerClickHandler
 {
-    private const float shopOpenY = 300f;
+    public  float shopOpenY = 300f;
     private const float shopClosedY = -300f;
     private const float shopAnimTime = 0.25f;
 
