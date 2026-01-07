@@ -549,7 +549,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1688,7 +1687,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1774,24 +1772,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71568ae1682d594290abde241707220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerTienda: {fileID: 1793357424}
-  cartaPrefab: {fileID: 117197858949395747, guid: 9968815ca18633a42b3e262ab245fa6d, type: 3}
+  containerTienda: {fileID: 558058840}
+  cartaPrefab: {fileID: 7856524568163324064, guid: 5200f33f6f9181744bc93b1deb5de1fc, type: 3}
   inspeccionPrefab: {fileID: 7856524568163324064, guid: d0547c756df8478488d61f815f909f1c, type: 3}
-  inspeccionContainer: {fileID: 2124819652}
-  textoMonedas: {fileID: 1513920516}
+  inspeccionContainer: {fileID: 317429386}
+  textoMonedas: {fileID: 509131821}
   numeroObjetosEnTienda: 3
   usarTiendaAleatoria: 1
-  fondoModal: {fileID: 0}
-  PosicionBarco: {fileID: 0}
+  fondoModal: {fileID: 2101987905}
+  PosicionBarco: {fileID: 1555180495}
   posicionesExistentes:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 287340267}
+  - {fileID: 1172541217}
   marineroSeleccionadoTemporal: {fileID: 0}
   objetoTiendaOrigen: {fileID: 0}
   todosLosObjetos:
-  - {fileID: 11400000, guid: 805437b3392d528438e51d8a06d76bee, type: 2}
-  - {fileID: 11400000, guid: 805437b3392d528438e51d8a06d76bee, type: 2}
-  - {fileID: 11400000, guid: aeb3518c8d98f854195dcf1b1631a15d, type: 2}
+  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
+  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
+  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
   monedaJugador: 500
 --- !u!1 &558058839
 GameObject:
@@ -3459,7 +3457,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4587,85 +4584,6 @@ RectTransform:
   m_AnchoredPosition: {x: -2.999939, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1413903418
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1413903419}
-  - component: {fileID: 1413903421}
-  - component: {fileID: 1413903420}
-  m_Layer: 5
-  m_Name: PosicionBarco
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1413903419
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413903418}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 13.112289, y: 8.514473, z: 8.514474}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 37827296}
-  - {fileID: 1900376856}
-  - {fileID: 400784869}
-  - {fileID: 1760739025}
-  m_Father: {fileID: 41863090}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -253.00005, y: -137.00005}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1413903420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347657931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  m_Color: {r: 0.5698112, g: 0.41127118, b: 0.21824841, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63ec60188b99441419bd4322b7e97c09, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1347657934
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347657931}
-  m_CullTransparentMesh: 1
 --- !u!1 &1382556741
 GameObject:
   m_ObjectHideFlags: 0
@@ -4675,8 +4593,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1382556742}
-  - component: {fileID: 1382556744}
   - component: {fileID: 1382556743}
+  - component: {fileID: 1382556744}
   m_Layer: 5
   m_Name: arbusto
   m_TagString: Untagged
@@ -4724,6 +4642,85 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 75585129933943764, guid: 16035724c1ff5f24f890f7c8dd9f014e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1382556744
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382556741}
+  m_CullTransparentMesh: 1
+--- !u!1 &1413903418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1413903419}
+  - component: {fileID: 1413903421}
+  - component: {fileID: 1413903420}
+  m_Layer: 5
+  m_Name: PosicionBarco
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1413903419
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413903418}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 13.112289, y: 8.514473, z: 8.514474}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 37827296}
+  - {fileID: 1900376856}
+  - {fileID: 400784869}
+  - {fileID: 1760739025}
+  m_Father: {fileID: 41863090}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -253.00005, y: -137.00005}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1413903420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413903418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  m_Color: {r: 0.5698112, g: 0.41127118, b: 0.21824841, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 63ec60188b99441419bd4322b7e97c09, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5044,7 +5041,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6013,7 +6009,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6155,7 +6150,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -7383,7 +7377,6 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -7442,5 +7435,3 @@ SceneRoots:
   - {fileID: 860732491}
   - {fileID: 1285153122}
   - {fileID: 1040867361}
-  - {fileID: 1347657932}
-  - {fileID: 1405401900}

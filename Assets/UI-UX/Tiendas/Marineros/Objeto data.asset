@@ -20,4 +20,4 @@ MonoBehaviour:
   idleAnimationSprites:
   - {fileID: -4278730133319402960, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
   - {fileID: 7349418900479874527, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
-  animationSpeed: 1
+  animationSpeed: 8
