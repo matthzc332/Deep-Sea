@@ -38,17 +38,17 @@ public class ShopManager : MonoBehaviour
     private PlantillaObjeto seleccionActual;
     private GameObject inspeccionActual;
 
-    void Awake()
-    {
-        Debug.Log("Instancia de ShopManager viva: " + gameObject.name);
+    // void Awake()
+    // {
+    //     Debug.Log("Instancia de ShopManager viva: " + gameObject.name);
 
-        if (Instance == null) Instance = this;
-        else
-        {
-            Debug.LogError("ShopManager duplicado destruido: " + gameObject.name);
-            Destroy(gameObject);
-        }
-    }
+    //     if (Instance == null) Instance = this;
+    //     else
+    //     {
+    //         Debug.LogError("ShopManager duplicado destruido: " + gameObject.name);
+    //         Destroy(gameObject);
+    //     }
+    // }
 
     void Start()
     {
