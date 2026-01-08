@@ -2,45 +2,92 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    int damage;
-    int pierce;
+    [Header("Settings")]
+    public int damage;
+    public int pierce;
+    public float initialSpeed;
+    
+    [Header("State Data")]
+    public Transform enemy;    // Objetivo como Transform (usado por estados)
+    public bool hasHit;        // Bandera para avisar al StateMachine de la colisión
 
-    Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Initialize(
-        Vector3 target,
-        float initialSpeed,
-        int power,
-        int pierce
-    )
+    // 1. Método para inicializar con una posición (Vector3)
+    // Se usa en Shoot_Cannon
+    public void Initialize(Vector3 targetPos, float speed, int power, int pierceCount)
     {
-        damage = power;
-        this.pierce = pierce;
+        this.damage = power;
+        this.pierce = pierceCount;
+        this.initialSpeed = speed;
+        this.hasHit = false;
 
-        Vector2 dir = (target - transform.position).normalized;
-        rb.linearVelocity = dir * initialSpeed;
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+
+        Vector2 dir = (targetPos - transform.position).normalized;
+        rb.linearVelocity = dir * speed;
+        
+        OrientToVelocity();
     }
 
+    // 2. Método para inicializar/lanzar hacia un objeto (Transform)
+    // Se usa en BulletMoveState
+    public void LaunchTowards(Transform target, float speed)
+    {
+        if (target == null) return;
+        
+        this.enemy = target;
+        this.initialSpeed = speed;
+
+        Vector2 dir = (target.position - transform.position).normalized;
+        rb.linearVelocity = dir * speed;
+        
+        OrientToVelocity();
+    }
+
+    // 3. Método para rotar la bala hacia donde se mueve
+    public void OrientToVelocity()
+    {
+        if (rb != null && rb.linearVelocity.sqrMagnitude > 0.1f)
+        {
+            float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
+
+    // 4. Getter para el daño (usado por Entity.cs)
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    // 5. Detección de colisiones
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Si no es un enemigo, ignoramos
         if (!other.CompareTag("Enemy")) return;
 
+        // Aplicar daño
         Entity e = other.GetComponent<Entity>();
         if (e != null)
+        {
             e.takeDamage(damage);
+        }
 
+        // Lógica de perforación
         if (pierce > 0)
         {
             pierce--;
-            return;
         }
-
-        Destroy(gameObject);
+        else
+        {
+            // Activamos la bandera para que BulletMoveState pase a Bullet_destroy
+            hasHit = true; 
+        }
     }
 }
-
