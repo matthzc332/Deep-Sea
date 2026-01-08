@@ -81,11 +81,11 @@ public class Objeto : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Configurando {tipoVista}: {datosObjeto.nombreMarinero}");
+        Debug.Log($"Configurando {tipoVista}: {datosObjeto.nombre}");
         
         // Configurar texto básico
         if (textoObjeto != null)
-            textoObjeto.text = datosObjeto.nombreMarinero;
+            textoObjeto.text = datosObjeto.nombre;
         else
             Debug.LogWarning($"textoObjeto no asignado en {tipoVista}");
         
@@ -147,7 +147,7 @@ public class Objeto : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Carta clickeada: {datosMarinero.nombreMarinero}");
+        Debug.Log($"Carta clickeada: {datosMarinero.nombre}");
         
         if (ShopManager.Instance != null)
         {

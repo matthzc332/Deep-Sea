@@ -100,7 +100,7 @@ public class TiendaModular : MonoBehaviour
 
     public void SeleccionarObjeto(PlantillaObjeto objeto)
     {
-        Debug.Log($"Objeto seleccionado en tienda {gameObject.name}: {objeto.nombreMarinero}");
+        Debug.Log($"Objeto seleccionado en tienda {gameObject.name}: {objeto.nombre}");
         seleccionActual = objeto;
         CrearVistaInspeccion(objeto);
     }
@@ -158,7 +158,7 @@ public class TiendaModular : MonoBehaviour
         if (objetosDisponibles.Contains(objetoComprado))
         {
             objetosDisponibles.Remove(objetoComprado);
-            Debug.Log($"Marinero {objetoComprado.nombreMarinero} comprado en tienda {gameObject.name}");
+            Debug.Log($"Marinero {objetoComprado.nombre} comprado en tienda {gameObject.name}");
             
             // Buscar y destruir la carta correspondiente
             foreach (var carta in cartasInstanciadas.ToArray())
