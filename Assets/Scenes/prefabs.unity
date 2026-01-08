@@ -374,7 +374,6 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -78.20001, y: -78.600006}
-  m_AnchoredPosition: {x: -78.200195, y: -78.6001}
   m_SizeDelta: {x: 148, y: 148.68799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151985878
@@ -1078,7 +1077,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.1, y: 3.2, z: 1.4972787}
-  m_LocalPosition: {x: -10.6, y: 3.41, z: 1.4972787}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1205,7 +1203,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.1, y: -0.4, z: 0}
-  m_LocalPosition: {x: 0.54, y: 6.98, z: 0}
   m_LocalScale: {x: 0.98822, y: 0.98822, z: 0.98822}
   m_ConstrainProportionsScale: 0
   m_Children: []
