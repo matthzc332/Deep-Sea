@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 public class HP : MonoBehaviour
 {
     public Ship Player;
@@ -17,11 +18,27 @@ public class HP : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Player.vida == 6)
+        // 1. Verificamos si tenemos la referencia al Barco
+        if (Player == null)
         {
+            // Si no lo tenemos, lo buscamos en la escena
+            Player = FindObjectOfType<Ship>();
+
+            // Si después de buscarlo sigue siendo null (aún no se ha instanciado),
+            // detenemos la ejecución aquí para que no de error.
+            if (Player == null)
+            {
+                return;
+            }
+        }
+
+        // --- A partir de aquí ya sabemos que Player EXISTE seguro ---
+
+        if (Player.vida >= 6) // Cambié == 6 por >= 6 por seguridad
+        {
+            // Opcional: Podrías poner un sprite de vida llena aquí si tuvieras
             return;
         }
         else if (Player.vida == 5)
@@ -44,6 +61,6 @@ public class HP : MonoBehaviour
         {
             image.sprite = spr1hp;
         }
-
+        // Opcional: Qué pasa si vida es 0? Podrías querer desactivar la imagen o poner sprite vacío.
     }
 }

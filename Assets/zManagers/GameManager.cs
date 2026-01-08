@@ -12,8 +12,15 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public WaveController waveController;
 
-    // Agregar referencia al objeto que quieres activar
     public GameObject costaIsla0;
+
+    [Header("Boat Settings")]
+    public GameObject boatPrefab;
+
+    public PlayerScripteable datosBarco;
+
+    public string gameSceneName = "prefabs";
+    public Vector3 spawnPosition = Vector3.zero;
 
     public GameState currentGameState = GameState.MainMenu;
     public GameState gameStateBeforePause;
@@ -21,7 +28,6 @@ public class GameManager : MonoBehaviour
     public int wood;
     public TMP_Text woodText;
 
-    // Referencia para el fade (solo fondo negro)
     public Image fadeImage;
     public float fadeDuration = 2f;
 
@@ -35,52 +41,129 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Time.timeScale = 0f;
 
-        // Crear fade image si no existe
-        if (fadeImage == null)
+        if (fadeImage == null) CreateFadeImage();
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == gameSceneName)
         {
-            CreateFadeImage();
+            CheckAndSpawnBoat();
+        }
+    }
+
+    void CheckAndSpawnBoat()
+    {
+        // Buscamos cualquier objeto en la escena que tenga el script "Ship"
+        Ship existingBoat = FindObjectOfType<Ship>();
+
+        if (existingBoat == null)
+        {
+            Debug.Log("No se encontró ningún objeto con el script Ship. Instanciando uno nuevo...");
+            if (boatPrefab != null)
+            {
+                // Instanciamos y guardamos la referencia en una variable
+                GameObject nuevoBarco = Instantiate(boatPrefab, spawnPosition, Quaternion.identity);
+
+                // Obtenemos el script del barco recién creado
+                Ship scriptBarco = nuevoBarco.GetComponent<Ship>();
+
+                // Si tiene el script y tenemos los datos, los inyectamos manualmente
+                if (scriptBarco != null && datosBarco != null)
+                {
+                    // IMPORTANTE: Asegúrate de que en Ship.cs la variable 'datosBarco' 
+                    // ahora sea de tipo 'PlayerScripteable' también.
+                    scriptBarco.datosBarco = datosBarco;
+
+                    scriptBarco.HP = datosBarco.Vida;    // Le ponemos la vida del SO
+                    scriptBarco.vida = datosBarco.Vida;  // Actualizamos la variable visual
+
+                    Debug.Log("GameManager: Barco creado e inicializado con " + datosBarco.Vida + " de vida.");
+                }
+            }
+            else
+            {
+                Debug.LogError("¡El 'boatPrefab' no está asignado en el GameManager!");
+            }
+        }
+        else
+        {
+            Debug.Log("Ya existe un barco con el script Ship. No se creará otro.");
+
+            // Opcional: Si ya existe, nos aseguramos que tenga los datos correctos también
+            if (datosBarco != null)
+            {
+                existingBoat.datosBarco = datosBarco;
+            }
         }
     }
 
     void Start()
     {
-        // Asegurarse de que el fade est� transparente al inicio
         if (fadeImage != null)
         {
             Color color = fadeImage.color;
-            color.a = 0f; // Completamente transparente
+            color.a = 0f;
             fadeImage.color = color;
             fadeImage.gameObject.SetActive(false);
         }
-        DontDestroyOnLoad(gameObject);
+
+        if (SceneManager.GetActiveScene().name == gameSceneName)
+        {
+            CheckAndSpawnBoat();
+        }
     }
 
-    void Update()
-    {
+    // ... (El resto del código sigue igual: Update, CreateFadeImage, StartGame, EndWave, etc.)
+    void Update() { }
 
-    }
-
-    // Funci�n para crear el fade image si no existe
     private void CreateFadeImage()
     {
         GameObject fadeObject = new GameObject("FadeImage");
         fadeImage = fadeObject.AddComponent<Image>();
-        fadeImage.color = Color.black; // Fondo negro
+        fadeImage.color = Color.black;
 
-        fadeImage.raycastTarget = false;
-
-        // Hacer que ocupe toda la pantalla
         RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
-        rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
+
+        if (GetComponentInChildren<Canvas>() != null)
+        {
+            rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
+        }
+        else
+        {
+            Canvas canvas = FindFirstObjectByType<Canvas>();
+            if (canvas != null) rectTransform.SetParent(canvas.transform);
+        }
+
         rectTransform.anchorMin = Vector2.zero;
         rectTransform.anchorMax = Vector2.one;
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
         rectTransform.localScale = Vector3.one;
 
-        // Establecer el orden en la jerarqu�a para que est� encima de todo
         fadeObject.transform.SetAsLastSibling();
         fadeObject.SetActive(false);
     }
@@ -97,7 +180,6 @@ public class GameManager : MonoBehaviour
         waveController.StartWave();
         Time.timeScale = 1f;
 
-        // Opcional: Desactivar el objeto al empezar la wave
         if (costaIsla0 != null)
             costaIsla0.SetActive(false);
     }
@@ -116,15 +198,11 @@ public class GameManager : MonoBehaviour
             Destroy(bullet);
         }
 
-        // Activar el objeto Costa_Isla_0
         if (costaIsla0 != null)
             costaIsla0.SetActive(true);
     }
 
-    public void GoIsland()
-    {
-
-    }
+    public void GoIsland() { }
 
     public void Pause()
     {
@@ -141,29 +219,21 @@ public class GameManager : MonoBehaviour
         currentGameState = gameStateBeforePause;
     }
 
-    // Nueva funci�n de transici�n suave - Versi�n simplificada
     public void softTransition()
     {
         StartCoroutine(SoftTransitionCoroutine());
     }
 
-    // Corrutina que solo maneja el fade del fondo negro
     private IEnumerator SoftTransitionCoroutine()
     {
-        // Activar la imagen de fade (fondo negro)
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-
-            // Configurar color negro con alpha 0 (completamente transparente)
             Color startColor = Color.black;
             startColor.a = 0f;
             fadeImage.color = startColor;
         }
 
-        Debug.Log("Iniciando fade a negro...");
-
-        // Fade in: aumentar gradualmente el alpha de 0 a 1
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
@@ -173,24 +243,20 @@ public class GameManager : MonoBehaviour
             if (fadeImage != null)
             {
                 Color color = fadeImage.color;
-                color.a = alpha; // Solo modificamos el canal alpha
+                color.a = alpha;
                 fadeImage.color = color;
             }
 
             yield return null;
         }
 
-        // Asegurar que est� completamente opaco (alpha = 1)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;
-            finalColor.a = 1f; // Negro completamente opaco
+            finalColor.a = 1f;
             fadeImage.color = finalColor;
         }
 
-        Debug.Log("Fade completado. Cambiando de escena...");
-
-        // Cambiar de escena despu�s del fade
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
         int totalScenes = SceneManager.sceneCountInBuildSettings;
@@ -201,12 +267,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No hay m�s escenas. Volviendo al men� principal.");
             SceneManager.LoadScene(1);
         }
     }
 
-    // Funci�n opcional para hacer fade out (volver a transparente)
     public void FadeOut()
     {
         StartCoroutine(FadeOutCoroutine());
@@ -217,16 +281,11 @@ public class GameManager : MonoBehaviour
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-
-            // Comenzar con alpha 1 (completamente opaco)
             Color startColor = Color.black;
             startColor.a = 1f;
             fadeImage.color = startColor;
         }
 
-        Debug.Log("Iniciando fade out...");
-
-        // Fade out: disminuir gradualmente el alpha de 1 a 0
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
@@ -236,14 +295,13 @@ public class GameManager : MonoBehaviour
             if (fadeImage != null)
             {
                 Color color = fadeImage.color;
-                color.a = alpha; // Reducir el alpha gradualmente
+                color.a = alpha;
                 fadeImage.color = color;
             }
 
             yield return null;
         }
 
-        // Asegurar que est� completamente transparente (alpha = 0)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;
@@ -251,7 +309,5 @@ public class GameManager : MonoBehaviour
             fadeImage.color = finalColor;
             fadeImage.gameObject.SetActive(false);
         }
-
-        Debug.Log("Fade out completado");
     }
 }
