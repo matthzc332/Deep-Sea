@@ -14,8 +14,8 @@ public class Gaviota : Entity
     [Header("Vida")]
     public float vida = 10f;
 
-    [Header("Referencia al barco")]
     public Transform barco;
+
 
     [Header("Opciones adicionales")]
     public bool debug = true;
@@ -33,6 +33,22 @@ public class Gaviota : Entity
     void Start()
     {
         // Obtener referencia al teclado
+        GameObject objetoBarco = GameObject.FindGameObjectWithTag("Ship");
+
+    if (objetoBarco != null)
+    {
+        barco = objetoBarco.transform;
+
+        // 2. Ahora puedes usar 'barco' (que es un Transform) para calcular la dirección
+        // Asegúrate de que 'controlledObject' esté asignado en tu script
+        Vector3 direccion = (barco.position - transform.position).normalized;
+        
+        if(debug) Debug.Log("Barco encontrado en: " + barco.position);
+    }
+    else
+    {
+        Debug.LogError("No se encontró ningún objeto con el Tag 'Ship'");
+    }
         keyboard = Keyboard.current;
     }
 

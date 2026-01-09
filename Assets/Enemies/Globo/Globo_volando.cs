@@ -26,7 +26,6 @@ public class Globo_Volando : State_Base
         if (globo.getCollisionWithShip() == true)
         {
             ExitState("Colision_con_barco");
-            
         }
         if (globo.getHP() <= 0){
             ExitState("Globo_Explotando");

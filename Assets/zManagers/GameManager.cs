@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Asegurarse de que el fade esté transparente al inicio
+        // Asegurarse de que el fade estï¿½ transparente al inicio
         if (fadeImage != null)
         {
             Color color = fadeImage.color;
@@ -59,15 +59,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        woodText.text = wood.ToString();
+
     }
 
-    // Función para crear el fade image si no existe
+    // Funciï¿½n para crear el fade image si no existe
     private void CreateFadeImage()
     {
         GameObject fadeObject = new GameObject("FadeImage");
         fadeImage = fadeObject.AddComponent<Image>();
         fadeImage.color = Color.black; // Fondo negro
+
+        fadeImage.raycastTarget = false;
 
         // Hacer que ocupe toda la pantalla
         RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
@@ -78,7 +80,7 @@ public class GameManager : MonoBehaviour
         rectTransform.offsetMax = Vector2.zero;
         rectTransform.localScale = Vector3.one;
 
-        // Establecer el orden en la jerarquía para que esté encima de todo
+        // Establecer el orden en la jerarquï¿½a para que estï¿½ encima de todo
         fadeObject.transform.SetAsLastSibling();
         fadeObject.SetActive(false);
     }
@@ -93,7 +95,6 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = GameState.OnWave;
         waveController.StartWave();
-        uiManager.CloseSkillTreeButton();
         Time.timeScale = 1f;
 
         // Opcional: Desactivar el objeto al empezar la wave
@@ -120,6 +121,11 @@ public class GameManager : MonoBehaviour
             costaIsla0.SetActive(true);
     }
 
+    public void GoIsland()
+    {
+
+    }
+
     public void Pause()
     {
         gameStateBeforePause = currentGameState;
@@ -135,7 +141,7 @@ public class GameManager : MonoBehaviour
         currentGameState = gameStateBeforePause;
     }
 
-    // Nueva función de transición suave - Versión simplificada
+    // Nueva funciï¿½n de transiciï¿½n suave - Versiï¿½n simplificada
     public void softTransition()
     {
         StartCoroutine(SoftTransitionCoroutine());
@@ -174,7 +180,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // Asegurar que esté completamente opaco (alpha = 1)
+        // Asegurar que estï¿½ completamente opaco (alpha = 1)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;
@@ -184,7 +190,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Fade completado. Cambiando de escena...");
 
-        // Cambiar de escena después del fade
+        // Cambiar de escena despuï¿½s del fade
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
         int totalScenes = SceneManager.sceneCountInBuildSettings;
@@ -195,12 +201,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No hay más escenas. Volviendo al menú principal.");
-            SceneManager.LoadScene(0);
+            Debug.LogWarning("No hay mï¿½s escenas. Volviendo al menï¿½ principal.");
+            SceneManager.LoadScene(1);
         }
     }
 
-    // Función opcional para hacer fade out (volver a transparente)
+    // Funciï¿½n opcional para hacer fade out (volver a transparente)
     public void FadeOut()
     {
         StartCoroutine(FadeOutCoroutine());
@@ -237,7 +243,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // Asegurar que esté completamente transparente (alpha = 0)
+        // Asegurar que estï¿½ completamente transparente (alpha = 0)
         if (fadeImage != null)
         {
             Color finalColor = fadeImage.color;

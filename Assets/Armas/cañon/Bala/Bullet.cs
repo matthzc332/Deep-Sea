@@ -2,72 +2,92 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private int power = 1;
-    [SerializeField] private float spriteForwardOffsetDeg = 0f; // si tu sprite mira +Y, poné -90
-    [SerializeField] public State_Machine state_machine;
-    public Vector3 enemy;
+    [Header("Settings")]
+    public int damage;
+    public int pierce;
     public float initialSpeed;
-    public Rigidbody2D rb;
-    public int pierce = 0;
-    public bool collision = false;
+    
+    [Header("State Data")]
+    public Transform enemy;    // Objetivo como Transform (usado por estados)
+    public bool hasHit;        // Bandera para avisar al StateMachine de la colisión
+
+    [HideInInspector] public Rigidbody2D rb;
 
     void Awake()
     {
-        state_machine = GetComponent<State_Machine>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-
-    public int getDamage()
+    // 1. Método para inicializar con una posición (Vector3)
+    // Se usa en Shoot_Cannon
+    public void Initialize(Vector3 targetPos, float speed, int power, int pierceCount)
     {
-        return power;
-    }
+        this.damage = power;
+        this.pierce = pierceCount;
+        this.initialSpeed = speed;
+        this.hasHit = false;
 
-    public void Initialize(Vector3 enemy, float initialSpeed, int power)
-    {
-        this.power = power;
-        this.enemy = enemy;
-        this.initialSpeed = initialSpeed;
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
 
-    }
-
-    public void LaunchTowards(Vector3 targetWorld, float initialSpeed)
-    {
-        Vector2 dir = ((Vector2)(targetWorld - transform.position)).normalized;
-        rb.linearVelocity = dir * initialSpeed;
+        Vector2 dir = (targetPos - transform.position).normalized;
+        rb.linearVelocity = dir * speed;
+        
         OrientToVelocity();
     }
 
+    // 2. Método para inicializar/lanzar hacia un objeto (Transform)
+    // Se usa en BulletMoveState
+    public void LaunchTowards(Transform target, float speed)
+    {
+        if (target == null) return;
+        
+        this.enemy = target;
+        this.initialSpeed = speed;
 
+        Vector2 dir = (target.position - transform.position).normalized;
+        rb.linearVelocity = dir * speed;
+        
+        OrientToVelocity();
+    }
 
+    // 3. Método para rotar la bala hacia donde se mueve
     public void OrientToVelocity()
     {
-        Vector2 v = rb.linearVelocity;
-        if (v.sqrMagnitude > 1e-6f)
+        if (rb != null && rb.linearVelocity.sqrMagnitude > 0.1f)
         {
-            float ang = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + spriteForwardOffsetDeg;
-            transform.rotation = Quaternion.Euler(0f, 0f, ang);
+            float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
 
-
-
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    // 4. Getter para el daño (usado por Entity.cs)
+    public int getDamage()
     {
-        Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
-        if (other.CompareTag("Enemy"))
-        {
-            Debug.Log("colisionó un enemigo");
-            if (pierce >= 1)
-            {
-                pierce = pierce - 1;
-            }
-            else { collision = true; }
-
-            // collision = false;
-        }
+        return damage;
     }
 
+    // 5. Detección de colisiones
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Si no es un enemigo, ignoramos
+        if (!other.CompareTag("Enemy")) return;
 
+        // Aplicar daño
+        Entity e = other.GetComponent<Entity>();
+        if (e != null)
+        {
+            e.takeDamage(damage);
+        }
+
+        // Lógica de perforación
+        if (pierce > 0)
+        {
+            pierce--;
+        }
+        else
+        {
+            // Activamos la bandera para que BulletMoveState pase a Bullet_destroy
+            hasHit = true; 
+        }
+    }
 }
-
