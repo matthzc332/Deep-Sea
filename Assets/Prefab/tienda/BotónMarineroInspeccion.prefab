@@ -1116,7 +1116,5 @@ MonoBehaviour:
   description: {fileID: 5275891489651831569}
   marineroImage: {fileID: 8414042159866530070}
   botonSeleccionar: {fileID: 0}
-  currentAnimationSprites:
-  - {fileID: -4278730133319402960, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
-  - {fileID: 7349418900479874527, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
+  currentAnimationSprites: []
   animationSpeed: 1

@@ -102,6 +102,8 @@ GameObject:
   - component: {fileID: 5143600582145326730}
   - component: {fileID: 52019039017992778}
   - component: {fileID: 1600212047574784848}
+  - component: {fileID: 482141003274322941}
+  - component: {fileID: 5883279577944663753}
   m_Layer: 0
   m_Name: Proyectil
   m_TagString: Bullet
@@ -239,13 +241,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541bb7664d0e2e84fa2a95682772247e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 1
-  spriteForwardOffsetDeg: 0
-  state_machine: {fileID: 0}
-  enemy: {x: 2, y: 2, z: 0}
+  damage: 0
+  pierce: 0
   initialSpeed: 0
+  enemy: {fileID: 0}
+  hasHit: 0
   rb: {fileID: 0}
-  collision: 0
 --- !u!50 &52019039017992778
 Rigidbody2D:
   serializedVersion: 5
@@ -286,3 +287,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 115914853601789904}
+--- !u!114 &482141003274322941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044418166369280425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0da3b1a8309a454baa78e1a4b1c565a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  habilidad: {fileID: 0}
+  desbloqueado: 0
+  active: 0
+  cantidadPerforacion: 5
+--- !u!114 &5883279577944663753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044418166369280425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e068fc2cb1539c43b10ffa7bd89681e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progreso: {fileID: 11400000, guid: 858552d78385c51469cf09d3c7735fc4, type: 2}
