@@ -58,7 +58,14 @@ public class State_Machine : MonoBehaviour
             currentState.UpdateState();
         }
     }
-
+    // para el boss
+    public void SetState(State_Base newState)
+    {
+        if (newState != null && newState != currentState)
+        {
+            nextState = newState;
+        }
+    }
 
 
 
