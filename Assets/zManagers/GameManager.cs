@@ -38,16 +38,44 @@ public class GameManager : MonoBehaviour
         Pause
     }
 
+    // Variable nueva para controlar la dificultad
+    public int difficultyLevel = 0;
+
+
+
+    // modifique el awake para manejo de oleadas
     void Awake()
     {
+        // SINGLETON ROBUSTO:
+        // Si ya existe una instancia y no soy yo, me destruyo.
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject); // Solo el original sobrevive
+
         Time.timeScale = 0f;
 
-        // Crear fade image si no existe
+
         if (fadeImage == null)
         {
             CreateFadeImage();
         }
     }
+
+    //void Awake()
+    //{
+    //    Time.timeScale = 0f;
+
+    //    // Crear fade image si no existe
+    //    if (fadeImage == null)
+    //    {
+    //        CreateFadeImage();
+    //    }
+    //}
 
     void Start()
     {
@@ -116,13 +144,24 @@ public class GameManager : MonoBehaviour
         foreach (GameObject enemigo in enemigos)
         {
             Destroy(enemigo);
-        }
+
+
+            // Aumentamos la dificultad cada vez que se supera una oleada
+            difficultyLevel++;
+            Debug.Log("Dificultad aumentada a: " + difficultyLevel);
+
+            if (costaIsla0 != null)
+                costaIsla0.SetActive(true);
+        
+    }
 
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         foreach (GameObject bullet in bullets)
         {
             Destroy(bullet);
         }
+
+
 
         // Activar el objeto Costa_Isla_0
         if (costaIsla0 != null)

@@ -18,7 +18,19 @@ public class Entity : MonoBehaviour
     public bool getIsAlive() {return isAlive;}
     public bool getCollisionWithShip() {return collision_with_ship;}
 
-    
+
+
+    // modifica dificultad a la oleada
+    protected virtual void Awake()
+    {
+        // Si existe el GameManager, sumamos vida base + dificultad
+        if (GameManager.instance != null)
+        {
+            // Ejemplo: +1 de vida por cada nivel de dificultad
+            // O puedes hacer: HP += GameManager.instance.difficultyLevel * 10;
+            HP += GameManager.instance.difficultyLevel;
+        }
+    }
     public virtual void takeDamage(int damage)
     {
         if (isAlive)
