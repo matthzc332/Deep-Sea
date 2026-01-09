@@ -5,6 +5,11 @@ public class BossBiteState : State_Base
 {
     public override void EnterState()
     {
+
+        // Buscamos el Animator en el jefe y activamos el trigger
+        controlledObject.GetComponent<Animator>().SetTrigger("Bite");
+
+
         Vector3 originalPos = controlledObject.transform.position;
 
         // 1. Ir al centro
