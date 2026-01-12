@@ -77,6 +77,28 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
+    private void OnEnable()
+{
+    SceneManager.sceneLoaded += AlCargarEscena;
+}
+
+private void OnDisable()
+{
+    SceneManager.sceneLoaded -= AlCargarEscena;
+}
+
+void AlCargarEscena(Scene escena, LoadSceneMode modo)
+{
+    // Buscamos el UIManager de la nueva escena
+    uiManager = FindFirstObjectByType<UIManager>();
+    
+    // Si tienes textos de UI como woodText, búscalos también
+    // woodText = GameObject.Find("NombreDeTuTexto").GetComponent<TMP_Text>();
+
+    // Ejecutar FadeOut si lo necesitas al entrar
+    FadeOut();
+}
+
     void Start()
     {
         // Asegurarse de que el fade est� transparente al inicio
@@ -139,34 +161,44 @@ public class GameManager : MonoBehaviour
     }
 
     public void EndWave()
+{
+    // 1. CAMBIAR EL ESTADO: Esto detiene los Spawners inmediatamente
+    currentGameState = GameState.Playing;
+    
+    Debug.Log("Oleada terminada. Limpiando escena...");
+
+    // 2. LIMPIAR ENEMIGOS: Eliminamos a los que quedaron vivos
+    GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
+    foreach (GameObject enemigo in enemigos)
     {
-        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemigo in enemigos)
-        {
-            Destroy(enemigo);
+        Destroy(enemigo);
+    }
 
+    // 3. LIMPIAR BALAS: Para que no queden proyectiles flotando
+    GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+    foreach (GameObject bullet in bullets)
+    {
+        Destroy(bullet);
+    }
 
-            // Aumentamos la dificultad cada vez que se supera una oleada
-            difficultyLevel++;
-            Debug.Log("Dificultad aumentada a: " + difficultyLevel);
+    // 4. AUMENTAR DIFICULTAD
+    difficultyLevel++;
+    Debug.Log("Dificultad aumentada a: " + difficultyLevel);
 
-            if (costaIsla0 != null)
-                costaIsla0.SetActive(true);
+    // 5. GESTIONAR LA ISLA: Activarla y darle la orden de moverse
+    if (costaIsla0 != null)
+    {
+        costaIsla0.SetActive(true); // Aparece la isla
         
-    }
-
-        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
-        foreach (GameObject bullet in bullets)
+        // Buscamos el script de la isla para decirle que empiece a moverse
+        costa_isla scriptIsla = costaIsla0.GetComponent<costa_isla>();
+        if (scriptIsla != null)
         {
-            Destroy(bullet);
+            scriptIsla.ActivarMovimiento(true); 
+            Debug.Log("Iniciando movimiento de la isla hacia el barco.");
         }
-
-
-
-        // Activar el objeto Costa_Isla_0
-        if (costaIsla0 != null)
-            costaIsla0.SetActive(true);
     }
+}
 
     public void GoIsland()
     {
