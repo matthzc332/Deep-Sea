@@ -77,38 +77,6 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-private void OnEnable()
-{
-    UnityEngine.SceneManagement.SceneManager.sceneLoaded += AlCargarEscena;
-}
-
-private void OnDisable()
-{
-    UnityEngine.SceneManagement.SceneManager.sceneLoaded -= AlCargarEscena;
-}
-
-void AlCargarEscena(UnityEngine.SceneManagement.Scene escena, UnityEngine.SceneManagement.LoadSceneMode modo)
-{
-    // 1. Re-vincular el UI Manager y Wave Controller en la nueva escena
-    uiManager = Object.FindFirstObjectByType<UIManager>();
-    waveController = Object.FindFirstObjectByType<WaveController>();
-
-    // 2. Re-ubicar el FadeImage en el nuevo Canvas para que sea visible
-    Canvas nuevoCanvas = Object.FindFirstObjectByType<Canvas>();
-    if (nuevoCanvas != null && fadeImage != null)
-    {
-        fadeImage.transform.SetParent(nuevoCanvas.transform, false);
-        fadeImage.transform.SetAsLastSibling(); // Poner al frente de todo
-    }
-
-    // 3. Re-vincular la Isla
-    GameObject isla = GameObject.Find("Costa_Isla_0");
-    if (isla != null) costaIsla0 = isla;
-
-    // 4. Iniciar el efecto de aparecer (transparencia)
-    FadeOut();
-}
-
     void Start()
     {
         // Asegurarse de que el fade est� transparente al inicio
@@ -128,32 +96,27 @@ void AlCargarEscena(UnityEngine.SceneManagement.Scene escena, UnityEngine.SceneM
     }
 
     // Funci�n para crear el fade image si no existe
-private void CreateFadeImage()
-{
-    GameObject fadeObject = new GameObject("FadeImage");
-    // Esto asegura que el objeto sea parte del sistema de UI
-    fadeObject.layer = LayerMask.NameToLayer("UI"); 
-    
-    fadeImage = fadeObject.AddComponent<Image>();
-    fadeImage.color = new Color(0, 0, 0, 0); // Empieza transparente
-    fadeImage.raycastTarget = false;
-
-    // Buscamos el Canvas
-    Canvas canvas = Object.FindFirstObjectByType<Canvas>();
-    if (canvas != null)
+    private void CreateFadeImage()
     {
-        fadeObject.transform.SetParent(canvas.transform, false);
-    }
+        GameObject fadeObject = new GameObject("FadeImage");
+        fadeImage = fadeObject.AddComponent<Image>();
+        fadeImage.color = Color.black; // Fondo negro
 
-    // Configuración del RectTransform para pantalla completa
-    RectTransform rect = fadeImage.rectTransform;
-    rect.anchorMin = Vector2.zero;
-    rect.anchorMax = Vector2.one;
-    rect.offsetMin = Vector2.zero;
-    rect.offsetMax = Vector2.zero;
-    
-    fadeObject.SetActive(false);
-}
+        fadeImage.raycastTarget = false;
+
+        // Hacer que ocupe toda la pantalla
+        RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
+        rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.offsetMin = Vector2.zero;
+        rectTransform.offsetMax = Vector2.zero;
+        rectTransform.localScale = Vector3.one;
+
+        // Establecer el orden en la jerarqu�a para que est� encima de todo
+        fadeObject.transform.SetAsLastSibling();
+        fadeObject.SetActive(false);
+    }
 
     public void StartGame()
     {

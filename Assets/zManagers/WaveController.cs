@@ -13,10 +13,7 @@ public class WaveController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (GameManager == null)
-        {
-            GameManager = GameManager.instance;
-        }
+        
     }
 
     // Update is called once per frame
@@ -30,14 +27,14 @@ public class WaveController : MonoBehaviour
         //Update Timer
 
         if (waveTimer > 0)
-    {
-        waveTimer -= Time.deltaTime;
-    }
-    else if (waveTimer <= 0 && waveTimer > -999) // Evita que entre mil veces
-    {
-        waveTimer = -1000f; // Marcador para saber que ya terminó
-        EndWave();
-    }
+        {
+            waveTimer -= Time.deltaTime;
+        }
+
+        if (waveTimer <= 0)
+        {
+            EndWave();
+        }
     }
 
     public void StartWave()
@@ -47,13 +44,7 @@ public class WaveController : MonoBehaviour
 
     public void EndWave()
     {
-        // Doble verificación por seguridad antes de llamar al método
-        if (GameManager == null) GameManager = GameManager.instance;
-        
-        if (GameManager != null)
-        {
-            GameManager.EndWave();
-        }
+        GameManager.EndWave();
     }
 }
 

@@ -13,28 +13,6 @@ public class costa_isla : MonoBehaviour
     private MoveRect moveRect;
     private bool movimientoActivo = false;
 
-    void Awake()
-{
-    // Buscamos el Singleton inmediatamente
-    gameManager = GameManager.instance;
-    moveRect = new MoveRect();
-}
-
-void OnEnable()
-{
-    // Re-asegurar que si el manager cambió (por cambio de escena), lo encuentre
-    if (gameManager == null) gameManager = GameManager.instance;
-    
-    // Buscar el barco si no existe
-    if (shipTransform == null)
-    {
-        GameObject shipObject = GameObject.Find("Ship");
-        if(shipObject != null) shipTransform = shipObject.transform;
-    }
-
-    movimientoActivo = true;
-}
-
     void Start()
     {
         // Crear instancia de MoveRect (ahora es una clase normal)
@@ -55,7 +33,11 @@ void OnEnable()
         }
     }
 
-
+    void OnEnable()
+    {
+        // Cuando se active el objeto, iniciar movimiento hacia el barco
+        movimientoActivo = true;
+    }
 
     void Update()
     {
