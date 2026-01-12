@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d90f1b061c56ff47a032e8929b4eaba, type: 3}
   m_Name: pierce1
   m_EditorClassIdentifier: 
+  esPermanente: 1
+  nombreId: pierce1
   nombre: Perforar I
   strongWith: 
   weakWith: 

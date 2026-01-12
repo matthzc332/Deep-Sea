@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 960.00006, y: 93.27252}
+  m_AnchoredPosition: {x: 960.00006, y: 543}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1873562553899553450
@@ -245,7 +245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 910.7, y: -162}
+  m_AnchoredPosition: {x: 910.7, y: 287.72754}
   m_SizeDelta: {x: 1920, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3872404593392696793
@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 3592633555937436734}
   - component: {fileID: 5802857665578712866}
   - component: {fileID: 3011167883601952550}
+  - component: {fileID: 23753698911704265}
   m_Layer: 5
   m_Name: buyButton
   m_TagString: Untagged
@@ -384,7 +385,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 935, y: -415}
+  m_AnchoredPosition: {x: 935, y: 34.72754}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3592633555937436734
@@ -468,7 +469,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5802857665578712866}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 23753698911704265}
+        m_TargetAssemblyTypeName: BuySK, Assembly-CSharp
+        m_MethodName: ComprarDirecto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &23753698911704265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298054219851587738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38696fc3dba0c2d4c83c3405fa388ea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progresoHabilidades: {fileID: 11400000, guid: 858552d78385c51469cf09d3c7735fc4, type: 2}
 --- !u!1 &6229661470634573422
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 945.9, y: -38}
+  m_AnchoredPosition: {x: 945.9, y: 411.72754}
   m_SizeDelta: {x: 1920, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3154464969513110837
@@ -639,7 +665,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 879, y: -319.3}
+  m_AnchoredPosition: {x: 879, y: 130.42755}
   m_SizeDelta: {x: 1920, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8711392940267683692
@@ -781,7 +807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -905, y: 603}
+  m_AnchoredPosition: {x: -905, y: 487}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3271421404192210291
@@ -835,12 +861,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipoVista: 1
-  textoObjeto: {fileID: 741929418130067512}
-  precioObjeto: {fileID: 6981526079743083423}
-  strongText: {fileID: 0}
-  weakText: {fileID: 0}
-  description: {fileID: 5275891489651831569}
-  marineroImage: {fileID: 8414042159866530070}
-  botonSeleccionar: {fileID: 0}
-  currentAnimationSprites: []
-  animationSpeed: 1
+  nombreTxt: {fileID: 0}
+  precioTxt: {fileID: 0}
+  iconoMarinero: {fileID: 0}
+  descTxt: {fileID: 0}
+  strongTxt: {fileID: 0}
+  weakTxt: {fileID: 0}

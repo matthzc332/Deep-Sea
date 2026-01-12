@@ -47,14 +47,14 @@ public class Entity : MonoBehaviour
     // Método que se ejecuta cuando ocurre una colisión con trigger 2D
     private void OnTriggerEnter2D(Collider2D collision)
     {
-            Debug.Log("Detectó la colision");
+            //Debug.Log("Detectó la colision");
         // Verificar si el objeto con el que colisionó tiene la etiqueta "Bullet"
         if (collision.CompareTag("Bullet"))
         {
-            Debug.Log("Colisionó con una bala");
+            //Debug.Log("Colisionó con una bala");
             Bullet bullet = collision.GetComponent<Bullet>();
             takeDamage(bullet.getDamage());
-            Debug.Log("Vida Actual:"+ HP);
+            //Debug.Log("Vida Actual:"+ HP);
         }
 
         else if (collision.CompareTag("Ship"))
