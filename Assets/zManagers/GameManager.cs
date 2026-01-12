@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
     public Image fadeImage;
     public float fadeDuration = 2f;
 
+    //Maneja al Boss
+    public GameObject bossPrefab;
+    public Transform bossSpawnPoint; 
+    // hasta aqui
+
     public enum GameState
     {
         MainMenu,
@@ -33,16 +38,44 @@ public class GameManager : MonoBehaviour
         Pause
     }
 
+    // Variable nueva para controlar la dificultad
+    public int difficultyLevel = 0;
+
+
+
+    // modifique el awake para manejo de oleadas
     void Awake()
     {
+        // SINGLETON ROBUSTO:
+        // Si ya existe una instancia y no soy yo, me destruyo.
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject); // Solo el original sobrevive
+
         Time.timeScale = 0f;
 
-        // Crear fade image si no existe
+
         if (fadeImage == null)
         {
             CreateFadeImage();
         }
     }
+
+    //void Awake()
+    //{
+    //    Time.timeScale = 0f;
+
+    //    // Crear fade image si no existe
+    //    if (fadeImage == null)
+    //    {
+    //        CreateFadeImage();
+    //    }
+    //}
 
     void Start()
     {
@@ -100,6 +133,9 @@ public class GameManager : MonoBehaviour
         // Opcional: Desactivar el objeto al empezar la wave
         if (costaIsla0 != null)
             costaIsla0.SetActive(false);
+
+        // INICIA LA APARICIÓN DEL BOSS
+        StartCoroutine(SpawnBossDelayed(5f));
     }
 
     public void EndWave()
@@ -108,13 +144,24 @@ public class GameManager : MonoBehaviour
         foreach (GameObject enemigo in enemigos)
         {
             Destroy(enemigo);
-        }
+
+
+            // Aumentamos la dificultad cada vez que se supera una oleada
+            difficultyLevel++;
+            Debug.Log("Dificultad aumentada a: " + difficultyLevel);
+
+            if (costaIsla0 != null)
+                costaIsla0.SetActive(true);
+        
+    }
 
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         foreach (GameObject bullet in bullets)
         {
             Destroy(bullet);
         }
+
+
 
         // Activar el objeto Costa_Isla_0
         if (costaIsla0 != null)
@@ -254,4 +301,19 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Fade out completado");
     }
+
+    // Boss spawn
+    private IEnumerator SpawnBossDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (bossPrefab != null)
+        {
+            // Aparece en la posición del spawn point o en una coordenada fija
+            Vector3 spawnPos = bossSpawnPoint != null ? bossSpawnPoint.position : new Vector3(-10f, 0f, 0f);
+            Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+            Debug.Log("¡El Boss ha entrado a la batalla!");
+        }
+    }
+
 }

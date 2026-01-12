@@ -58,7 +58,14 @@ public class State_Machine : MonoBehaviour
             currentState.UpdateState();
         }
     }
-
+    // para el boss
+    public void SetState(State_Base newState)
+    {
+        if (newState != null && newState != currentState)
+        {
+            nextState = newState;
+        }
+    }
 
 
 
@@ -75,5 +82,11 @@ public class State_Machine : MonoBehaviour
         {
         //    Debug.LogError($"No se encontró el componente de estado: {typeof(T).Name}");
         }
+    }
+
+    //boss
+    public State_Base GetCurrentState()
+    {
+        return currentState;
     }
 }

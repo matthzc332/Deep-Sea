@@ -15,6 +15,20 @@ public class State_Base : MonoBehaviour
         controlledObject = transform.parent != null ? transform.parent.gameObject : null;
     }
 
+    // prueba para el boss
+    // Usamos Awake para que se configure ANTES de cualquier ataque
+    protected virtual void Awake()
+    {
+        state_machine = GetComponentInParent<State_Machine>();
+
+        // El objeto controlado SIEMPRE es el que tiene la State_Machine
+        if (state_machine != null)
+        {
+            controlledObject = state_machine.gameObject;
+        }
+    }
+
+
     // Metodos virtuales que pueden ser sobrescritos por estados derivados.
     public virtual void EnterState() {} //Se ejecuta cuando inicia el estado.
     public virtual void UpdateState() {} //El "update" del estado.
