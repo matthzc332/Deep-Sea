@@ -14,16 +14,16 @@ public class State_Machine : MonoBehaviour
 
         if (currentState != null)
         {
-            Debug.Log($"Estado inicial: {currentState.GetType().Name}");
+           // Debug.Log($"Estado inicial: {currentState.GetType().Name}");
         }
         else
         {
-            Debug.LogError("No se encontró el estado inicial");
+            //Debug.LogError("No se encontró el estado inicial");
             foreach (var state in states)
             {
                 var owner = state.GetComponentInParent<State_Machine>();
-                Debug.Log($"[StateMachine] Encontré {state.GetType().Name} en {state.gameObject.name}. " +
-                        $"Padre con state machine: {(owner ? owner.name : "ninguno")}");
+                //Debug.Log($"[StateMachine] Encontré {state.GetType().Name} en {state.gameObject.name}. " +
+                //        $"Padre con state machine: {(owner ? owner.name : "ninguno")}");
             }
         }
     }
@@ -42,7 +42,7 @@ public class State_Machine : MonoBehaviour
             nextState = null;
             hasEnteredState = false;
             
-            Debug.Log($"Estado cambiado a: {currentState.GetType().Name}");
+            //Debug.Log($"Estado cambiado a: {currentState.GetType().Name}");
         }
 
         if (currentState != null)
@@ -73,7 +73,7 @@ public class State_Machine : MonoBehaviour
         }
         else if (newState == null)
         {
-            Debug.LogError($"No se encontró el componente de estado: {typeof(T).Name}");
+        //    Debug.LogError($"No se encontró el componente de estado: {typeof(T).Name}");
         }
     }
 }
