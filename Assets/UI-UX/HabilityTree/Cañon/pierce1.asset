@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: pierce1
   m_EditorClassIdentifier: 
   esPermanente: 1
-  nombreId: pierce1
+  nombreId: Pierce1
   nombre: Perforar I
   strongWith: 
   weakWith: 

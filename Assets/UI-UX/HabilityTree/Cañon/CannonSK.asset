@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CannonSK
   m_EditorClassIdentifier: 
   habilidadesDesbloqueadas:
+  - 
   - Pierce1
