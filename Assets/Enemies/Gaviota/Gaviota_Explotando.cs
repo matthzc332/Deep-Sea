@@ -16,7 +16,7 @@ public class Gaviota_Explotando : State_Base
         if (gaviota == null) return;
 
         if (gaviota.debug)
-            Debug.Log("Gaviota entra en Explota");
+        //    Debug.Log("Gaviota entra en Explota");
         animation.Play("Explotando");
 
         // Instancia explosión si hay prefab

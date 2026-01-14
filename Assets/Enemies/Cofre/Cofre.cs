@@ -5,6 +5,8 @@ public class Cofre : Entity
     [SerializeField] private GameObject efecto;
     [SerializeField] private float cantidadPuntos = 100f; // Valor por defecto
 
+    // Ya no necesitamos [SerializeField] private puntaje puntaje;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Bullet"))
@@ -15,14 +17,13 @@ public class Cofre : Entity
                 puntaje.instancia.SumarPuntos(cantidadPuntos);
             }
 
-            // --- AQUÍ ESTÁ EL CAMBIO ---
-            // Solo intentamos crear el efecto si la variable no está vacía
+          //  Instantiate(efecto, transform.position, Quaternion.identity);
+            
+            // En Cofre.cs
             if (efecto != null)
             {
                 Instantiate(efecto, transform.position, Quaternion.identity);
             }
-            // ---------------------------
-
             Destroy(gameObject);
         }
     }

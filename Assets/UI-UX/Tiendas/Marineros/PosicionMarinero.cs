@@ -4,19 +4,15 @@ using UnityEngine.UI;
 public class PosicionMarinero : MonoBehaviour
 {
     [Header("Referencias de Managers")]
-    // Referencia al manager que controla el barco y el posicionamiento
     public ShipPlacementManager shipPlacementManager; 
 
     [Header("Configuración")]
-    public PlantillaObjeto marineroAsignado; 
+    public PlantillaObjeto marineroAsignado;
     
-    [Header("Parpadeo")]
-    public Color colorParpadeo = Color.white;
-    public float velocidadParpadeo = 2f;
+    [Header("Silueta (para posición vacía)")]
+    public Sprite spriteSilueta; // Asigna esto en el inspector
     
     private Image imagenPosicion;
-    private bool parpadeando = false;
-    private float timerParpadeo = 0f;
     private Sprite spriteOriginal;
     private int frameActual = 0;
     private float timerAnimacion = 0f;
@@ -26,14 +22,16 @@ public class PosicionMarinero : MonoBehaviour
     {
         imagenPosicion = GetComponent<Image>();
         
-        if (imagenPosicion == null)
-            Debug.LogError($"No se encontró Image en {gameObject.name}.");
+        // Forzamos color blanco opaco para que no sea invisible
+        if (imagenPosicion != null) 
+            imagenPosicion.color = Color.white;
 
         ConfigurarBotonPosicion();
     }
     
     void Start()
     {
+        // Guardamos el sprite original que tenga en el inspector
         if (imagenPosicion != null && imagenPosicion.sprite != null)
             spriteOriginal = imagenPosicion.sprite;
         
@@ -43,13 +41,10 @@ public class PosicionMarinero : MonoBehaviour
     
     public bool AsignarMarinero(PlantillaObjeto nuevoMarinero)
     {
-        if (marineroAsignado != null)
-        {
-            Debug.LogWarning($"La posición {gameObject.name} ya está ocupada");
-            return false;
-        }
+        if (marineroAsignado != null) return false;
         
         marineroAsignado = nuevoMarinero;
+        imagenPosicion.material = null;
         ActualizarEstadoPosicion();
         return true;
     }
@@ -66,15 +61,30 @@ public class PosicionMarinero : MonoBehaviour
         
         if (marineroAsignado == null)
         {
-            Sprite uiSquare = Resources.Load<Sprite>("UI Square");
-            imagenPosicion.sprite = (uiSquare != null) ? uiSquare : spriteOriginal;
-            parpadeando = true;
+            // Cuando NO hay marinero asignado: mostrar SILUETA BLANCA
+            if (spriteSilueta != null)
+            {
+                // Usar la silueta específica asignada en el inspector
+                imagenPosicion.sprite = spriteSilueta;
+                imagenPosicion.color = Color.white;
+            }
+            else
+            {
+                // Si no hay silueta, mostrar el sprite original (si existe)
+                imagenPosicion.sprite = spriteOriginal;
+                imagenPosicion.color = Color.white;
+            }
+            
+            // Resetear cualquier animación
+            frameActual = 0;
+            timerAnimacion = 0f;
         }
         else
         {
-            parpadeando = false;
-            imagenPosicion.color = Color.white;
+            // Cuando SÍ hay marinero asignado: mostrar el marinero REAL con animación
+            imagenPosicion.color = Color.white; // Color normal para sprites con color
             
+            // ASIGNAR TEXTURA DEL MARINERO
             if (marineroAsignado.idleAnimationSprites != null && marineroAsignado.idleAnimationSprites.Length > 0)
             {
                 imagenPosicion.sprite = marineroAsignado.idleAnimationSprites[0];
@@ -86,19 +96,10 @@ public class PosicionMarinero : MonoBehaviour
     
     void Update()
     {
-        if (!estadoInicializado) return;
+        if (!estadoInicializado || marineroAsignado == null) return;
         
-        // Lógica de parpadeo (Slot vacío)
-        if (marineroAsignado == null && parpadeando && imagenPosicion != null)
-        {
-            timerParpadeo += Time.deltaTime * velocidadParpadeo;
-            float alpha = Mathf.PingPong(timerParpadeo, 1f);
-            Color nuevoColor = colorParpadeo;
-            nuevoColor.a = alpha;
-            imagenPosicion.color = nuevoColor;
-        }
-        // Lógica de animación (Slot ocupado)
-        else if (marineroAsignado != null && marineroAsignado.idleAnimationSprites.Length > 1)
+        // Animación si hay más de un frame
+        if (marineroAsignado.idleAnimationSprites.Length > 1)
         {
             timerAnimacion += Time.deltaTime;
             float tiempoPorFrame = 1f / marineroAsignado.animationSpeed;
@@ -114,25 +115,13 @@ public class PosicionMarinero : MonoBehaviour
 
     public void OnClickPosicion()
     {
-        if (!EstaDisponible())
-        {
-            Debug.Log($"Posición {gameObject.name} ocupada por {marineroAsignado.nombre}");
-            return;
-        }
+        if (!EstaDisponible()) return;
 
-        // Buscamos el placement manager si no está asignado
         if (shipPlacementManager == null)
             shipPlacementManager = Object.FindFirstObjectByType<ShipPlacementManager>();
 
         if (shipPlacementManager != null)
-        {
-            // Notificamos al Manager del barco que este slot ha sido clickeado
             shipPlacementManager.IntentarColocarEnSlot(this);
-        }
-        else
-        {
-            Debug.LogError("No se encontró ShipPlacementManager en la escena.");
-        }
     }
 
     public void ConfigurarBotonPosicion()
@@ -143,11 +132,11 @@ public class PosicionMarinero : MonoBehaviour
         boton.onClick.RemoveAllListeners();
         boton.onClick.AddListener(OnClickPosicion);
         
-        // Configurar los colores del botón para que sea interactivo
+        // Colores del botón sólidos para que se vea el cuadro
         ColorBlock colors = boton.colors;
-        colors.normalColor = new Color(1, 1, 1, 0f); // Invisible por defecto
-        colors.highlightedColor = new Color(1, 1, 1, 0.2f);
-        colors.pressedColor = new Color(1, 1, 1, 0.4f);
+        colors.normalColor = Color.white;
+        colors.highlightedColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+        colors.pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
         boton.colors = colors;
     }
 
@@ -155,7 +144,6 @@ public class PosicionMarinero : MonoBehaviour
     
     public void ActivarParpadeo(bool activar) 
     {
-        parpadeando = activar;
-        if (!activar && imagenPosicion != null) imagenPosicion.color = Color.white;
+        if (imagenPosicion != null) imagenPosicion.color = Color.white;
     }
 }

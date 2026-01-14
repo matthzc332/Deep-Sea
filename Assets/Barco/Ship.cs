@@ -3,21 +3,24 @@ using UnityEngine.SceneManagement;
 
 public class Ship : Entity
 {
+    [Header("Referencias")]
     private Transform Ships;
     private SpriteRenderer spr;
     public Joystick joystick;
 
-    public PlayerScripteable datosBarco;
+    [Header("Datos Persistentes")]
+    public PlayerScripteable datosBarco; // Referencia al Scriptable Object
 
-    public float vida;
+    [Header("Estado")]
+    public float vida; // Variable visual para ver en el inspector
 
-    // Escena donde se necesita el joystick
-    public string gameSceneName = "GAME";
+    [Header("Configuración")]
+    public string gameSceneName = "GAME"; // Escena donde se necesita el joystick
+    public float initialSpeed = 0.9f;
 
     // Límites de movimiento
     private float limiteDerecho = 7.300274f;
     private float limiteIzquierdo = -7.300274f;
-    public float initialSpeed = 0.9f;
 
     void Start()
     {
@@ -25,37 +28,37 @@ public class Ship : Entity
         spr = gameObject.GetComponent<SpriteRenderer>();
         speed = initialSpeed;
 
-        // --- CAMBIO 1: CARGAR VIDA AL INICIAR ---
+        // 1. CARGAR VIDA DEL SCRIPTABLE OBJECT
         if (datosBarco != null)
         {
-            // Cargamos la vida guardada en el ScriptableObject
             HP = datosBarco.Vida;
-            vida = HP; // Actualizamos la variable local también
-            Debug.Log("Barco: Vida cargada del ScriptableObject: " + HP);
+            vida = HP; // Actualizamos la variable visual
+            // Debug.Log("Barco: Vida cargada del ScriptableObject: " + HP);
         }
         else
         {
-            Debug.LogError("Barco: ¡No has asignado el 'Datos Barco' (ScriptableObject) en el Inspector!");
+            Debug.LogError("Barco: ¡No has asignado el 'Datos Barco' (PlayerScripteable) en el Inspector!");
         }
-        // ----------------------------------------
 
-        // Buscar el joystick apenas nace el barco
+        // 2. BUSCAR JOYSTICK
         BuscarJoystick();
     }
 
     void Update()
     {
-        // Si no hay joystick, no hacemos nada (evita errores rojos)
+        // Seguridad: Si no hay joystick, intentamos buscarlo y no ejecutamos movimiento
         if (joystick == null)
         {
             BuscarJoystick();
             return;
         }
 
+        // Lógica de Movimiento
         if (joystick.angulo != 0f)
         {
             splitSpeed();
 
+            // Verificar límites específicos para cada dirección antes de mover
             if ((speed > 0 && Ships.position.x < limiteDerecho) ||
                 (speed < 0 && Ships.position.x > limiteIzquierdo))
             {
@@ -63,10 +66,11 @@ public class Ship : Entity
             }
         }
 
-        // Solo visualización
+        // Actualizar variable visual para el inspector
         vida = HP;
     }
 
+    // --- GESTIÓN DE ESCENAS PARA ENCONTRAR EL JOYSTICK ---
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -89,15 +93,17 @@ public class Ship : Entity
     {
         if (joystick == null)
         {
-            // Debug.Log("Barco: Buscando Joystick en la escena...");
             joystick = FindFirstObjectByType<Joystick>();
         }
     }
+    // -----------------------------------------------------
 
+    // --- LÓGICA DE MOVIMIENTO ---
     void move(float speed, Transform body)
     {
         body.Translate(Vector3.right * speed * Time.deltaTime);
 
+        // Clamp para asegurar que no se pase de los límites ni un píxel
         Vector3 pos = body.position;
         pos.x = Mathf.Clamp(pos.x, limiteIzquierdo, limiteDerecho);
         body.position = pos;
@@ -109,20 +115,20 @@ public class Ship : Entity
 
         if (joystick.angulo > 0)
         {
-            speed = initialSpeed * -1;
+            speed = initialSpeed * -1; // Izquierda
         }
         else if (joystick.angulo < 0)
         {
-            speed = initialSpeed;
+            speed = initialSpeed; // Derecha
         }
     }
 
+    // --- COLISIONES Y DAÑO ---
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("colisionó un enemigo");
+            Debug.Log("Colisionó un enemigo");
         }
     }
 
@@ -132,15 +138,17 @@ public class Ship : Entity
         {
             HP -= damage;
 
+            // ACTUALIZAR SCRIPTABLE OBJECT AL RECIBIR DAÑO
             if (datosBarco != null)
             {
                 datosBarco.Vida = (int)HP;
             }
-            // ---------------------------------------------
 
+            // MORIR
             if (HP <= 0)
             {
                 isAlive = false;
+                // Cargar escena de menú o reinicio (asegúrate que el nombre sea correcto)
                 SceneManager.LoadScene("prefabs");
             }
         }

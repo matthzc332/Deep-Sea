@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 4
-  speed: 1
+  speed: 3
   isAlive: 1
   efecto: {fileID: 0}
   cantidadPuntos: 10

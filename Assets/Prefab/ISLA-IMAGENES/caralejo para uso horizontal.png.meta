@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fde8fdb0a143c514c8e9f2b01589cdea
+guid: a483d6f996581e940a5bf09a3b8af833
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3096792989750186740
-    second: cofre1_0
+      213: -7135544148751136879
+    second: caralejo para uso horizontal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cofre1_0
+      name: caralejo para uso horizontal_0
       rect:
         serializedVersion: 2
-        x: 11
+        x: 0
         y: 0
-        width: 42
-        height: 26
+        width: 15
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4f2daf011d40afa20800000000000000
-      internalID: 3096792989750186740
+      spriteID: 1974296076479fc90800000000000000
+      internalID: -7135544148751136879
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cofre1_0: 3096792989750186740
+      caralejo para uso horizontal_0: -7135544148751136879
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

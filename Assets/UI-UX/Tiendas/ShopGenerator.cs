@@ -10,6 +10,10 @@ public class ShopGenerator : MonoBehaviour
     [SerializeField] private GameObject cartaPrefab;
     [SerializeField] private Transform containerGrid;
 
+    // NUEVO: Referencia al manager que realmente procesa las compras
+    [Header("Manager Responsable")]
+    [SerializeField] private ShopManager shopManager;
+
     void Start()
     {
         GenerarContenido();
@@ -17,7 +21,6 @@ public class ShopGenerator : MonoBehaviour
 
     public void GenerarContenido()
     {
-        // Limpiar el contenedor antes de generar
         foreach (Transform child in containerGrid)
             Destroy(child.gameObject);
 
@@ -26,6 +29,9 @@ public class ShopGenerator : MonoBehaviour
             return;
         }
 
+        // Si no asignaste un manager en el inspector, intentamos buscarlo en el mismo objeto
+        if (shopManager == null) shopManager = GetComponent<ShopManager>();
+
         foreach (PlantillaObjeto data in tiendaData.listaProductos)
         {
             GameObject carta = Instantiate(cartaPrefab, containerGrid);
@@ -33,9 +39,8 @@ public class ShopGenerator : MonoBehaviour
             
             if (objetoScript != null)
             {
-                // Pasamos la data a la carta. 
-                // Nota: Objeto.cs debe ser capaz de avisar al PurchaseManager cuando se hace click.
-                objetoScript.ConfigurarObjeto(data); 
+                // Ahora pasamos la data Y el manager responsable
+                objetoScript.ConfigurarObjeto(data, shopManager); 
             }
         }
     }

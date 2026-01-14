@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831d0c79692cfb242b08976f011e21d3, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  Vida: 3
+  Vida: 4
   Espacio1: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
   Espacio2: {fileID: 0}
   Espacio3: {fileID: 0}
-  Arma: {fileID: 0}
+  Arma: {fileID: 5055910946136703087, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
   cantidadMunicion: 30
   Mastil: {fileID: 0}
   Popa: {fileID: 0}
