@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 2211332031253626918}
   - component: {fileID: 7584303279199666108}
   m_Layer: 0
-  m_Name: "ca\xF1on"
+  m_Name: "Ca\xF1on"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,8 +117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f4fa777b0c14740a3005e39f6f3f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount_ammunition: 5
+  amount_ammunition: 15
   time_recharge: 1
-  power_shoot: 1
+  power_shoot: 15
   damage_percentage: 100
   objective: {x: 0, y: 0, z: 0}
