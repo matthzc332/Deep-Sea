@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject costaIsla0;
 
+    // Add this line here:
+    [Header("Difficulty Settings")]
+    public int difficultyLevel = 1;
+
     [Header("Boat Settings")]
     public GameObject boatPrefab;
 
