@@ -43,11 +43,11 @@ public class Gaviota : Entity
         // Asegúrate de que 'controlledObject' esté asignado en tu script
         Vector3 direccion = (barco.position - transform.position).normalized;
         
-        if(debug); //Debug.Log("Barco encontrado en: " + barco.position);
+        if(debug) Debug.Log("Barco encontrado en: " + barco.position);
     }
     else
     {
-        //Debug.LogError("No se encontró ningún objeto con el Tag 'Ship'");
+        Debug.LogError("No se encontró ningún objeto con el Tag 'Ship'");
     }
         keyboard = Keyboard.current;
     }
@@ -58,25 +58,25 @@ public class Gaviota : Entity
         if (keyboard != null && keyboard.dKey.wasPressedThisFrame)
         {
             vida -= 1f;
-            if (debug); //Debug.Log($"Gaviota recibe daño, vida actual: {vida}");
+            if (debug) Debug.Log($"Gaviota recibe daño, vida actual: {vida}");
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-    //    Debug.Log($"=== COLISIÓN DETECTADA ===");
-    //Debug.Log($"Objeto: {other.gameObject.name}");
-    //Debug.Log($"Tag: {other.tag}");
-    //Debug.Log($"Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+        Debug.Log($"=== COLISIÓN DETECTADA ===");
+    Debug.Log($"Objeto: {other.gameObject.name}");
+    Debug.Log($"Tag: {other.tag}");
+    Debug.Log($"Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
     
     if (other.CompareTag("Ship"))
     {
-    //    Debug.Log("✅ Gaviota entró en área del barco");
+        Debug.Log("✅ Gaviota entró en área del barco");
         enAreaBarco = true;
     }
     else
     {
-    //    Debug.Log("❌ No es el barco");
+        Debug.Log("❌ No es el barco");
     }
     }
 
@@ -85,7 +85,7 @@ public class Gaviota : Entity
         if (other.CompareTag("Ship"))
         {
             enAreaBarco = false;
-            if (debug); //Debug.Log("Gaviota salió del área del barco");
+            if (debug) Debug.Log("Gaviota salió del área del barco");
         }
     }
 }

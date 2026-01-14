@@ -3,8 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Objeto data", menuName = "Tienda/Objeto data")]
 public class PlantillaObjeto : ScriptableObject
 {
-    public bool esPermanente;
-    public string nombreId;
     public string nombre;
     public string strongWith;
     public string weakWith;

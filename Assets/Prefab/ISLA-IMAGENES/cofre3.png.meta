@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 06bae02c516325747826c37b38f13bc3
+guid: a79b98ac616ad704db192d1c03057181
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2117412157804697437
-    second: taberna_0
+      213: 4952249513558004480
+    second: cofre3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: taberna_0
+      name: cofre3_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 12
-        width: 131
-        height: 98
+        x: 13
+        y: 0
+        width: 38
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a825fa6cd07d92e0800000000000000
-      internalID: -2117412157804697437
+      spriteID: 003d9b6c1bce9b440800000000000000
+      internalID: 4952249513558004480
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      taberna_0: -2117412157804697437
+      cofre3_0: 4952249513558004480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

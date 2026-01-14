@@ -24,10 +24,10 @@ public class ManagerMarineros : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-       // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+        Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
         if (other.CompareTag("Enemy"))
         {
-            //Debug.Log("Entro un enemigo");
+            Debug.Log("Entro un enemigo");
             if (!enemiesInTrigger.Contains(other.gameObject))
             {
                 enemiesInTrigger.Add(other.gameObject);
@@ -40,7 +40,7 @@ public class ManagerMarineros : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            //Debug.Log("Salió un enemigo");
+            Debug.Log("Salió un enemigo");
             if (enemiesInTrigger.Contains(other.gameObject))
             {
                 enemiesInTrigger.Remove(other.gameObject);

@@ -39,7 +39,7 @@ public class BulletMoveState : State_Base
         // 3. Corregido: Usamos 'hasHit' en lugar de 'collision'
         if (bullet.hasHit)
         {
-        //    Debug.Log("Colisión detectada: Pasando a estado de destrucción");
+            Debug.Log("Colisión detectada: Pasando a estado de destrucción");
             ExitState("Bullet_destroy");
         }
     }

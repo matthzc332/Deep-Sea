@@ -52,8 +52,8 @@ public class Idle_Cannon : State_Base
         Vector3 mousePos = new Vector3(screenPos.x, screenPos.y, Mathf.Abs(Camera.main.transform.position.z));
         cannon.objective = Camera.main.ScreenToWorldPoint(mousePos);
         
-    //    Debug.Log("Entro al condicional - Input detectado y timer listo");
-    //    Debug.Log($"Posición guardada: {cannon.objective}");
+        Debug.Log("Entro al condicional - Input detectado y timer listo");
+        Debug.Log($"Posición guardada: {cannon.objective}");
         
         // Cambiar al estado de disparo
         ExitState("Shoot");

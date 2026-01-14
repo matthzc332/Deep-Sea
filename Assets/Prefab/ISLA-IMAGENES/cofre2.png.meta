@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8745270f1a938754caaf395cf3a6cdd4
+guid: 113592ed55376a543a8aa3417e24ff18
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1353385368357835526
-    second: barril5_0
+      213: 8519063545161282120
+    second: cofre2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: barril5_0
+      name: cofre2_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 13
         y: 0
-        width: 30
-        height: 31
+        width: 38
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6031e2d62d038c210800000000000000
-      internalID: 1353385368357835526
+      spriteID: 842715c882bc93670800000000000000
+      internalID: 8519063545161282120
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      barril5_0: 1353385368357835526
+      cofre2_0: 8519063545161282120
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

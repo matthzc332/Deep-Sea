@@ -37,23 +37,9 @@ public class Wave_Spawner : MonoBehaviour
         }
     }
 
-    // aumenta dificultad del spawn
     private void SpawnWave()
     {
-
-        // Calculamos cuántos enemigos extra spawnear
-        int extraEnemies = 0;
-        if (GameManager.instance != null)
-        {
-            extraEnemies = GameManager.instance.difficultyLevel;
-            // Ojo: si quieres que sea más agresivo, multiplica: difficultyLevel * 2
-        }
-
-        //use float en vez de int
-        float totalToSpawn = currentWave.NumberToSpawn + extraEnemies;
-
-        // Usamos el nuevo total en el loop
-        for (int i = 0; i < totalToSpawn; i++)
+        for (int i = 0; i < currentWave.NumberToSpawn; i++)
         {
             int num = Random.Range(0, currentWave.EnemiesInWave.Length);
             int num2 = Random.Range(0, spawnpoints.Length);
@@ -62,19 +48,6 @@ public class Wave_Spawner : MonoBehaviour
                 spawnpoints[num2].rotation);
         }
     }
-
-    //codigo principal
-    //private void SpawnWave()
-    //{
-    //    for (int i = 0; i < currentWave.NumberToSpawn; i++)
-    //    {
-    //        int num = Random.Range(0, currentWave.EnemiesInWave.Length);
-    //        int num2 = Random.Range(0, spawnpoints.Length);
-
-    //        Instantiate(currentWave.EnemiesInWave[num], spawnpoints[num2].position,
-    //            spawnpoints[num2].rotation);
-    //    }
-    //}
 
     // incrementa olas
     private void IncWave()

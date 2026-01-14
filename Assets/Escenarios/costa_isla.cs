@@ -24,7 +24,7 @@ public class costa_isla : MonoBehaviour
     void OnEnable()
     {
         // Cuando se active el objeto, iniciar movimiento hacia el barco
-        movimientoActivo = false;
+        movimientoActivo = true;
     }
 
     void Update()

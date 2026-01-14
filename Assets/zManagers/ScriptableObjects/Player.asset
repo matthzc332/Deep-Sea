@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831d0c79692cfb242b08976f011e21d3, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  Vida: 6
+  Vida: 3
   Espacio1: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
   Espacio2: {fileID: 0}
   Espacio3: {fileID: 0}
