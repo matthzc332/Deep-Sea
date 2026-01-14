@@ -1260,8 +1260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5ddddf73e6fc744b6b62a219080648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveTimer: 10
-  normalWaveTime: 10
+  waveTimer: 0
+  normalWaveTime: 45
   timerUI: 
   GameManager: {fileID: 1300800121}
 --- !u!4 &482489649
@@ -1272,12 +1272,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482489647}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1339778290}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485831337
 GameObject:
@@ -2779,8 +2779,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1339778291}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1300800121}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -3595,12 +3595,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1300800120}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1339778290}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1311561169
 GameObject:
@@ -3742,8 +3742,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1300800122}
-  - {fileID: 482489649}
   - {fileID: 136032370}
   - {fileID: 867853231}
   - {fileID: 556536407}
@@ -3779,6 +3777,12 @@ MonoBehaviour:
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 100556495}
   IslandMenu: {fileID: 0}
+  NPCShop: {fileID: 0}
+  OpenNPCShopButton: {fileID: 0}
+  CloseNPCShopButton: {fileID: 0}
+  TreeShop: {fileID: 0}
+  OpenTreehopButton: {fileID: 0}
+  CloseTreeShopButton: {fileID: 0}
   PauseButton: {fileID: 0}
   GameManagerScript: {fileID: 1300800121}
   WaveController: {fileID: 482489648}
@@ -5283,6 +5287,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 1300800122}
+  - {fileID: 482489649}
   - {fileID: 685826987}
   - {fileID: 1339778290}
   - {fileID: 1900084572}
