@@ -97,9 +97,8 @@ GameObject:
   - component: {fileID: 306024466319631200}
   - component: {fileID: 1906850539406192618}
   - component: {fileID: -39164268082537692}
-  - component: {fileID: 7100843382178958914}
   - component: {fileID: 7081107125241934758}
-  - component: {fileID: -96271905651657663}
+  - component: {fileID: 7100843382178958914}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -117,7 +116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 5.1, y: 8.2, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2979801298658796928}
@@ -266,12 +265,12 @@ MonoBehaviour:
   HP: 5
   speed: 5
   isAlive: 1
+  playerShip: {fileID: 0}
   verticalSpeed: 2
   attackInterval: 4
   attackPool:
   - {fileID: -39164268082537692}
   - {fileID: 7100843382178958914}
-  - {fileID: -96271905651657663}
 --- !u!114 &1906850539406192618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +291,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
@@ -300,18 +299,6 @@ MonoBehaviour:
   bombPrefab: {fileID: 6044418166369280425, guid: ae045bf4516973540b8b814203477dee, type: 3}
   bombCount: 4
   throwInterval: 0.3
---- !u!114 &7100843382178958914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311440a5e89474a48857517f6e21a7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &7081107125241934758
 Animator:
   serializedVersion: 7
@@ -334,7 +321,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-96271905651657663
+--- !u!114 &7100843382178958914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,12 +330,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1462392096505775602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e4c50c496685143b45734ed9320908, type: 3}
+  m_Script: {fileID: 11500000, guid: 311440a5e89474a48857517f6e21a7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 5
-  jumpDuration: 2
-  targetRightX: 6
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +345,7 @@ GameObject:
   - component: {fileID: 3452855487070210910}
   m_Layer: 0
   m_Name: Pursue
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -449,7 +433,7 @@ GameObject:
   - component: {fileID: 1844466364958916123}
   m_Layer: 0
   m_Name: Bombs
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -482,5 +466,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombPrefab: {fileID: 6044418166369280425, guid: ae045bf4516973540b8b814203477dee, type: 3}
-  bombCount: 7
+  bombCount: 4
   throwInterval: 0.3
