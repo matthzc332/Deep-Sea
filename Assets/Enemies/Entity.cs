@@ -28,7 +28,8 @@ public class Entity : MonoBehaviour
         {
             // Ejemplo: +1 de vida por cada nivel de dificultad
             // O puedes hacer: HP += GameManager.instance.difficultyLevel * 10;
-            HP += GameManager.instance.difficultyLevel;
+            //  HP += GameManager.instance.difficultyLevel;
+            HP += GameManager.difficultyLevel;
         }
     }
     public virtual void takeDamage(int damage)

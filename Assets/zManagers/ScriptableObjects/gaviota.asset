@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4ad1ee5ca3044438e6c0151716e470, type: 3}
   m_Name: gaviota
   m_EditorClassIdentifier: 
-  <EnemiesInWave>k__BackingField:
+  enemiesInWave:
   - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
-  <TimeBeforeThisWave>k__BackingField: 2
-  <NumberToSpawn>k__BackingField: 4
+  - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+  - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+  timeBeforeThisWave: 2
+  numberToSpawn: 5

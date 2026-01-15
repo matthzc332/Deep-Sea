@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Variable nueva para controlar la dificultad
-    public int difficultyLevel = 0;
+    public static int difficultyLevel = 0;
 
 
 
@@ -142,8 +142,15 @@ void AlCargarEscena(Scene escena, LoadSceneMode modo)
 
     public void StartGame()
     {
+        // 2. CAMBIO AQUÍ: Reseteamos la dificultad al empezar una partida nueva
+        //difficultyLevel = 0;
+
+        //uiManager.StartGame();
+        //StartWave();
+        GameManager.difficultyLevel = 0; // Resetear al empezar partida nueva
         uiManager.StartGame();
         StartWave();
+
     }
 
     public void StartWave()

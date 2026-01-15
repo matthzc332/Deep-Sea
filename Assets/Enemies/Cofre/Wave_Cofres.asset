@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4ad1ee5ca3044438e6c0151716e470, type: 3}
   m_Name: Wave_Cofres
   m_EditorClassIdentifier: 
-  <EnemiesInWave>k__BackingField:
+  enemiesInWave:
   - {fileID: 6549202885219787810, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
-  <TimeBeforeThisWave>k__BackingField: 5
-  <NumberToSpawn>k__BackingField: 5
+  - {fileID: 6549202885219787810, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  - {fileID: 6549202885219787810, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  - {fileID: 6549202885219787810, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  timeBeforeThisWave: 1
+  numberToSpawn: 4
