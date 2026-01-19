@@ -2994,7 +2994,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-        m_CallState: 1
 --- !u!114 &1000422586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4055,7 +4054,6 @@ GameObject:
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
-  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4083,7 +4081,6 @@ MonoBehaviour:
   fadeDuration: 2
   bossPrefab: {fileID: 0}
   bossSpawnPoint: {fileID: 0}
-  difficultyLevel: 1
 --- !u!4 &1300800122
 Transform:
   m_ObjectHideFlags: 0
@@ -5724,7 +5721,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.019625073, y: -0.053888872, z: 0.6924618, w: 0.71917146}
   m_LocalPosition: {x: -15.22572, y: 8.40805, z: 0.000000027101947}
-  m_LocalPosition: {x: -14.39, y: 7.57, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
