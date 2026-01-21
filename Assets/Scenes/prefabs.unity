@@ -1093,7 +1093,7 @@ MonoBehaviour:
   gameLevels:
   - {fileID: 11400000, guid: 073f9921b2bf1da40a33ce5dad7cf762, type: 2}
   - {fileID: 11400000, guid: b9bf5c63852129f438f74ab34145ce20, type: 2}
-  - {fileID: 11400000, guid: b9bf5c63852129f438f74ab34145ce20, type: 2}
+  - {fileID: 11400000, guid: c655df80db32f9d4294a491c195d799a, type: 2}
   spawnpoints:
   - {fileID: 458157012}
   - {fileID: 479291330}
@@ -1471,8 +1471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5ddddf73e6fc744b6b62a219080648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveTimer: 10
-  normalWaveTime: 10
+  waveTimer: 40
+  normalWaveTime: 40
   timerUI: 
   GameManager: {fileID: 1300800121}
 --- !u!4 &482489649
