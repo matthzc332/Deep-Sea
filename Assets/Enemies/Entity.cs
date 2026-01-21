@@ -3,7 +3,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField]
-    protected float HP;
+    public float HP;
     [SerializeField]
     protected float speed;
     [SerializeField]

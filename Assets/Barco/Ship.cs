@@ -81,4 +81,12 @@ public class Ship : Entity
             }
         }
     }
+
+    public void InicializarStats(int vidaInicial)
+    {
+        HP = vidaInicial;
+        vida = vidaInicial;
+        isAlive = true;
+    }
+    
 }
