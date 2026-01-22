@@ -4,84 +4,96 @@ using System.Collections.Generic;
 
 public class Wave_Spawner : MonoBehaviour
 {
-    // Elemento 0: Solo Globos
-    // Elemento 1: Globo + Gaviota
     public Wave_ScriptableObject[] gameLevels;
-
     [SerializeField] private Transform[] spawnpoints;
 
     private float timeBtwnSpawns;
-
-    // Variable para recordar quÈ configuraciÛn estamos usando
     private Wave_ScriptableObject currentConfig;
+    
+    // Bandera para saber si ya soltamos al jefe
+    private bool bossSpawned = false; 
 
     private void Start()
     {
         if (gameLevels == null || gameLevels.Length == 0)
         {
-            Debug.LogError(" ERROR: Asigna los Game Levels en el Inspector del Spawner.");
+            Debug.LogError("ERROR: Asigna los Game Levels en el Inspector del Spawner.");
             return;
         }
-
-        // Inicializar el primer spawn
         UpdateWaveConfig();
-        timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
     }
 
     private void Update()
     {
         if (GameManager.instance == null) return;
-
-        // Si no estamos en oleada, no hacemos nada
         if (GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
 
-        // --- CLAVE DEL …XITO: ---
-        // Antes de spawnear, nos aseguramos de tener la configuraciÛn de la dificultad actual
-        UpdateWaveConfig();
+        UpdateWaveConfig(); // Asegurar que tenemos la config correcta
 
+        // --- L√ìGICA PARA EVITAR 20 CACHALOTES ---
+        
+        // 1. Si es OLEADA DE JEFE y YA SALI√ì, no hacemos nada m√°s (return).
+        if (currentConfig.isBossWave && bossSpawned) 
+        {
+            return; 
+        }
+
+        // 2. Comprobar tiempo de spawn
         if (Time.time >= timeBtwnSpawns)
         {
             SpawnWave();
-            // Reiniciar contador usando el tiempo del nivel actual
-            timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
+
+            // Si acabamos de spawnear un Jefe, marcamos la bandera para no entrar m√°s
+            if (currentConfig.isBossWave)
+            {
+                bossSpawned = true;
+                // Opcional: poner el tiempo en infinito por seguridad
+                timeBtwnSpawns = Mathf.Infinity; 
+            }
+            else
+            {
+                // Si es oleada normal, reiniciamos el contador para el siguiente enemigo
+                timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
+            }
         }
     }
 
-    // Esta funciÛn selecciona el archivo correcto seg˙n la dificultad del GameManager
     private void UpdateWaveConfig()
     {
         int currentDifficulty = GameManager.difficultyLevel;
+        if (currentDifficulty >= gameLevels.Length) currentDifficulty = gameLevels.Length - 1;
 
-        // ProtecciÛn: Si la dificultad es mayor que los niveles que tenemos, usamos el ˙ltimo
-        if (currentDifficulty >= gameLevels.Length)
+        // Detectar cambio de oleada para resetear la bandera del jefe
+        if (currentConfig != gameLevels[currentDifficulty])
         {
-            currentDifficulty = gameLevels.Length - 1;
+            currentConfig = gameLevels[currentDifficulty];
+            
+            // Cada vez que cambia la dificultad/oleada, permitimos spawnear jefe de nuevo si toca
+            bossSpawned = false; 
+            
+            // Ajustamos el primer tiempo de spawn
+            timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
         }
-
-        // Asignamos la configuraciÛn actual
-        currentConfig = gameLevels[currentDifficulty];
+        else
+        {
+            // Si es la misma config, solo aseguramos que la variable no sea nula al inicio
+            if(currentConfig == null) currentConfig = gameLevels[currentDifficulty];
+        }
     }
 
     private void SpawnWave()
     {
         if (spawnpoints == null || spawnpoints.Length == 0) return;
 
-        // FÛrmula: Enemigos base + Dificultad actual (para que sean m·s cada vez)
-        //int extraEnemies = GameManager.instance.difficultyLevel;
-        //float totalToSpawn = currentConfig.NumberToSpawn + extraEnemies;
-        int extraEnemies = GameManager.difficultyLevel;
-        int currentDifficulty = GameManager.difficultyLevel;
-
-        //for (int i = 0; i < totalToSpawn; i++)
+        if (currentConfig.EnemiesInWave != null && currentConfig.EnemiesInWave.Length > 0)
         {
-            if (currentConfig.EnemiesInWave != null && currentConfig.EnemiesInWave.Length > 0)
-            {
-                // Elegir enemigo al azar de la lista actual (Nivel 0: Solo globo, Nivel 1: Globo o Gaviota)
-                int enemyIndex = Random.Range(0, currentConfig.EnemiesInWave.Length);
-                int spawnIndex = Random.Range(0, spawnpoints.Length);
+            // Si es Boss, usualmente queremos el √≠ndice 0 (o un spawnpoint espec√≠fico)
+            int enemyIndex = Random.Range(0, currentConfig.EnemiesInWave.Length);
+            
+            // Elegir un spawnpoint al azar (o podr√≠as forzar uno central para el jefe)
+            int spawnIndex = Random.Range(0, spawnpoints.Length);
 
-                Instantiate(currentConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
-            }
+            Instantiate(currentConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
         }
     }
 }
