@@ -1,103 +1,114 @@
 using UnityEngine;
-using DG.Tweening; // ¡Importante para las animaciones!
+using DG.Tweening;
 
 public class BossBiteState : State_Base
 {
     [Header("Configuración de la Emboscada")]
-    public float sinkDepth = 10f;       // Cuánto baja para "desaparecer"
-    public float riseHeight = 0f;       // A qué altura Y sube para morder (0 suele ser el nivel del mar)
-    public float sinkDuration = 1f;     // Tiempo en bajar
-    public float biteDuration = 0.5f;   // Tiempo en subir (rápido = ataque sorpesa)
-    public float stayBitingTime = 0.5f; // Tiempo que se queda arriba mordiendo
+    public float sinkDepth = 10f;       
+    public float riseHeight = 0f;       
+    public float sinkDuration = 1f;     
+    public float biteDuration = 0.5f;   
+    public float stayBitingTime = 0.5f; 
     
     [Header("Efectos")]
-    public GameObject bitePrefab;       // El prefab que pediste (ej. salpicadura o dientes)
-    public string biteAnimTrigger = "Bite"; // Trigger en el Animator
+    [Tooltip("Deja esto VACÍO si solo quieres que rote.")]
+    public GameObject biteEffectPrefab; 
+    public string biteAnimTrigger = "Bite";
 
     private BossController boss;
     private Transform target;
     private Collider2D bossCollider;
+    private Animator animator;
+    
+    // Variables para recordar estado original
+    private Quaternion swimRotation; 
+    private float startX; // <--- AQUÍ GUARDAMOS LA POSICIÓN X ORIGINAL
+    private float startY; // <--- Y LA Y ORIGINAL
+
+    // Rotación vertical (ajusta 180 si sale de cabeza)
+    private Vector3 verticalRotation = new Vector3(0, 0, 0); 
 
     public override void EnterState()
     {
         boss = controlledObject.GetComponent<BossController>();
         bossCollider = controlledObject.GetComponent<Collider2D>();
+        animator = controlledObject.GetComponentInChildren<Animator>();
         target = boss.GetTarget();
 
-        // Si no hay target, abortamos
+        // 1. GUARDAR ESTADO ORIGINAL
+        swimRotation = controlledObject.transform.rotation;
+        startX = controlledObject.transform.position.x; // Guardamos la X (carril de persecución)
+        startY = controlledObject.transform.position.y; // Guardamos la Y
+
         if (target == null)
         {
             state_machine.SetState<BossPursueState>();
             return;
         }
 
-        // Iniciamos la secuencia de ataque
         StartAmbushSequence();
     }
 
     void StartAmbushSequence()
     {
-        // Guardamos la posición original X para saber volver (opcional) o simplemente la Y
-        float currentX = controlledObject.transform.position.x;
         float currentY = controlledObject.transform.position.y;
-
-        // Desactivar colisiones si quieres que sea invulnerable mientras se hunde (opcional)
+        
+        // Desactivar colisiones al hundirse
         if(bossCollider) bossCollider.enabled = false;
 
         Sequence ambush = DOTween.Sequence();
 
-        // PASO 1: HUNDIRSE (Bajar verticalmente)
+        // PASO 1: HUNDIRSE (En horizontal)
         ambush.Append(controlledObject.transform.DOMoveY(currentY - sinkDepth, sinkDuration).SetEase(Ease.InBack));
 
-        // PASO 2: MOVERSE DEBAJO DEL JUGADOR (Mientras está abajo e invisible)
+        // PASO 2: MOVERSE DEBAJO Y ROTAR
         ambush.AppendCallback(() => {
             if (target != null)
             {
-                // Teletransporte "invisible" en el eje X hacia la posición del barco
+                // Teletransporte invisible bajo el barco
                 Vector3 ambushPos = new Vector3(target.position.x, controlledObject.transform.position.y, 0);
                 controlledObject.transform.position = ambushPos;
+                
+                // Rotar a vertical para el ataque
+                controlledObject.transform.rotation = Quaternion.Euler(verticalRotation);
             }
         });
 
-        // PASO 3: SURGIR MORDDIENDO (Subir rápido)
+        // PASO 3: SUBIR (Ataque vertical)
         ambush.Append(controlledObject.transform.DOMoveY(riseHeight, biteDuration).SetEase(Ease.OutBack));
         
-        // Ejecutar animación y prefab justo cuando sube
+        // EVENTO DE MORDIDA
         ambush.AppendCallback(() => {
-            // Activar colisionador para hacer daño
-            if(bossCollider) bossCollider.enabled = true;
-
-            // Animación
-            Animator anim = controlledObject.GetComponent<Animator>();
-            if (anim) anim.SetTrigger(biteAnimTrigger);
-
-            // Instanciar el PREFAB (El efecto de mordida/agua)
-            if (bitePrefab != null)
-            {
-                Instantiate(bitePrefab, controlledObject.transform.position, Quaternion.identity);
-            }
+            if(bossCollider) bossCollider.enabled = true; 
+            if (animator != null) animator.SetTrigger(biteAnimTrigger);
+            if (biteEffectPrefab != null) Instantiate(biteEffectPrefab, controlledObject.transform.position, Quaternion.identity);
         });
 
-        // PASO 4: ESPERAR UN POCO ARRIBA
+        // PASO 4: ESPERAR ARRIBA
         ambush.AppendInterval(stayBitingTime);
 
-        // PASO 5: VOLVER A HUNDIRSE
+        // PASO 5: BAJAR DE NUEVO (Aun en vertical)
+        // Bajamos hasta el fondo otra vez
         ambush.Append(controlledObject.transform.DOMoveY(currentY - sinkDepth, sinkDuration).SetEase(Ease.InBack));
 
-        // PASO 6: REAPARECER EN PERSECUCIÓN
+        // PASO 6: RETORNO A LA NORMALIDAD
         ambush.OnComplete(() => {
-            // Opcional: Teletransportarlo un poco a la derecha/izquierda para que no salga "encima" del jugador al volver a perseguir
-            // Vector3 resetPos = new Vector3(target.position.x + 5f, currentY, 0); 
-            // controlledObject.transform.position = resetPos;
+            // A. Recuperar rotación de nado (Horizontal)
+            controlledObject.transform.rotation = swimRotation;
+            
+            // B. ¡EL TRUCO! Teletransportar de vuelta a la posición original X
+            // Usamos startY para que aparezca justo donde empezó, o puedes dejarlo abajo y que suba solo.
+            controlledObject.transform.position = new Vector3(startX, startY, 0);
 
-            if(bossCollider) bossCollider.enabled = true; // Asegurar que tenga colisión al volver
+            if(bossCollider) bossCollider.enabled = true;
             state_machine.SetState<BossPursueState>();
         });
     }
 
     public override void ExitState(string nextState)
     {
-        // Asegurarnos de que el collider quede activo por si acaso se interrumpe
+        // Seguridad por si se interrumpe
+        controlledObject.transform.rotation = swimRotation;
         if(bossCollider) bossCollider.enabled = true;
     }
 }
