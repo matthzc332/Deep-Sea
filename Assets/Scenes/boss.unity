@@ -1058,8 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5c2a517e7f87b43b0c7b330f193907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - {fileID: 11400000, guid: f21a55770b3914d40a6a3034e7309c31, type: 2}
+  gameLevels: []
   spawnpoints:
   - {fileID: 458157012}
 --- !u!4 &424154833
@@ -2994,7 +2993,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-        m_CallState: 1
 --- !u!114 &1000422586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4055,7 +4053,6 @@ GameObject:
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
-  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4083,7 +4080,6 @@ MonoBehaviour:
   fadeDuration: 2
   bossPrefab: {fileID: 0}
   bossSpawnPoint: {fileID: 0}
-  difficultyLevel: 1
 --- !u!4 &1300800122
 Transform:
   m_ObjectHideFlags: 0
@@ -4230,12 +4226,6 @@ MonoBehaviour:
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 100556495}
   IslandMenu: {fileID: 0}
-  NPCShop: {fileID: 0}
-  OpenNPCShopButton: {fileID: 0}
-  CloseNPCShopButton: {fileID: 0}
-  TreeShop: {fileID: 0}
-  OpenTreehopButton: {fileID: 0}
-  CloseTreeShopButton: {fileID: 0}
   PauseButton: {fileID: 0}
   GameManagerScript: {fileID: 1300800121}
   WaveController: {fileID: 482489648}
@@ -4487,6 +4477,93 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1568376246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1568376248}
+  - component: {fileID: 1568376247}
+  m_Layer: 0
+  m_Name: Jump
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1568376247
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568376246}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1568376248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568376246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570913657
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,8 +5677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5c2a517e7f87b43b0c7b330f193907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
+  gameLevels: []
   spawnpoints:
   - {fileID: 2024114099}
 --- !u!4 &2024114099
@@ -5724,7 +5800,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.019625073, y: -0.053888872, z: 0.6924618, w: 0.71917146}
   m_LocalPosition: {x: -15.22572, y: 8.40805, z: 0.000000027101947}
-  m_LocalPosition: {x: -14.39, y: 7.57, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5854,8 +5929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5c2a517e7f87b43b0c7b330f193907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - {fileID: 11400000, guid: 6aeea92ed6049014f8dd8b1c27205782, type: 2}
+  gameLevels: []
   spawnpoints:
   - {fileID: 8242113207582323143, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
 --- !u!1001 &2140678717
@@ -6004,3 +6078,4 @@ SceneRoots:
   - {fileID: 442750981}
   - {fileID: 2044767594}
   - {fileID: 2024114099}
+  - {fileID: 1568376248}
