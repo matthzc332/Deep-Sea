@@ -11,7 +11,7 @@
 
 
 
-//    [Header("Configuración de Combate")]
+//    [Header("Configuraciï¿½n de Combate")]
 //    public float attackInterval = 5f;
 //    private float nextAttackTimer;
 //    private Transform barco;
@@ -20,7 +20,7 @@
 //    private bool allowFollow = false;
 
 
-//    // ESTA ES LA CLAVE: Arrastra aquí tus objetos de ataque (Jump, Bite, Bomb)
+//    // ESTA ES LA CLAVE: Arrastra aquï¿½ tus objetos de ataque (Jump, Bite, Bomb)
 //    [Tooltip("Lista de ataques posibles para este jefe")]
 //    public List<State_Base> attackPool;
 
@@ -59,12 +59,12 @@
 
 //        if (allowFollow)
 //        { 
-//            // Movimiento vertical suave (Persecución)
+//            // Movimiento vertical suave (Persecuciï¿½n)
 //            // Solo ocurre si no hay un ataque bloqueando el movimiento
 //            Vector3 targetPos = new Vector3(transform.position.x, playerShip.position.y, 0);
 //        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * speed);
 //        }
-//        // Lógica de ataque modular
+//        // Lï¿½gica de ataque modular
 //        nextAttackTimer -= Time.deltaTime;
 //        if (nextAttackTimer <= 0 && attackPool.Count > 0)
 //        {
@@ -107,11 +107,19 @@ public class BossController : Entity
         rb = GetComponent<Rigidbody2D>();
         stateMachine = GetComponent<State_Machine>();
         nextAttackTimer = attackInterval;
-
+// --- FIX DE ROTACIÃ“N ---
+        // Si tu dibujo mira hacia arriba, esto lo acuesta hacia la izquierda (90) o derecha (-90).
+        // Prueba con 90 o -90 segÃºn hacia dÃ³nde mire su cara.
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
+       
         if (rb == null) Debug.LogWarning("BossController: Falta Rigidbody2D.");
         if (stateMachine == null) Debug.LogError("BossController: Falta State_Machine.");
+        
+        if (rb == null) Debug.LogWarning("BossController: Falta Rigidbody2D.");
+        // ... (resto del cÃ³digo igual)
 
-        // 1. BÚSQUEDA AUTOMÁTICA DEL SHIP
+        
+        // 1. Bï¿½SQUEDA AUTOMï¿½TICA DEL SHIP
         // Esto soluciona el problema del Inspector y el Type Mismatch
         GameObject shipObj = GameObject.FindGameObjectWithTag("Ship");
         if (shipObj != null)
@@ -120,7 +128,7 @@ public class BossController : Entity
         }
         else
         {
-            Debug.LogError("BossController: NO SE ENCONTRÓ EL OBJETO CON TAG 'Ship' EN LA ESCENA.");
+            Debug.LogError("BossController: NO SE ENCONTRï¿½ EL OBJETO CON TAG 'Ship' EN LA ESCENA.");
         }
 
         if (HP <= 0) HP = 50f;
@@ -128,7 +136,7 @@ public class BossController : Entity
         StartCoroutine(EnableFollowAfterDelay(0.5f));
     }
 
-    // Método público para que los Estados (Bite, Jump) obtengan el objetivo
+    // Mï¿½todo pï¿½blico para que los Estados (Bite, Jump) obtengan el objetivo
     public Transform GetTarget()
     {
         return targetShip;
@@ -203,13 +211,13 @@ public class BossController : Entity
     // Pon esto en BossController.cs para probar
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Debug para ver si Unity detecta el choque físico
-        Debug.Log("¡Colisión detectada con: " + collision.gameObject.name + "!");
+        // Debug para ver si Unity detecta el choque fï¿½sico
+        Debug.Log("ï¿½Colisiï¿½n detectada con: " + collision.gameObject.name + "!");
 
         if (collision.gameObject.CompareTag("Ship"))
         {
-            Debug.Log("¡Golpeé al Barco!");
-            // Aquí llamas al daño, por ejemplo:
+            Debug.Log("ï¿½Golpeï¿½ al Barco!");
+            // Aquï¿½ llamas al daï¿½o, por ejemplo:
             // collision.gameObject.GetComponent<Ship>().TakeDamage(10);
         }
     }
@@ -217,11 +225,11 @@ public class BossController : Entity
     // O si usas "Is Trigger" marcado:
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("¡Atravesé a: " + collision.gameObject.name + "!");
+        Debug.Log("ï¿½Atravesï¿½ a: " + collision.gameObject.name + "!");
 
         if (collision.gameObject.CompareTag("Ship"))
         {
-            // Lógica de daño
+            // Lï¿½gica de daï¿½o
         }
     }
 }
