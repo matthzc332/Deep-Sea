@@ -78,8 +78,8 @@ public class Bullet : MonoBehaviour
     // 5. Detección de colisiones
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Si no es un enemigo, ignoramos
-        if (!other.CompareTag("Enemy")) return;
+        // Si no es un enemigo, ignoramos   
+        if (!other.CompareTag("Enemy") || !other.CompareTag("Boss")) return;
 
         // Aplicar daño
         Entity e = other.GetComponent<Entity>();

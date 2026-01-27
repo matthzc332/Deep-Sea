@@ -23,7 +23,9 @@ public class BossJumpState : State_Base
         // 2. Activar Animación
         if (animator != null)
         {
+            animator.SetBool("Pursuit", false);
             animator.SetTrigger(jumpAnimationTrigger);
+            
         }
 
         // 3. Instanciar el Prefab del efecto (al inicio del salto)
@@ -60,7 +62,7 @@ public class BossJumpState : State_Base
         controlledObject.transform.DOMove(returnPos, 1f)
             .OnComplete(() => {
                 // Avisar al animator que terminó (opcional, si tienes estado Idle)
-                if (animator != null) animator.SetTrigger("Idle"); 
+             //   if (animator != null) animator.SetTrigger("Idle"); 
                 
                 // Volver al estado de persecución
                 state_machine.SetState<BossPursueState>();

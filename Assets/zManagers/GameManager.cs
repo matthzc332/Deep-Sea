@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     public float fadeDuration = 2f;
 
     //Maneja al Boss
-    public GameObject bossPrefab;
-    public Transform bossSpawnPoint; 
+    // public GameObject bossPrefab;
+    // public Transform bossSpawnPoint; 
     // hasta aqui
 
     public enum GameState
@@ -164,7 +164,7 @@ void AlCargarEscena(Scene escena, LoadSceneMode modo)
             costaIsla0.SetActive(false);
 
         // INICIA LA APARICIÓN DEL BOSS
-        StartCoroutine(SpawnBossDelayed(5f));
+      //  StartCoroutine(SpawnBossDelayed(5f));
     }
 
     public void EndWave()
@@ -341,18 +341,18 @@ void AlCargarEscena(Scene escena, LoadSceneMode modo)
         Debug.Log("Fade out completado");
     }
 
-    // Boss spawn
-    private IEnumerator SpawnBossDelayed(float delay)
-    {
-        yield return new WaitForSeconds(delay);
+    // // Boss spawn
+    // private IEnumerator SpawnBossDelayed(float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
 
-        if (bossPrefab != null)
-        {
-            // Aparece en la posición del spawn point o en una coordenada fija
-            Vector3 spawnPos = bossSpawnPoint != null ? bossSpawnPoint.position : new Vector3(-10f, 0f, 0f);
-            Instantiate(bossPrefab, spawnPos, Quaternion.identity);
-            Debug.Log("¡El Boss ha entrado a la batalla!");
-        }
-    }
+    //     if (bossPrefab != null)
+    //     {
+    //         // Aparece en la posición del spawn point o en una coordenada fija
+    //         Vector3 spawnPos = bossSpawnPoint != null ? bossSpawnPoint.position : new Vector3(-10f, 0f, 0f);
+    //         Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+    //         Debug.Log("¡El Boss ha entrado a la batalla!");
+    //     }
+    // }
 
 }

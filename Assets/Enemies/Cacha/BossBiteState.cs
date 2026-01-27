@@ -80,6 +80,7 @@ public class BossBiteState : State_Base
         // EVENTO DE MORDIDA
         ambush.AppendCallback(() => {
             if(bossCollider) bossCollider.enabled = true; 
+            if (animator != null) animator.SetBool("Pursuit", false);
             if (animator != null) animator.SetTrigger(biteAnimTrigger);
             if (biteEffectPrefab != null) Instantiate(biteEffectPrefab, controlledObject.transform.position, Quaternion.identity);
         });
