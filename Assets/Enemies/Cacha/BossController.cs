@@ -29,10 +29,18 @@ public class BossController : Entity
         animator = GetComponent<Animator>();
         stateMachine = GetComponent<State_Machine>();
         nextAttackTimer = attackInterval;
+
+        // --- FIX DE ROTACIÓN (IMPORTANTE) ---
+        // Esto asegura que, aunque choque, no rote físicamente.
+        if (rb != null)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
         // --- FIX DE ROTACIÓN ---
         // Si tu dibujo mira hacia arriba, esto lo acuesta hacia la izquierda (90) o derecha (-90).
         // Prueba con 90 o -90 según hacia dónde mire su cara.
-        transform.rotation = Quaternion.Euler(0, 0, -90f);
+      //  transform.rotation = Quaternion.Euler(0, 0, -90f);
 
         if (rb == null) Debug.LogWarning("BossController: Falta Rigidbody2D.");
         if (stateMachine == null) Debug.LogError("BossController: Falta State_Machine.");
@@ -56,6 +64,14 @@ public class BossController : Entity
         if (HP <= 0) HP = 50f;
 
         StartCoroutine(EnableFollowAfterDelay(0.5f));
+
+
+        void LateUpdate()
+    {
+        // FUERZA BRUTA: Esto obliga al objeto a mirar siempre a -90 grados
+        // Sin importar lo que diga la física o la animación.
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
+    }
     }
 
     // M�todo p�blico para que los Estados (Bite, Jump) obtengan el objetivo
@@ -89,7 +105,15 @@ public class BossController : Entity
                 TriggerRandomAttack();
             }
         }
-        
+
+
+        void LateUpdate()
+    {
+        // FUERZA BRUTA: Esto obliga al objeto a mirar siempre a -90 grados
+        // Sin importar lo que diga la física o la animación.
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
+    }
+
     }
 
     void FixedUpdate()
@@ -167,6 +191,13 @@ public class BossController : Entity
 
         Debug.Log("Atravesó a: " + collision.gameObject.name + "!");
         Debug.Log("tiene de vida: " + HP);
+
+        // Debug para entender qué está pasando
+        if (collision.CompareTag("Bullet"))
+        {
+            Debug.Log($"BOSS recibió disparo. Vida restante: {HP}");
+        }
+
         // 2. Lógica para HACER daño al jugador
         if (collision.gameObject.CompareTag("Ship"))
         {
@@ -175,8 +206,17 @@ public class BossController : Entity
             {
                 // Aplica el daño que quieras, por ejemplo 10 o 20
                 playerShip.takeDamage(3);
-                Debug.Log("¡El Boss ha dañado al barco!");
+                Debug.Log($"BOSS golpeó al barco. Vida del barco: {playerShip.getHP()}");
             }
+        }
+    }
+    // Agregamos esto para visualizar la muerte del jefe
+    public override void takeDamage(int damage)
+    {
+        base.takeDamage(damage);
+        if (HP <= 0)
+        {
+            Debug.Log("EL BOSS HA MUERTO. Iniciando fin de oleada...");
         }
     }
 }
