@@ -71,6 +71,7 @@ public class BossBiteState : State_Base
                 
                 // Rotar a vertical para el ataque
                 controlledObject.transform.rotation = Quaternion.Euler(verticalRotation);
+                transform.rotation = Quaternion.Euler(0, 0, -90f);
             }
         });
 
@@ -80,8 +81,8 @@ public class BossBiteState : State_Base
         // EVENTO DE MORDIDA
         ambush.AppendCallback(() => {
             if(bossCollider) bossCollider.enabled = true; 
-            if (animator != null) animator.SetBool("Pursuit", false);
-            if (animator != null) animator.SetTrigger(biteAnimTrigger);
+           // if (animator != null) animator.SetBool("Pursuit", false);
+          //  if (animator != null) animator.SetTrigger(biteAnimTrigger);
             if (biteEffectPrefab != null) Instantiate(biteEffectPrefab, controlledObject.transform.position, Quaternion.identity);
         });
 

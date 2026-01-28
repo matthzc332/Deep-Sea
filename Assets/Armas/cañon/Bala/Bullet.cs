@@ -79,7 +79,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Si no es un enemigo, ignoramos   
-        if (!other.CompareTag("Enemy") || !other.CompareTag("Boss")) return;
+        if (!other.CompareTag("Enemy") || !other.CompareTag("Boss") || !other.CompareTag("Ship")) return;
 
         // Aplicar daño
         Entity e = other.GetComponent<Entity>();

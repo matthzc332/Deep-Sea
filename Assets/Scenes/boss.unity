@@ -1062,6 +1062,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 578e69f23c11beb458644a1a68e8c2f6, type: 2}
   spawnpoints:
   - {fileID: 458157012}
+  currentConfig: {fileID: 0}
+  bossSpawned: 0
 --- !u!4 &424154833
 Transform:
   m_ObjectHideFlags: 0
@@ -2720,6 +2722,10 @@ PrefabInstance:
       value: Spawner (4)
       objectReference: {fileID: 0}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
       objectReference: {fileID: 0}
@@ -2780,6 +2786,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
@@ -3840,7 +3850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5746a5c9ad593245a176bb3b40cee9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
+  HP: 6
   speed: 0
   isAlive: 1
   joystick: {fileID: 445337321}
@@ -4552,6 +4562,10 @@ PrefabInstance:
       value: Spawner (2)
       objectReference: {fileID: 0}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
       objectReference: {fileID: 0}
@@ -4865,6 +4879,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
@@ -5483,6 +5501,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
   spawnpoints:
   - {fileID: 2024114099}
+  currentConfig: {fileID: 0}
+  bossSpawned: 0
 --- !u!4 &2024114099
 Transform:
   m_ObjectHideFlags: 0
@@ -5626,6 +5646,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6aeea92ed6049014f8dd8b1c27205782, type: 2}
   spawnpoints:
   - {fileID: 8242113207582323143, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  currentConfig: {fileID: 0}
+  bossSpawned: 0
 --- !u!1001 &2140678717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5678,6 +5700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15

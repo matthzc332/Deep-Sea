@@ -46,7 +46,7 @@ public class BossController : Entity
         if (stateMachine == null) Debug.LogError("BossController: Falta State_Machine.");
 
         if (rb == null) Debug.LogWarning("BossController: Falta Rigidbody2D.");
-        // ... (resto del código igual)
+        
 
 
         // 1. B�SQUEDA AUTOM�TICA DEL SHIP
@@ -61,7 +61,7 @@ public class BossController : Entity
             Debug.LogError("BossController: NO SE ENCONTR� EL OBJETO CON TAG 'Ship' EN LA ESCENA.");
         }
 
-        if (HP <= 0) HP = 50f;
+        if (HP <= 0) HP = 50;
 
         StartCoroutine(EnableFollowAfterDelay(0.5f));
 

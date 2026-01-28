@@ -10,6 +10,7 @@ public class BossBombState : State_Base
     public override void EnterState()
     {
         StartCoroutine(ThrowBombs());
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
     }
 
     IEnumerator ThrowBombs()
@@ -18,7 +19,7 @@ public class BossBombState : State_Base
         {
             GameObject bomb = Instantiate(bombPrefab, controlledObject.transform.position, Quaternion.identity);
 
-            // Lógica simple para que la bomba se mueva a la derecha
+            // Lï¿½gica simple para que la bomba se mueva a la derecha
             Rigidbody2D rb = bomb.GetComponent<Rigidbody2D>();
             if (rb) rb.AddForce(new Vector2(10f, Random.Range(-2f, 2f)), ForceMode2D.Impulse);
 
