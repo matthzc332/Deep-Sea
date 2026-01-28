@@ -3,12 +3,12 @@ using UnityEngine;
 public abstract class SkillTreeBase : MonoBehaviour
 {
     [Header("Configuración de Habilidad")]
-    [SerializeField] private GameObject habilidad; // Referencia visual o lógica
+    //[SerializeField] private GameObject habilidad; // Referencia visual o lógica
     [SerializeField] private bool desbloqueado = false;
     [SerializeField] private bool active = false;
 
     // Propiedades
-    public GameObject Habilidad => habilidad;
+    //public GameObject Habilidad => habilidad;
     public bool Desbloqueado => desbloqueado;
     public bool Active => active;
 
@@ -19,7 +19,7 @@ public abstract class SkillTreeBase : MonoBehaviour
         {
             desbloqueado = true;
             Modificación();
-            Debug.Log($"Habilidad {habilidad.name} desbloqueada en {gameObject.name}");
+           //Debug.Log($"Habilidad {habilidad.name} desbloqueada en {gameObject.name}");
         }
         else
         {

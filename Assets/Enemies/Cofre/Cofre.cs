@@ -17,7 +17,13 @@ public class Cofre : Entity
                 puntaje.instancia.SumarPuntos(cantidadPuntos);
             }
 
-            Instantiate(efecto, transform.position, Quaternion.identity);
+          //  Instantiate(efecto, transform.position, Quaternion.identity);
+            
+            // En Cofre.cs
+            if (efecto != null)
+            {
+                Instantiate(efecto, transform.position, Quaternion.identity);
+            }
             Destroy(gameObject);
         }
     }

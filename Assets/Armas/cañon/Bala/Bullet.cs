@@ -23,7 +23,10 @@ public class Bullet : MonoBehaviour
     public void Initialize(Vector3 targetPos, float speed, int power, int pierceCount)
     {
         this.damage = power;
-        this.pierce = pierceCount;
+        
+        // CAMBIO CRÍTICO: Usa += para no borrar lo que puso Pierce1
+        this.pierce += pierceCount; 
+        
         this.initialSpeed = speed;
         this.hasHit = false;
 
@@ -33,6 +36,12 @@ public class Bullet : MonoBehaviour
         rb.linearVelocity = dir * speed;
         
         OrientToVelocity();
+    }
+
+    // Método nuevo para que los scripts de habilidades añadan perforación
+    public void AddPierce(int amount)
+    {
+        this.pierce += amount;
     }
 
     // 2. Método para inicializar/lanzar hacia un objeto (Transform)
@@ -69,8 +78,8 @@ public class Bullet : MonoBehaviour
     // 5. Detección de colisiones
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Si no es un enemigo, ignoramos
-        if (!other.CompareTag("Enemy")) return;
+        // Si no es un enemigo, ignoramos   
+        if (!other.CompareTag("Enemy") || !other.CompareTag("Boss")) return;
 
         // Aplicar daño
         Entity e = other.GetComponent<Entity>();

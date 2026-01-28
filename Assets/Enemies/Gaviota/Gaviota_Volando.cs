@@ -15,8 +15,8 @@ public class Gaviota_Volando : State_Base
         escalaOriginal = controlledObject.transform.localScale;
 
 
-        if (gaviota != null && gaviota.debug)
-            Debug.Log("Gaviota entra en Volando");
+        if (gaviota != null && gaviota.debug){}
+        //    Debug.Log("Gaviota entra en Volando");
     }
 
     public override void UpdateState()
@@ -57,6 +57,7 @@ public class Gaviota_Volando : State_Base
     public override void ExitState(string nextState)
     {
         if (gaviota != null && gaviota.debug)
-            Debug.Log($"Gaviota sale de Volando hacia {nextState}");
+        {}
+        //    Debug.Log($"Gaviota sale de Volando hacia {nextState}");
     }
 }

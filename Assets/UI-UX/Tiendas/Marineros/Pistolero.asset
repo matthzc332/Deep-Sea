@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d90f1b061c56ff47a032e8929b4eaba, type: 3}
   m_Name: Pistolero
   m_EditorClassIdentifier: 
+  esPermanente: 0
+  nombreId: 
   nombre: Pistolero
   strongWith: Nada
   weakWith: Nada
@@ -21,3 +23,4 @@ MonoBehaviour:
   - {fileID: -4278730133319402960, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
   - {fileID: 7349418900479874527, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
   animationSpeed: 8
+  prefabDelObjeto: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}

@@ -37,7 +37,7 @@ public class Shoot_Cannon : State_Base
                 // Como Initialize ya aplica la velocidad, NO es necesario llamar a LaunchTowards aquí.
                 // bulletScript.LaunchTowards(...) -> Se elimina para evitar conflictos de tipos.
 
-                Debug.Log($"Bala disparada hacia: {cannon.objective}");
+                //Debug.Log($"Bala disparada hacia: {cannon.objective}");
                 cannon.amount_ammunition -= 1;
             }
             else

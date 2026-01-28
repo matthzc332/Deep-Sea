@@ -1,257 +1,228 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    [Header("Referencias de Managers")]
     public UIManager uiManager;
     public WaveController waveController;
 
-    // Agregar referencia al objeto que quieres activar
-    public GameObject costaIsla0;
+    [Header("Persistencia de Datos")]
+    public ShipData datosDelBarco;
+    public Ship Player;
 
+    [Header("Estado del Juego")]
     public GameState currentGameState = GameState.MainMenu;
-    public GameState gameStateBeforePause;
+    private GameState gameStateBeforePause;
+    public static int difficultyLevel = 0;
 
+    [Header("Configuración de Escena")]
+    public GameObject costaIsla0;
     public int wood;
     public TMP_Text woodText;
 
-    // Referencia para el fade (solo fondo negro)
+    [Header("Efectos de Transición")]
     public Image fadeImage;
     public float fadeDuration = 2f;
 
-    public enum GameState
-    {
-        MainMenu,
-        Playing,
-        OnWave,
-        Pause
-    }
+    public enum GameState { MainMenu, Playing, OnWave, Pause }
 
     void Awake()
     {
+        // Singleton Robusto
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         Time.timeScale = 0f;
 
-        // Crear fade image si no existe
-        if (fadeImage == null)
+        if (fadeImage == null) CreateFadeImage();
+    }
+
+    private void OnEnable() => SceneManager.sceneLoaded += AlCargarEscena;
+    private void OnDisable() => SceneManager.sceneLoaded -= AlCargarEscena;
+
+    void AlCargarEscena(Scene escena, LoadSceneMode modo)
+    {
+        // Re-vinculación de referencias en la nueva escena
+        uiManager = FindFirstObjectByType<UIManager>();
+        Player = FindFirstObjectByType<Ship>();
+
+        if (difficultyLevel == 0)
         {
-            CreateFadeImage();
+            datosDelBarco.puntosDeVida = 6;
+            datosDelBarco.municion = 25;
+        }
+
+        // Cargar datos del ScriptableObject al Barco Real
+        if (Player != null && datosDelBarco != null)
+        {
+            Player.HP = datosDelBarco.puntosDeVida;
+
+            Cannon2 scriptCanon = Player.GetComponentInChildren<Cannon2>();
+            if (scriptCanon != null)
+            {
+                scriptCanon.amount_ammunition = datosDelBarco.municion;
+            }
+            Debug.Log("<color=green>Datos cargados:</color> Vida y Munición sincronizadas.");
+        }
+
+        FadeOut();
+    }
+
+    // --- SINCRONIZACIÓN DE DATOS ---
+    public void SincronizarDatosDelBarco()
+    {
+        if (Player == null || datosDelBarco == null) return;
+
+        // Guardamos HP del Barco
+        datosDelBarco.puntosDeVida = (int)Player.HP;
+
+        // Guardamos munición del cañón (hijo)
+        Cannon2 scriptCanon = Player.GetComponentInChildren<Cannon2>();
+        if (scriptCanon != null)
+        {
+            datosDelBarco.municion = scriptCanon.amount_ammunition;
+            Debug.Log($"<color=cyan>[Sincro]</color> Guardado: HP {Player.HP}, Balas {scriptCanon.amount_ammunition}");
         }
     }
 
-    void Start()
-    {
-        // Asegurarse de que el fade est� transparente al inicio
-        if (fadeImage != null)
-        {
-            Color color = fadeImage.color;
-            color.a = 0f; // Completamente transparente
-            fadeImage.color = color;
-            fadeImage.gameObject.SetActive(false);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
-
-    void Update()
-    {
-
-    }
-
-    // Funci�n para crear el fade image si no existe
-    private void CreateFadeImage()
-    {
-        GameObject fadeObject = new GameObject("FadeImage");
-        fadeImage = fadeObject.AddComponent<Image>();
-        fadeImage.color = Color.black; // Fondo negro
-
-        fadeImage.raycastTarget = false;
-
-        // Hacer que ocupe toda la pantalla
-        RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
-        rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = Vector2.zero;
-        rectTransform.offsetMax = Vector2.zero;
-        rectTransform.localScale = Vector3.one;
-
-        // Establecer el orden en la jerarqu�a para que est� encima de todo
-        fadeObject.transform.SetAsLastSibling();
-        fadeObject.SetActive(false);
-    }
-
+    // --- FLUJO DE JUEGO ---
     public void StartGame()
     {
-        uiManager.StartGame();
+        difficultyLevel = 0;
+        if (uiManager != null) uiManager.StartGame();
         StartWave();
     }
 
     public void StartWave()
     {
         currentGameState = GameState.OnWave;
-        waveController.StartWave();
+        if (waveController != null) waveController.StartWave();
         Time.timeScale = 1f;
 
-        // Opcional: Desactivar el objeto al empezar la wave
-        if (costaIsla0 != null)
-            costaIsla0.SetActive(false);
+        if (costaIsla0 != null) costaIsla0.SetActive(false);
     }
 
     public void EndWave()
     {
-        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemigo in enemigos)
-        {
-            Destroy(enemigo);
-        }
+        // Guardar progreso antes de cualquier otra cosa
+        SincronizarDatosDelBarco();
 
-        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
-        foreach (GameObject bullet in bullets)
-        {
-            Destroy(bullet);
-        }
+        currentGameState = GameState.Playing;
+        
+        // Limpieza de escena
+        LimpiarObjetosPorTag("Enemy");
+        LimpiarObjetosPorTag("Bullet");
 
-        // Activar el objeto Costa_Isla_0
+        difficultyLevel++;
+
+        // Activar la isla para la fase de descanso/tienda
         if (costaIsla0 != null)
+        {
             costaIsla0.SetActive(true);
+            costa_isla scriptIsla = costaIsla0.GetComponent<costa_isla>();
+            if (scriptIsla != null) scriptIsla.ActivarMovimiento(true);
+        }
     }
 
-    public void GoIsland()
+    private void LimpiarObjetosPorTag(string tag)
     {
-
+        GameObject[] objetos = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject obj in objetos) Destroy(obj);
     }
 
+    // --- PAUSA Y MENÚS ---
     public void Pause()
     {
         gameStateBeforePause = currentGameState;
-        uiManager.PauseGame();
+        if (uiManager != null) uiManager.PauseGame();
         Time.timeScale = 0f;
         currentGameState = GameState.Pause;
     }
 
     public void ResumeGame()
     {
-        uiManager.ResumeGame();
+        if (uiManager != null) uiManager.ResumeGame();
         Time.timeScale = 1f;
         currentGameState = gameStateBeforePause;
     }
 
-    // Nueva funci�n de transici�n suave - Versi�n simplificada
-    public void softTransition()
-    {
-        StartCoroutine(SoftTransitionCoroutine());
-    }
+    // --- TRANSICIONES ---
+    public void softTransition() => StartCoroutine(SoftTransitionCoroutine());
 
-    // Corrutina que solo maneja el fade del fondo negro
     private IEnumerator SoftTransitionCoroutine()
     {
-        // Activar la imagen de fade (fondo negro)
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-
-            // Configurar color negro con alpha 0 (completamente transparente)
-            Color startColor = Color.black;
-            startColor.a = 0f;
-            fadeImage.color = startColor;
+            yield return Fade(0, 1);
         }
 
-        Debug.Log("Iniciando fade a negro...");
-
-        // Fade in: aumentar gradualmente el alpha de 0 a 1
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
-
-            if (fadeImage != null)
-            {
-                Color color = fadeImage.color;
-                color.a = alpha; // Solo modificamos el canal alpha
-                fadeImage.color = color;
-            }
-
-            yield return null;
-        }
-
-        // Asegurar que est� completamente opaco (alpha = 1)
-        if (fadeImage != null)
-        {
-            Color finalColor = fadeImage.color;
-            finalColor.a = 1f; // Negro completamente opaco
-            fadeImage.color = finalColor;
-        }
-
-        Debug.Log("Fade completado. Cambiando de escena...");
-
-        // Cambiar de escena despu�s del fade
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
-        int totalScenes = SceneManager.sceneCountInBuildSettings;
-
-        if (nextSceneIndex < totalScenes)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextScene < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(nextScene);
         else
-        {
-            Debug.LogWarning("No hay m�s escenas. Volviendo al men� principal.");
             SceneManager.LoadScene(1);
-        }
     }
 
-    // Funci�n opcional para hacer fade out (volver a transparente)
-    public void FadeOut()
-    {
-        StartCoroutine(FadeOutCoroutine());
-    }
+    public void FadeOut() => StartCoroutine(FadeOutCoroutine());
 
     private IEnumerator FadeOutCoroutine()
     {
         if (fadeImage != null)
         {
-            fadeImage.gameObject.SetActive(true);
-
-            // Comenzar con alpha 1 (completamente opaco)
-            Color startColor = Color.black;
-            startColor.a = 1f;
-            fadeImage.color = startColor;
-        }
-
-        Debug.Log("Iniciando fade out...");
-
-        // Fade out: disminuir gradualmente el alpha de 1 a 0
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = 1f - Mathf.Clamp01(elapsedTime / fadeDuration);
-
-            if (fadeImage != null)
-            {
-                Color color = fadeImage.color;
-                color.a = alpha; // Reducir el alpha gradualmente
-                fadeImage.color = color;
-            }
-
-            yield return null;
-        }
-
-        // Asegurar que est� completamente transparente (alpha = 0)
-        if (fadeImage != null)
-        {
-            Color finalColor = fadeImage.color;
-            finalColor.a = 0f;
-            fadeImage.color = finalColor;
+            yield return Fade(1, 0);
             fadeImage.gameObject.SetActive(false);
         }
+    }
 
-        Debug.Log("Fade out completado");
+    private IEnumerator Fade(float startAlpha, float endAlpha)
+    {
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float a = Mathf.Lerp(startAlpha, endAlpha, elapsed / fadeDuration);
+            if (fadeImage != null)
+            {
+                Color c = fadeImage.color;
+                c.a = a;
+                fadeImage.color = c;
+            }
+            yield return null;
+        }
+    }
+
+    private void CreateFadeImage()
+    {
+        GameObject fadeObject = new GameObject("FadeImage");
+        fadeImage = fadeObject.AddComponent<Image>();
+        fadeImage.color = Color.black;
+        fadeImage.raycastTarget = false;
+
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        if (canvas != null)
+        {
+            RectTransform rt = fadeImage.GetComponent<RectTransform>();
+            rt.SetParent(canvas.transform);
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            rt.localScale = Vector3.one;
+            fadeObject.transform.SetAsLastSibling();
+        }
+        fadeObject.SetActive(false);
     }
 }

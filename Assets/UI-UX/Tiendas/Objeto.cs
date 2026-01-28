@@ -1,108 +1,72 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class Objeto : MonoBehaviour
 {
     public enum TipoVista { Carta, Inspeccion }
     [SerializeField] private TipoVista tipoVista = TipoVista.Carta;
     
-    [Header("Referencias UI")]
-    [SerializeField] private TextMeshProUGUI textoObjeto;
-    [SerializeField] private TextMeshProUGUI precioObjeto;
-    [SerializeField] private TextMeshProUGUI strongText;
-    [SerializeField] private TextMeshProUGUI weakText;
-    [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private Image marineroImage;
-    
-    [Header("Configuración Carta")]
-    [SerializeField] private Button botonSeleccionar;
-    
-    // Referencia al Manager que creó este objeto (YA NO ES ESTÁTICO)
-    private ShopManager miManager;
-    private PlantillaObjeto datosMarinero;
+    [Header("UI Común")]
+    public TextMeshProUGUI nombreTxt;
+    public TextMeshProUGUI precioTxt;
+    public Image iconoMarinero;
 
-    [Header("Animación")]
-    [SerializeField] private List<Sprite> currentAnimationSprites;
-    [SerializeField] private float animationSpeed = 1f;
-    private int currentSpriteIndex = 0;
-    private float animationTimer = 0f;
+    [Header("UI Solo Inspección")]
+    public TextMeshProUGUI descTxt;
+    public TextMeshProUGUI strongTxt;
+    public TextMeshProUGUI weakTxt;
 
-    // AHORA RECIBE EL MANAGER COMO PARÁMETRO
-    public void ConfigurarObjeto(PlantillaObjeto datosObjeto, ShopManager manager)
+    private ShopManager manager;
+    private PlantillaObjeto datos;
+    private GameObject cartaOriginalReferencia;
+
+    public void ConfigurarObjeto(PlantillaObjeto data, ShopManager m, GameObject cartaOriginal = null)
     {
-        datosMarinero = datosObjeto;
-        miManager = manager;
-        
-        if (datosObjeto == null) return;
+        datos = data;
+        manager = m;
+        cartaOriginalReferencia = cartaOriginal;
 
-        // Configuración de Textos
-        if (textoObjeto != null) textoObjeto.text = datosObjeto.nombre;
-        if (precioObjeto != null) precioObjeto.text = (tipoVista == TipoVista.Carta ? "$" : "Precio: $") + datosObjeto.precio;
+        if (data == null) return;
+
+        if (nombreTxt) nombreTxt.text = data.nombre;
+        if (precioTxt) precioTxt.text = "$" + data.precio;
+        if (iconoMarinero && data.idleAnimationSprites.Length > 0) 
+            iconoMarinero.sprite = data.idleAnimationSprites[0];
 
         if (tipoVista == TipoVista.Inspeccion)
         {
-            if (strongText != null) strongText.text = "Fuerte vs: " + datosObjeto.strongWith;
-            if (weakText != null) weakText.text = "Débil vs: " + datosObjeto.weakWith;
-            if (description != null) description.text = datosObjeto.descripcion;
+            ActualizarTextoOpcional(descTxt, data.descripcion);
+            ActualizarTextoOpcional(strongTxt, data.strongWith, "Fuerte contra: ");
+            ActualizarTextoOpcional(weakTxt, data.weakWith, "Débil contra: ");
         }
 
-        // Configuración de Animación
-        if (datosObjeto.idleAnimationSprites != null && datosObjeto.idleAnimationSprites.Length > 0)
-        {
-            currentAnimationSprites = new List<Sprite>(datosObjeto.idleAnimationSprites);
-            animationSpeed = datosObjeto.animationSpeed;
-            if (marineroImage != null) marineroImage.sprite = currentAnimationSprites[0];
-        }
-
-        // Configurar el click de la carta
         if (tipoVista == TipoVista.Carta)
         {
-            if (botonSeleccionar == null) botonSeleccionar = GetComponent<Button>();
-            if (botonSeleccionar != null)
+            Button btn = GetComponent<Button>();
+            if (btn)
             {
-                botonSeleccionar.onClick.RemoveAllListeners();
-                botonSeleccionar.onClick.AddListener(OnCartaClick);
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => {
+                    if (manager is TiendaModular tm) tm.SeleccionarObjetoModular(datos, this.gameObject);
+                });
             }
         }
     }
 
-    private void OnCartaClick()
+    private void ActualizarTextoOpcional(TextMeshProUGUI campo, string contenido, string prefijo = "")
     {
-        // En lugar de llamar a ShopManager.Instance, llamamos a NUESTRO manager
-        if (miManager != null && datosMarinero != null)
+        if (campo == null) return;
+        if (!string.IsNullOrEmpty(contenido))
         {
-            miManager.SeleccionarMarinero(datosMarinero);
+            campo.gameObject.SetActive(true);
+            campo.text = prefijo + contenido;
         }
+        else campo.gameObject.SetActive(false);
     }
 
-    public void ConfigurarBotonCompra(System.Action accionCompra)
-    {
-        if (tipoVista == TipoVista.Inspeccion)
-        {
-            Button btnComprar = GetComponentInChildren<Button>();
-            if (btnComprar != null)
-            {
-                btnComprar.onClick.RemoveAllListeners();
-                btnComprar.onClick.AddListener(() => accionCompra?.Invoke());
-            }
-        }
-    }
-
-    void Update()
-    {
-        if (currentAnimationSprites != null && currentAnimationSprites.Count > 1)
-        {
-            animationTimer += Time.deltaTime;
-            if (animationTimer >= (1f / animationSpeed))
-            {
-                animationTimer = 0;
-                currentSpriteIndex = (currentSpriteIndex + 1) % currentAnimationSprites.Count;
-                if (marineroImage != null) marineroImage.sprite = currentAnimationSprites[currentSpriteIndex];
-            }
-        }
-    }
-
-    public PlantillaObjeto GetDatosMarinero() => datosMarinero;
+    // Getters para el BuyButton
+    public PlantillaObjeto GetDatos() => datos;
+    public ShopManager GetManager() => manager;
+    public GameObject GetCartaOriginal() => cartaOriginalReferencia;
 }

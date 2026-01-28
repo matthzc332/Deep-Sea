@@ -638,9 +638,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  quePosicionRepresenta: 0
   marineroAsignado: {fileID: 0}
-  colorParpadeo: {r: 1, g: 1, b: 1, a: 1}
-  velocidadParpadeo: 2
+  spriteSilueta: {fileID: 0}
 --- !u!114 &287340268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1683,18 +1684,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71568ae1682d594290abde241707220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementManager: {fileID: 549070580}
-  containerTienda: {fileID: 558058840}
   cartaPrefab: {fileID: 7856524568163324064, guid: 5200f33f6f9181744bc93b1deb5de1fc, type: 3}
   inspeccionPrefab: {fileID: 7856524568163324064, guid: d0547c756df8478488d61f815f909f1c, type: 3}
   inspeccionContainer: {fileID: 317429386}
   textoMonedas: {fileID: 509131821}
-  numeroObjetosEnTienda: 3
-  usarTiendaAleatoria: 1
-  todosLosObjetos:
-  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
-  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
-  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
   monedaJugador: 500
 --- !u!1 &549070579
 GameObject:
@@ -1759,6 +1752,7 @@ GameObject:
   - component: {fileID: 558058843}
   - component: {fileID: 558058842}
   - component: {fileID: 558058841}
+  - component: {fileID: 558058844}
   m_Layer: 5
   m_Name: PNG_Fondo
   m_TagString: Tienda
@@ -1847,6 +1841,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558058839}
   m_CullTransparentMesh: 1
+--- !u!114 &558058844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558058839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba76ec76f37a0469bc4ab1a2de8af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cartaPrefab: {fileID: 7856524568163324064, guid: 5200f33f6f9181744bc93b1deb5de1fc, type: 3}
+  inspeccionPrefab: {fileID: 7856524568163324064, guid: d0547c756df8478488d61f815f909f1c, type: 3}
+  inspeccionContainer: {fileID: 317429386}
+  textoMonedas: {fileID: 509131821}
+  monedaJugador: 500
+  todosLosObjetosEnEstaTienda:
+  - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
+  cantidadObjetosEnTienda: 3
+  posicionInspeccion: {x: -950, y: 270}
 --- !u!1 &560046711
 GameObject:
   m_ObjectHideFlags: 0
@@ -4251,7 +4266,7 @@ GameObject:
   - component: {fileID: 1107255119}
   - component: {fileID: 1107255118}
   m_Layer: 5
-  m_Name: HIRENPCMENU
+  m_Name: "Men\xFA de tienda"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4372,9 +4387,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  quePosicionRepresenta: 1
   marineroAsignado: {fileID: 0}
-  colorParpadeo: {r: 1, g: 1, b: 1, a: 1}
-  velocidadParpadeo: 2
+  spriteSilueta: {fileID: 0}
 --- !u!114 &1172541218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4513,17 +4529,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71568ae1682d594290abde241707220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementManager: {fileID: 0}
-  containerTienda: {fileID: 1793357424}
   cartaPrefab: {fileID: 7856524568163324064, guid: 9493a8a480767934eb4603f9f1691da9, type: 3}
   inspeccionPrefab: {fileID: 7856524568163324064, guid: 030d8c0377f7cfa4283918baf5f01322, type: 3}
   inspeccionContainer: {fileID: 2124819652}
   textoMonedas: {fileID: 1513920516}
-  numeroObjetosEnTienda: 3
-  usarTiendaAleatoria: 1
-  todosLosObjetos:
-  - {fileID: 11400000, guid: f1fd714436de1aa43834cd373067590f, type: 2}
-  monedaJugador: 500
+  monedaJugador: 1
 --- !u!1 &1236587725
 GameObject:
   m_ObjectHideFlags: 0
@@ -4795,17 +4805,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f395b79c8fe049926eee33d107884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
   MainMenu: {fileID: 1898620560}
   PauseMenu: {fileID: 2140682251}
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 0}
   IslandMenu: {fileID: 1100486487}
-  NPCShop: {fileID: 777134540}
-  OpenNPCShopButton: {fileID: 349849562}
-  CloseNPCShopButton: {fileID: 1100114572}
-  TreeShop: {fileID: 1983921067}
-  OpenTreehopButton: {fileID: 617831129}
-  CloseTreeShopButton: {fileID: 706508176}
   PauseButton: {fileID: 0}
   GameManagerScript: {fileID: 0}
   WaveController: {fileID: 0}
@@ -5637,7 +5642,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285153123}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: StartNewtWave
+        m_MethodName: StartNextWave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5742,7 +5747,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Capitan
+  m_text: Puntos
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6034,7 +6039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1555180496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6344,6 +6349,7 @@ GameObject:
   - component: {fileID: 1793357427}
   - component: {fileID: 1793357426}
   - component: {fileID: 1793357425}
+  - component: {fileID: 1793357428}
   m_Layer: 5
   m_Name: TiendaContainer
   m_TagString: Tienda
@@ -6432,6 +6438,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793357423}
   m_CullTransparentMesh: 1
+--- !u!114 &1793357428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793357423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba76ec76f37a0469bc4ab1a2de8af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cartaPrefab: {fileID: 7856524568163324064, guid: 9493a8a480767934eb4603f9f1691da9, type: 3}
+  inspeccionPrefab: {fileID: 7856524568163324064, guid: 030d8c0377f7cfa4283918baf5f01322, type: 3}
+  inspeccionContainer: {fileID: 2124819652}
+  textoMonedas: {fileID: 1513920516}
+  monedaJugador: 10
+  todosLosObjetosEnEstaTienda:
+  - {fileID: 11400000, guid: f1fd714436de1aa43834cd373067590f, type: 2}
+  cantidadObjetosEnTienda: 1
+  posicionInspeccion: {x: -950, y: 270}
 --- !u!1 &1808891547
 GameObject:
   m_ObjectHideFlags: 0
@@ -8152,5 +8179,3 @@ SceneRoots:
   - {fileID: 1285153122}
   - {fileID: 1040867361}
   - {fileID: 415856400}
-  - {fileID: 6999455582264543648}
-  - {fileID: 2592732752674055058}
