@@ -3901,15 +3901,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1339778291}
   waveController: {fileID: 482489648}
-  costaIsla0: {fileID: 1139118069}
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  Player: {fileID: 1265282248}
   currentGameState: 0
-  gameStateBeforePause: 0
+  costaIsla0: {fileID: 1139118069}
   wood: 0
   woodText: {fileID: 867853229}
   fadeImage: {fileID: 1861283464}
   fadeDuration: 2
-  bossPrefab: {fileID: 0}
-  bossSpawnPoint: {fileID: 0}
 --- !u!4 &1300800122
 Transform:
   m_ObjectHideFlags: 0
@@ -4053,6 +4052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f395b79c8fe049926eee33d107884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  datosDelBarco: {fileID: 0}
   MainMenu: {fileID: 506692521}
   PauseMenu: {fileID: 111316424}
   UpgradesMenu: {fileID: 0}
@@ -5452,7 +5452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584303279199666108, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: amount_ammunition
-      value: 20
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 8058919307857911087, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: m_LocalPosition.x

@@ -82,16 +82,24 @@ void Start()
     
     public bool AsignarMarinero(PlantillaObjeto nuevoMarinero)
     {
+        // 1. Si ya hay alguien, rebotamos la acción
         if (marineroAsignado != null) return false;
         
+        // 2. Asignamos la referencia local
         marineroAsignado = nuevoMarinero;
 
-        // 2. Al asignar, guardamos el prefab en el ScriptableObject
-        if (nuevoMarinero != null)
+        // 3. Sincronizamos con el ScriptableObject (ShipData)
+        if (nuevoMarinero != null && datosDelBarco != null)
+        {
+            // Pasamos el prefab que contiene la plantilla al ScriptableObject
             ActualizarPrefabEnScriptableObject(nuevoMarinero.prefabDelObjeto);
+            Debug.Log($"<color=green>Sincronización:</color> Prefab {nuevoMarinero.prefabDelObjeto.name} guardado en {quePosicionRepresenta} de ShipData.");
+        }
 
-        imagenPosicion.material = null;
+        // 4. Actualizamos el aspecto visual
+        if (imagenPosicion != null) imagenPosicion.material = null;
         ActualizarEstadoPosicion();
+        
         return true;
     }
     

@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
-  datosDelBarco: {fileID: 0}
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
   quePosicionRepresenta: 0
   marineroAsignado: {fileID: 0}
   spriteSilueta: {fileID: 0}
@@ -4385,8 +4385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
-  datosDelBarco: {fileID: 0}
-  quePosicionRepresenta: 0
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  quePosicionRepresenta: 1
   marineroAsignado: {fileID: 0}
   spriteSilueta: {fileID: 0}
 --- !u!114 &1172541218
@@ -4803,6 +4803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f395b79c8fe049926eee33d107884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  datosDelBarco: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
   MainMenu: {fileID: 1898620560}
   PauseMenu: {fileID: 2140682251}
   UpgradesMenu: {fileID: 0}
