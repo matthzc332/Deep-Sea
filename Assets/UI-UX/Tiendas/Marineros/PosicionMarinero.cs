@@ -25,27 +25,34 @@ public class PosicionMarinero : MonoBehaviour
     private float timerAnimacion = 0f;
     private bool estadoInicializado = false;
     
-    void Awake()
-    {
-        imagenPosicion = GetComponent<Image>();
-        
-        if (imagenPosicion != null) 
-            imagenPosicion.color = Color.white;
-
-        ConfigurarBotonPosicion();
-    }
+void Awake()
+{
+    // 1. Referencias de componentes
+    imagenPosicion = GetComponent<Image>();
     
-    void Start()
-    {
-        if (imagenPosicion != null && imagenPosicion.sprite != null)
-            spriteOriginal = imagenPosicion.sprite;
-        
-        // 1. Al iniciar, borramos la referencia en el ScriptableObject
-        LimpiarReferenciaEnScriptableObject();
+    if (imagenPosicion != null) 
+        imagenPosicion.color = Color.white;
 
-        ActualizarEstadoPosicion();
-        estadoInicializado = true;
-    }
+    ConfigurarBotonPosicion();
+
+    // 2. LIMPIEZA INMEDIATA
+    // Forzamos el estado null antes de que pase el primer frame
+    marineroAsignado = null;
+    LimpiarReferenciaEnScriptableObject();
+    
+    Debug.Log($"<color=cyan>[INICIO]</color> Posición {quePosicionRepresenta}: Marinero asignado es <b>NULL</b>.");
+}
+
+void Start()
+{
+    // Guardamos el sprite original si no se hizo en Awake
+    if (imagenPosicion != null && imagenPosicion.sprite != null)
+        spriteOriginal = imagenPosicion.sprite;
+
+    // Actualizamos lo visual para que muestre la silueta desde el segundo 0
+    ActualizarEstadoPosicion();
+    estadoInicializado = true;
+}
 
     private void LimpiarReferenciaEnScriptableObject()
     {
