@@ -9,29 +9,18 @@ public class GunAmmoUI : MonoBehaviour
 
     private void Start()
     {
-        // Solo buscamos el componente de texto al inicio (el UI ya existe en la escena)
+        // Si no se asignó desde el inspector, intentar buscar automáticamente
+        if (gun == null)
+            gun = FindObjectOfType<Base_Gun>();
+
         if (ammoText == null)
             ammoText = GetComponent<TextMeshProUGUI>();
+
+        UpdateAmmoText(); // Mostrar valor inicial
     }
 
     private void Update()
     {
-        // 1. Verificamos si la variable 'gun' está vacía
-        if (gun == null)
-        {
-            // Intentamos encontrarla en la escena
-            gun = FindFirstObjectByType<Base_Gun>();
-
-            // Si después de buscarla sigue siendo null (el barco aún no se generó),
-            // detenemos la ejecución de este frame con 'return'.
-            if (gun == null)
-            {
-                return;
-            }
-        }
-
-        // --- Si llegamos aquí, significa que 'gun' YA EXISTE ---
-
         UpdateAmmoText();
     }
 

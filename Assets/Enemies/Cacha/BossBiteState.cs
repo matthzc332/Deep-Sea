@@ -1,73 +1,115 @@
 using UnityEngine;
-using System.Collections; // Necesario si usas corrutinas
+using DG.Tweening;
 
 public class BossBiteState : State_Base
 {
+    [Header("Configuraci√≥n de la Emboscada")]
+    public float sinkDepth = 10f;       
+    public float riseHeight = 0f;       
+    public float sinkDuration = 1f;     
+    public float biteDuration = 0.5f;   
+    public float stayBitingTime = 0.5f; 
+    
+    [Header("Efectos")]
+    [Tooltip("Deja esto VAC√çO si solo quieres que rote.")]
+    public GameObject biteEffectPrefab; 
+    public string biteAnimTrigger = "Bite";
+
     private BossController boss;
     private Transform target;
+    private Collider2D bossCollider;
+    private Animator animator;
+    
+    // Variables para recordar estado original
+    private Quaternion swimRotation; 
+    private float startX; // <--- AQU√ç GUARDAMOS LA POSICI√ìN X ORIGINAL
+    private float startY; // <--- Y LA Y ORIGINAL
 
-    // Variables para configurar el ataque (puedes ajustarlas)
-    private float biteSpeed = 5f;
-    private float stopDistance = 0.5f;
+    // Rotaci√≥n vertical (ajusta 180 si sale de cabeza)
+    private Vector3 verticalRotation = new Vector3(0, 0, 0); 
 
     public override void EnterState()
     {
-        // 1. OBTENER EL CONTROLADOR
         boss = controlledObject.GetComponent<BossController>();
-
-        // Chequeo de seguridad: øTiene el script BossController?
-        if (boss == null)
-        {
-            Debug.LogError("ERROR: El objeto no tiene el componente BossController.");
-            return;
-        }
-
-        // 2. OBTENER EL OBJETIVO DESDE EL CONTROLADOR
-        // AquÌ es donde probablemente tenÌas el error en la lÌnea 11
+        bossCollider = controlledObject.GetComponent<Collider2D>();
+        animator = controlledObject.GetComponentInChildren<Animator>();
         target = boss.GetTarget();
 
-        // Chequeo de seguridad: øExiste el barco?
+        // 1. GUARDAR ESTADO ORIGINAL
+        swimRotation = controlledObject.transform.rotation;
+        startX = controlledObject.transform.position.x; // Guardamos la X (carril de persecuci√≥n)
+        startY = controlledObject.transform.position.y; // Guardamos la Y
+
         if (target == null)
         {
-            Debug.LogWarning("BossBiteState: No hay objetivo (Ship). Volviendo a perseguir.");
             state_machine.SetState<BossPursueState>();
             return;
         }
 
-        // Si todo est· bien, inicia la lÛgica del ataque
-        // Debug.Log("°GRRR! Boss inicia mordisco hacia " + target.name);
+        StartAmbushSequence();
     }
 
-    public override void UpdateState()
+    void StartAmbushSequence()
     {
-        // Si por alguna razÛn el target desaparece (se destruye el barco), salimos
-        if (target == null || boss == null) return;
+        float currentY = controlledObject.transform.position.y;
+        
+        // Desactivar colisiones al hundirse
+        if(bossCollider) bossCollider.enabled = false;
 
-        // L”GICA DEL MORDISCO (Ejemplo simple: ir r·pido hacia el barco)
-        float distance = Vector2.Distance(controlledObject.transform.position, target.position);
+        Sequence ambush = DOTween.Sequence();
 
-        if (distance > stopDistance)
-        {
-            // Moverse hacia el barco
-            controlledObject.transform.position = Vector2.MoveTowards(
-                controlledObject.transform.position,
-                target.position,
-                biteSpeed * Time.deltaTime
-            );
-        }
-        else
-        {
-            // LlegÛ al objetivo: Causar daÒo y salir del estado
-            // AquÌ podrÌas llamar a una funciÛn de daÒo en el barco
+        // PASO 1: HUNDIRSE (En horizontal)
+        ambush.Append(controlledObject.transform.DOMoveY(currentY - sinkDepth, sinkDuration).SetEase(Ease.InBack));
 
-            // Volver a perseguir despuÈs del mordisco
+        // PASO 2: MOVERSE DEBAJO Y ROTAR
+        ambush.AppendCallback(() => {
+            if (target != null)
+            {
+                // Teletransporte invisible bajo el barco
+                Vector3 ambushPos = new Vector3(target.position.x, controlledObject.transform.position.y, 0);
+                controlledObject.transform.position = ambushPos;
+                
+                // Rotar a vertical para el ataque
+                controlledObject.transform.rotation = Quaternion.Euler(verticalRotation);
+            }
+        });
+
+        // PASO 3: SUBIR (Ataque vertical)
+        ambush.Append(controlledObject.transform.DOMoveY(riseHeight, biteDuration).SetEase(Ease.OutBack));
+        
+        // EVENTO DE MORDIDA
+        ambush.AppendCallback(() => {
+            if(bossCollider) bossCollider.enabled = true; 
+            if (animator != null) animator.SetBool("Pursuit", false);
+            if (animator != null) animator.SetTrigger(biteAnimTrigger);
+            if (biteEffectPrefab != null) Instantiate(biteEffectPrefab, controlledObject.transform.position, Quaternion.identity);
+        });
+
+        // PASO 4: ESPERAR ARRIBA
+        ambush.AppendInterval(stayBitingTime);
+
+        // PASO 5: BAJAR DE NUEVO (Aun en vertical)
+        // Bajamos hasta el fondo otra vez
+        ambush.Append(controlledObject.transform.DOMoveY(currentY - sinkDepth, sinkDuration).SetEase(Ease.InBack));
+
+        // PASO 6: RETORNO A LA NORMALIDAD
+        ambush.OnComplete(() => {
+            // A. Recuperar rotaci√≥n de nado (Horizontal)
+            controlledObject.transform.rotation = swimRotation;
+            
+            // B. ¬°EL TRUCO! Teletransportar de vuelta a la posici√≥n original X
+            // Usamos startY para que aparezca justo donde empez√≥, o puedes dejarlo abajo y que suba solo.
+            controlledObject.transform.position = new Vector3(startX, startY, 0);
+
+            if(bossCollider) bossCollider.enabled = true;
             state_machine.SetState<BossPursueState>();
-        }
+        });
     }
 
     public override void ExitState(string nextState)
     {
-        // Limpieza si es necesaria
-        // Debug.Log("TerminÛ el mordisco.");
+        // Seguridad por si se interrumpe
+        controlledObject.transform.rotation = swimRotation;
+        if(bossCollider) bossCollider.enabled = true;
     }
 }

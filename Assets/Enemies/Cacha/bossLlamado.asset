@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4ad1ee5ca3044438e6c0151716e470, type: 3}
-  m_Name: Wave_Cofres
+  m_Name: bossLlamado
   m_EditorClassIdentifier: 
-  isBossWave: 0
+  isBossWave: 1
   enemiesInWave:
-  - {fileID: 6549202885219787810, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
-  timeBeforeThisWave: 5
-  numberToSpawn: 2
+  - {fileID: 1462392096505775602, guid: 6fd4e788159d4664682915f23a642453, type: 3}
+  timeBeforeThisWave: 0
+  numberToSpawn: 0

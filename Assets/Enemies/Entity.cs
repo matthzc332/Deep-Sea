@@ -3,7 +3,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField]
-    public float HP;
+    public int HP;
     [SerializeField]
     protected float speed;
     [SerializeField]
@@ -46,7 +46,7 @@ public class Entity : MonoBehaviour
     }
 
     // Método que se ejecuta cuando ocurre una colisión con trigger 2D
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
             //Debug.Log("Detectó la colision");
         // Verificar si el objeto con el que colisionó tiene la etiqueta "Bullet"
@@ -54,8 +54,11 @@ public class Entity : MonoBehaviour
         {
             //Debug.Log("Colisionó con una bala");
             Bullet bullet = collision.GetComponent<Bullet>();
+            if (bullet != null) // Pequeña seguridad extra
+            {
             takeDamage(bullet.getDamage());
             //Debug.Log("Vida Actual:"+ HP);
+            }
         }
 
         else if (collision.CompareTag("Ship"))
