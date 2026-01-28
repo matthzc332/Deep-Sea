@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8285ba9ee32f83945ace72028e50a0d1
+guid: 2d5cea4016aaeff4ba13568ee4a42eb1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8489848690220503703
-    second: arbustodehojas9_0
+      213: -5510333123701120307
+    second: cielo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arbustodehojas9_0
+      name: cielo_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 60
-        height: 32
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96d679ee89ffd2a80800000000000000
-      internalID: -8489848690220503703
+      spriteID: dc2e9bf083d5783b0800000000000000
+      internalID: -5510333123701120307
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      arbustodehojas9_0: -8489848690220503703
+      cielo_0: -5510333123701120307
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

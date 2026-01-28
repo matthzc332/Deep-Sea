@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8285ba9ee32f83945ace72028e50a0d1
+guid: 38307b05e6e880d40a47c35cf723b234
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8489848690220503703
-    second: arbustodehojas9_0
+      213: -1071941797491193328
+    second: Cosata_Isla_copia_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arbustodehojas9_0
+      name: Cosata_Isla_copia_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 60
-        height: 32
+        width: 411
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96d679ee89ffd2a80800000000000000
-      internalID: -8489848690220503703
+      spriteID: 01ac4a45d92bf11f0800000000000000
+      internalID: -1071941797491193328
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      arbustodehojas9_0: -8489848690220503703
+      Cosata_Isla_copia_0: -1071941797491193328
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
