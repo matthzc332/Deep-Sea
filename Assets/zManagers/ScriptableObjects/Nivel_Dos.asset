@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4ad1ee5ca3044438e6c0151716e470, type: 3}
   m_Name: Nivel_Dos
   m_EditorClassIdentifier: 
+  isBossWave: 0
   enemiesInWave:
   - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
   - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
   - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
   - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
   timeBeforeThisWave: 1
-  numberToSpawn: 5
+  numberToSpawn: 6

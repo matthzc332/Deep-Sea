@@ -17,14 +17,14 @@ public class BossJumpState : State_Base
     public override void EnterState()
     {
         // 1. Obtener componentes
-        animator = controlledObject.GetComponent<Animator>();
-        if (animator == null) animator = controlledObject.GetComponentInChildren<Animator>();
+     //   animator = controlledObject.GetComponent<Animator>();
+     //   if (animator == null) animator = controlledObject.GetComponentInChildren<Animator>();
 
         // 2. Activar Animación
-        if (animator != null)
+    //    if (animator != null)
         {
-            animator.SetBool("Pursuit", false);
-            animator.SetTrigger(jumpAnimationTrigger);
+       //     animator.SetBool("Pursuit", false);
+            //
             
         }
 

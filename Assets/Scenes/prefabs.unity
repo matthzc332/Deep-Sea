@@ -1093,14 +1093,14 @@ MonoBehaviour:
   gameLevels:
   - {fileID: 11400000, guid: 073f9921b2bf1da40a33ce5dad7cf762, type: 2}
   - {fileID: 11400000, guid: b9bf5c63852129f438f74ab34145ce20, type: 2}
-  - {fileID: 11400000, guid: c655df80db32f9d4294a491c195d799a, type: 2}
+  - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
   spawnpoints:
   - {fileID: 458157012}
   - {fileID: 479291330}
   - {fileID: 159080195}
   - {fileID: 815965208}
   currentConfig: {fileID: 0}
-  bossSpawned: 0
+  bossSpawned: 1
 --- !u!4 &424154833
 Transform:
   m_ObjectHideFlags: 0
@@ -1473,8 +1473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5ddddf73e6fc744b6b62a219080648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveTimer: 40
-  normalWaveTime: 40
+  waveTimer: 5
+  normalWaveTime: 5
   timerUI: 
   GameManager: {fileID: 1300800121}
 --- !u!4 &482489649
@@ -4184,11 +4184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5746a5c9ad593245a176bb3b40cee9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
+  HP: 10
   speed: 0
   isAlive: 1
   joystick: {fileID: 445337321}
-  vida: 0
+  vida: 10
   initialSpeed: 0.9
 --- !u!61 &1265282251
 BoxCollider2D:
@@ -4873,6 +4873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarPanel: {fileID: 979551740}
   hpSlider: {fileID: 979551742}
+  gameManager: {fileID: 0}
   bossScript: {fileID: 0}
 --- !u!1001 &1646956249
 PrefabInstance:
