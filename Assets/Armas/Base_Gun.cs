@@ -13,28 +13,27 @@ public class Base_Gun : MonoBehaviour
     public Vector3 objective;
 
 
-    void Start()
-    {
+    void Start(){
         ship = FindParentWithTag(transform, "Ship");
     }
 
 
-    // Método para buscar recursivamente en los padres
-    private GameObject FindParentWithTag(Transform current, string tag)
+// Método para buscar recursivamente en los padres
+private GameObject FindParentWithTag(Transform current, string tag)
+{
+    Transform parent = current.parent;
+    
+    while (parent != null)
     {
-        Transform parent = current.parent;
-
-        while (parent != null)
+        if (parent.CompareTag(tag))
         {
-            if (parent.CompareTag(tag))
-            {
-                Debug.Log("El arma encontró el barco!");
-                return parent.gameObject;
-            }
-            parent = parent.parent;
+            Debug.Log("El arma encontró el barco!");
+            return parent.gameObject;
         }
-
-        return null; // No se encontró ningún padre con la etiqueta
+        parent = parent.parent;
     }
+    
+    return null; // No se encontró ningún padre con la etiqueta
+}
 
 }
