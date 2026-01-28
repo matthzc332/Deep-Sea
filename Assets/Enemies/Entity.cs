@@ -2,69 +2,70 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField]
-    protected float HP;
-    [SerializeField]
-    protected float speed;
-    [SerializeField]
-    protected bool isAlive = true;
+    [SerializeField] protected float HP;
+    [SerializeField] protected float speed;
+    [SerializeField] protected bool isAlive = true;
 
     protected bool collision_with_ship = false;
 
+    public float getSpeed() { return speed; }
+    public float getHP() { return HP; }
+    public bool getIsAlive() { return isAlive; }
+    public bool getCollisionWithShip() { return collision_with_ship; }
 
-
-    public float getSpeed() {return speed;}
-    public float getHP() {return HP;}
-    public bool getIsAlive() {return isAlive;}
-    public bool getCollisionWithShip() {return collision_with_ship;}
-
-
-
-    // modifica dificultad a la oleada
     protected virtual void Awake()
     {
-        // Si existe el GameManager, sumamos vida base + dificultad
         if (GameManager.instance != null)
         {
-            // Ejemplo: +1 de vida por cada nivel de dificultad
-            // O puedes hacer: HP += GameManager.instance.difficultyLevel * 10;
-            //  HP += GameManager.instance.difficultyLevel;
             HP += GameManager.difficultyLevel;
         }
     }
+
     public virtual void takeDamage(int damage)
     {
-        if (isAlive)
+        if (!isAlive) return;
+
+        HP -= damage;
+
+        if (HP <= 0)
         {
-            HP -= damage;
-            if (HP <= 0)
+            isAlive = false;
+
+            // 🔥 EN VEZ DE DESTRUIR, PASAMOS AL ESTADO DE MUERTE
+            State_Machine sm = GetComponent<State_Machine>();
+
+            if (sm != null)
             {
-                isAlive = false;
+                sm.SetState<Gaviota_Explotando>();
+            }
+            else
+            {
+                // Si no tiene máquina de estados, se destruye normal
                 Destroy(gameObject);
             }
         }
     }
 
+
     // Método que se ejecuta cuando ocurre una colisión con trigger 2D
     protected virtual void OnTriggerEnter2D(Collider2D collision)
+
+
     {
-            //Debug.Log("Detectó la colision");
-        // Verificar si el objeto con el que colisionó tiene la etiqueta "Bullet"
         if (collision.CompareTag("Bullet"))
         {
-            //Debug.Log("Colisionó con una bala");
             Bullet bullet = collision.GetComponent<Bullet>();
             if (bullet != null) // Pequeña seguridad extra
             {
             takeDamage(bullet.getDamage());
+
             //Debug.Log("Vida Actual:"+ HP);
             }
-        }
 
+        }
         else if (collision.CompareTag("Ship"))
         {
             collision_with_ship = true;
         }
     }
-
 }

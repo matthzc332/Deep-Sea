@@ -2720,6 +2720,10 @@ PrefabInstance:
       value: Spawner (4)
       objectReference: {fileID: 0}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
       objectReference: {fileID: 0}
@@ -2780,6 +2784,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
@@ -4552,6 +4560,10 @@ PrefabInstance:
       value: Spawner (2)
       objectReference: {fileID: 0}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
       objectReference: {fileID: 0}
@@ -4865,6 +4877,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
@@ -5678,6 +5694,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
+      propertyPath: mob
+      value: 
+      objectReference: {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
     - target: {fileID: 8623251826086691695, guid: 0d49e6be5c50bac43acf777f6f0ee9cf, type: 3}
       propertyPath: percent_probability
       value: 15
