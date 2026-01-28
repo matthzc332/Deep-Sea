@@ -3840,7 +3840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5746a5c9ad593245a176bb3b40cee9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 6
+  HP: 10
   speed: 0
   isAlive: 1
   joystick: {fileID: 445337321}
@@ -3969,8 +3969,6 @@ MonoBehaviour:
   woodText: {fileID: 867853229}
   fadeImage: {fileID: 1861283464}
   fadeDuration: 2
-  bossPrefab: {fileID: 0}
-  bossSpawnPoint: {fileID: 0}
 --- !u!4 &1300800122
 Transform:
   m_ObjectHideFlags: 0
@@ -5624,7 +5622,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5c2a517e7f87b43b0c7b330f193907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLevels: []
+  gameLevels:
+  - {fileID: 11400000, guid: 6aeea92ed6049014f8dd8b1c27205782, type: 2}
   spawnpoints:
   - {fileID: 8242113207582323143, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
 --- !u!1001 &2140678717
