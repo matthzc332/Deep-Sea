@@ -638,9 +638,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
+  datosDelBarco: {fileID: 0}
+  quePosicionRepresenta: 0
   marineroAsignado: {fileID: 0}
-  colorParpadeo: {r: 1, g: 1, b: 1, a: 1}
-  velocidadParpadeo: 2
+  spriteSilueta: {fileID: 0}
 --- !u!114 &287340268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4384,9 +4385,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPlacementManager: {fileID: 549070580}
+  datosDelBarco: {fileID: 0}
+  quePosicionRepresenta: 0
   marineroAsignado: {fileID: 0}
-  colorParpadeo: {r: 1, g: 1, b: 1, a: 1}
-  velocidadParpadeo: 2
+  spriteSilueta: {fileID: 0}
 --- !u!114 &1172541218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4529,7 +4531,7 @@ MonoBehaviour:
   inspeccionPrefab: {fileID: 7856524568163324064, guid: 030d8c0377f7cfa4283918baf5f01322, type: 3}
   inspeccionContainer: {fileID: 2124819652}
   textoMonedas: {fileID: 1513920516}
-  monedaJugador: 500
+  monedaJugador: 1
 --- !u!1 &1236587725
 GameObject:
   m_ObjectHideFlags: 0
@@ -4806,12 +4808,6 @@ MonoBehaviour:
   UpgradesMenu: {fileID: 0}
   UIRoot: {fileID: 0}
   IslandMenu: {fileID: 1100486487}
-  NPCShop: {fileID: 777134540}
-  OpenNPCShopButton: {fileID: 349849562}
-  CloseNPCShopButton: {fileID: 1100114572}
-  TreeShop: {fileID: 1983921067}
-  OpenTreehopButton: {fileID: 617831129}
-  CloseTreeShopButton: {fileID: 706508176}
   PauseButton: {fileID: 0}
   GameManagerScript: {fileID: 0}
   WaveController: {fileID: 0}
@@ -5839,7 +5835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1555180496
 RectTransform:
   m_ObjectHideFlags: 0
