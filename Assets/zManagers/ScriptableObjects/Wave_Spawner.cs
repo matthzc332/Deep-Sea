@@ -1,99 +1,178 @@
+//using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+
+//public class Wave_Spawner : MonoBehaviour
+//{
+//    public Wave_ScriptableObject[] waves;
+
+//    private Wave_ScriptableObject currentWave;
+
+//    [SerializeField]
+//    private Transform[] spawnpoints;
+
+//    private float timeBtwnSpawns;
+//    private int i = 0;
+
+//    private bool stopSpawning = false;
+
+//    private void Awake()
+//    {
+//        currentWave = waves[i];
+//        timeBtwnSpawns = currentWave.TimeBeforeThisWave;
+//    }
+//    private void Update()
+//    {
+//        if (stopSpawning)
+//        {
+//            return;
+//        }
+
+//        if (Time.time >= timeBtwnSpawns)
+//        {
+//            SpawnWave();
+//            IncWave();
+
+//            timeBtwnSpawns = Time.time + currentWave.TimeBeforeThisWave;
+//        }
+//    }
+
+//    // aumenta dificultad del spawn
+//    private void SpawnWave()
+//    {
+
+//        // Calculamos cu·ntos enemigos extra spawnear
+//        int extraEnemies = 0;
+//        if (GameManager.instance != null)
+//        {
+//            extraEnemies = GameManager.instance.difficultyLevel;
+//            // Ojo: si quieres que sea m·s agresivo, multiplica: difficultyLevel * 2
+//        }
+
+//        //use float en vez de int
+//        float totalToSpawn = currentWave.NumberToSpawn + extraEnemies;
+
+//        // Usamos el nuevo total en el loop
+//        for (int i = 0; i < totalToSpawn; i++)
+//        {
+//            int num = Random.Range(0, currentWave.EnemiesInWave.Length);
+//            int num2 = Random.Range(0, spawnpoints.Length);
+
+//            Instantiate(currentWave.EnemiesInWave[num], spawnpoints[num2].position,
+//                spawnpoints[num2].rotation);
+//        }
+//    }
+
+//    // incrementa olas
+//    private void IncWave()
+//    {
+//        if (i + 1 < waves.Length)
+//        {
+//            i++;
+//            currentWave = waves[i];
+//        }
+//        else
+//        {
+//            stopSpawning = true;
+//        }
+//    } 
+//}
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Wave_Spawner : MonoBehaviour
 {
+    // AquÌ arrastras tus ScriptableObjects en orden:
+    // Elemento 0: Nivel_Facil (Solo gaviotas)
+    // Elemento 1: Nivel_Medio (Gaviotas + Globos)
+    // Elemento 2: Nivel_Dificil (Gaviotas + Globos + Otro), etc.
     public Wave_ScriptableObject[] gameLevels;
-    [SerializeField] private Transform[] spawnpoints;
 
+    private Wave_ScriptableObject currentWaveConfig;
     private float timeBtwnSpawns;
-    private Wave_ScriptableObject currentConfig;
-    
-    // Bandera para saber si ya soltamos al jefe
-    private bool bossSpawned = false; 
+
+    [SerializeField]
+    private Transform[] spawnpoints;
 
     private void Start()
     {
+        // --- PROTECCI”N DE SEGURIDAD ---
+        // Si la lista est· vacÌa en el inspector, esto evita el error IndexOutOfRange
         if (gameLevels == null || gameLevels.Length == 0)
         {
-            Debug.LogError("ERROR: Asigna los Game Levels en el Inspector del Spawner.");
+            Debug.LogError("ERROR CRÕTICO: °La lista 'Game Levels' en Wave_Spawner est· vacÌa! Asigna los ScriptableObjects en el Inspector.");
             return;
         }
-        UpdateWaveConfig();
+        // -------------------------------
+
+        // 1. Determinar quÈ configuraciÛn usar seg˙n la dificultad del GameManager
+        int difficultIndex = 0;
+
+        if (GameManager.instance != null)
+        {
+            difficultIndex = GameManager.instance.difficultyLevel;
+        }
+
+        // Si la dificultad es mayor que la cantidad de niveles que diseÒaste, usa el ˙ltimo disponible
+        if (difficultIndex >= gameLevels.Length)
+        {
+            difficultIndex = gameLevels.Length - 1;
+        }
+
+        // ProtecciÛn extra por si el Ìndice es negativo
+        if (difficultIndex < 0) difficultIndex = 0;
+
+        currentWaveConfig = gameLevels[difficultIndex];
+
+        // Configurar el primer spawn (asegurando que currentWaveConfig existe)
+        if (currentWaveConfig != null)
+        {
+            timeBtwnSpawns = Time.time + currentWaveConfig.TimeBeforeThisWave;
+        }
     }
 
     private void Update()
     {
-        if (GameManager.instance == null) return;
-        if (GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
+        // SEGURIDAD: Si no hay configuraciÛn cargada, no hacemos nada para evitar errores
+        if (currentWaveConfig == null) return;
 
-        UpdateWaveConfig(); // Asegurar que tenemos la config correcta
+        // Si estamos en pausa o no es momento de oleada, no spawnear
+        if (GameManager.instance != null && GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
 
-        // --- L√ìGICA PARA EVITAR 20 CACHALOTES ---
-        
-        // 1. Si es OLEADA DE JEFE y YA SALI√ì, no hacemos nada m√°s (return).
-        if (currentConfig.isBossWave && bossSpawned) 
-        {
-            return; 
-        }
-
-        // 2. Comprobar tiempo de spawn
         if (Time.time >= timeBtwnSpawns)
         {
             SpawnWave();
-
-            // Si acabamos de spawnear un Jefe, marcamos la bandera para no entrar m√°s
-            if (currentConfig.isBossWave)
-            {
-                bossSpawned = true;
-                // Opcional: poner el tiempo en infinito por seguridad
-                timeBtwnSpawns = Mathf.Infinity; 
-            }
-            else
-            {
-                // Si es oleada normal, reiniciamos el contador para el siguiente enemigo
-                timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
-            }
-        }
-    }
-
-    private void UpdateWaveConfig()
-    {
-        int currentDifficulty = GameManager.difficultyLevel;
-        if (currentDifficulty >= gameLevels.Length) currentDifficulty = gameLevels.Length - 1;
-
-        // Detectar cambio de oleada para resetear la bandera del jefe
-        if (currentConfig != gameLevels[currentDifficulty])
-        {
-            currentConfig = gameLevels[currentDifficulty];
-            
-            // Cada vez que cambia la dificultad/oleada, permitimos spawnear jefe de nuevo si toca
-            bossSpawned = false; 
-            
-            // Ajustamos el primer tiempo de spawn
-            timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
-        }
-        else
-        {
-            // Si es la misma config, solo aseguramos que la variable no sea nula al inicio
-            if(currentConfig == null) currentConfig = gameLevels[currentDifficulty];
+            // Reiniciamos el contador para el siguiente grupo de enemigos
+            timeBtwnSpawns = Time.time + currentWaveConfig.TimeBeforeThisWave;
         }
     }
 
     private void SpawnWave()
     {
-        if (spawnpoints == null || spawnpoints.Length == 0) return;
-
-        if (currentConfig.EnemiesInWave != null && currentConfig.EnemiesInWave.Length > 0)
+        // Calculamos cu·ntos enemigos extra spawnear por dificultad
+        int extraEnemies = 0;
+        if (GameManager.instance != null)
         {
-            // Si es Boss, usualmente queremos el √≠ndice 0 (o un spawnpoint espec√≠fico)
-            int enemyIndex = Random.Range(0, currentConfig.EnemiesInWave.Length);
-            
-            // Elegir un spawnpoint al azar (o podr√≠as forzar uno central para el jefe)
-            int spawnIndex = Random.Range(0, spawnpoints.Length);
+            extraEnemies = GameManager.instance.difficultyLevel;
+        }
 
-            Instantiate(currentConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
+        float totalToSpawn = currentWaveConfig.NumberToSpawn + extraEnemies;
+
+        for (int i = 0; i < totalToSpawn; i++)
+        {
+            // Elegir enemigo aleatorio de la configuraciÛn actual
+            if (currentWaveConfig.EnemiesInWave != null && currentWaveConfig.EnemiesInWave.Length > 0)
+            {
+                int enemyIndex = Random.Range(0, currentWaveConfig.EnemiesInWave.Length);
+
+                if (spawnpoints != null && spawnpoints.Length > 0)
+                {
+                    int spawnIndex = Random.Range(0, spawnpoints.Length);
+                    Instantiate(currentWaveConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
+                }
+            }
         }
     }
 }
