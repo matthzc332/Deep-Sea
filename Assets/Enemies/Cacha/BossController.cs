@@ -40,7 +40,7 @@ public class BossController : Entity
         // --- FIX DE ROTACIÓN ---
         // Si tu dibujo mira hacia arriba, esto lo acuesta hacia la izquierda (90) o derecha (-90).
         // Prueba con 90 o -90 según hacia dónde mire su cara.
-      //  transform.rotation = Quaternion.Euler(0, 0, -90f);
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
 
         if (rb == null) Debug.LogWarning("BossController: Falta Rigidbody2D.");
         if (stateMachine == null) Debug.LogError("BossController: Falta State_Machine.");
