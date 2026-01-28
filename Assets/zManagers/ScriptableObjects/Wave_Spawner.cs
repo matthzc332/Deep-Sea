@@ -8,10 +8,10 @@ public class Wave_Spawner : MonoBehaviour
     [SerializeField] private Transform[] spawnpoints;
 
     private float timeBtwnSpawns;
-    private Wave_ScriptableObject currentConfig;
-    
+    [SerializeField] private Wave_ScriptableObject currentConfig;
+
     // Bandera para saber si ya soltamos al jefe
-    private bool bossSpawned = false; 
+    [SerializeField] private bool bossSpawned = false;
 
     private void Start()
     {
@@ -25,6 +25,7 @@ public class Wave_Spawner : MonoBehaviour
 
     private void Update()
     {
+
         if (GameManager.instance == null) return;
         if (GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
 

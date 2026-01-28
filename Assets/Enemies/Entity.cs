@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] protected float HP;
-    [SerializeField] protected float speed;
-    [SerializeField] protected bool isAlive = true;
+
+    [SerializeField]
+    public int HP;
+    [SerializeField]
+    protected float speed;
+    [SerializeField]
+    protected bool isAlive = true;
+
 
     protected bool collision_with_ship = false;
 
@@ -50,17 +55,16 @@ public class Entity : MonoBehaviour
     // Método que se ejecuta cuando ocurre una colisión con trigger 2D
     protected virtual void OnTriggerEnter2D(Collider2D collision)
 
-
     {
         if (collision.CompareTag("Bullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
             if (bullet != null) // Pequeña seguridad extra
             {
-            takeDamage(bullet.getDamage());
+                takeDamage(bullet.getDamage());
 
-            //Debug.Log("Vida Actual:"+ HP);
             }
+
 
         }
         else if (collision.CompareTag("Ship"))
@@ -68,4 +72,5 @@ public class Entity : MonoBehaviour
             collision_with_ship = true;
         }
     }
+
 }
