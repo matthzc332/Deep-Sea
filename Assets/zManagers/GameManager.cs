@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (playerShipData != null)
         {
             playerShipData.puntosDeVida = 6;
-            playerShipData.municion = 25;
+            playerShipData.municion = 50;
             playerShipData.dinero = 60;
             
             Debug.Log("GameManager: Datos de ShipData reseteados (Dificultad 0).");

@@ -491,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 159080194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.78, y: -1.79, z: 0}
+  m_LocalPosition: {x: -17.78, y: 1.5, z: 0}
   m_LocalScale: {x: 0.98822, y: 0.98822, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -995,14 +995,17 @@ MonoBehaviour:
   gameLevels:
   - {fileID: 11400000, guid: 073f9921b2bf1da40a33ce5dad7cf762, type: 2}
   - {fileID: 11400000, guid: 2176f51fda9b5e740b6a719e1c35fadf, type: 2}
-  - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
+  - {fileID: 11400000, guid: c655df80db32f9d4294a491c195d799a, type: 2}
   spawnpoints:
   - {fileID: 458157012}
   - {fileID: 479291330}
   - {fileID: 159080195}
   - {fileID: 815965208}
+  maxEnemiesAlive: 5
+  normalWaveDuration: 30
   currentConfig: {fileID: 0}
-  bossSpawned: 1
+  currentEnemyCount: 0
+  enemiesSpawnedInTotal: 0
 --- !u!4 &424154833
 Transform:
   m_ObjectHideFlags: 0
@@ -5776,8 +5779,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6aeea92ed6049014f8dd8b1c27205782, type: 2}
   spawnpoints:
   - {fileID: 8242113207582323143, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  maxEnemiesAlive: 5
+  normalWaveDuration: 30
   currentConfig: {fileID: 0}
-  bossSpawned: 0
+  currentEnemyCount: 0
+  enemiesSpawnedInTotal: 0
 --- !u!1001 &8239192529470513696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5801,6 +5807,10 @@ PrefabInstance:
     - target: {fileID: 7584303279199666108, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: amount_ammunition
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584303279199666108, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
+      propertyPath: damage_percentage
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8058919307857911087, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: m_LocalPosition.x

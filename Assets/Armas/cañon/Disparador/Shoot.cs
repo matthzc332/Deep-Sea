@@ -9,7 +9,7 @@ public class Shoot_Cannon : State_Base
     {
         if (Joystick.estoyTocando)
         {
-            Debug.Log("No se puede disparar - Joystick en uso");
+            //Debug.Log("No se puede disparar - Joystick en uso");
             ExitState("Idle");
             return;
         }
