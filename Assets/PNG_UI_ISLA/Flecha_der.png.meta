@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8285ba9ee32f83945ace72028e50a0d1
+guid: d5c6daa3085572044bed011c3306e7e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8489848690220503703
-    second: arbustodehojas9_0
+      213: 5620686907609794862
+    second: Flecha_der_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arbustodehojas9_0
+      name: Flecha_der_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 60
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96d679ee89ffd2a80800000000000000
-      internalID: -8489848690220503703
+      spriteID: e2945c976f0b00e40800000000000000
+      internalID: 5620686907609794862
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      arbustodehojas9_0: -8489848690220503703
+      Flecha_der_0: 5620686907609794862
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
