@@ -5,7 +5,7 @@ public class ShipData : ScriptableObject
 {
     [Header("Estadísticas")]
     public int puntosDeVida;
-    public int municion;
+    public int municion = 50;
     public int dinero;
 
     [Header("Prefabs de Posiciones")]

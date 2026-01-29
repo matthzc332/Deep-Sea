@@ -4,7 +4,7 @@ public class Base_Gun : MonoBehaviour
 {
 
     [Header("Tuning")]
-    public int amount_ammunition = 5;
+    public int amount_ammunition = 50;
     public float time_recharge = 1;
     public float power_shoot = 1;
     public float damage_percentage = 100;
@@ -21,7 +21,7 @@ public class Base_Gun : MonoBehaviour
         // SINCRONIZACIÓN DE MUNICIÓN
         if (shipData != null)
         {
-            amount_ammunition = shipData.municion;
+            amount_ammunition = 50;
             Debug.Log($"Arma cargada con {amount_ammunition} balas.");
         }
     }
