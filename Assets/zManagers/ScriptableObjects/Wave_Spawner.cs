@@ -23,7 +23,13 @@ public class Wave_Spawner : MonoBehaviour
 
     private void Start()
     {
-        if (gameLevels == null || gameLevels.Length == 0) return;
+
+
+        if (gameLevels == null || gameLevels.Length == 0)
+        {
+            Debug.LogError("ERROR: Asigna los Game Levels en el Inspector del Spawner.");
+            return;
+        }
         UpdateWaveConfig();
     }
 

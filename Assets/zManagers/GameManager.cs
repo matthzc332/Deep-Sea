@@ -293,4 +293,27 @@ public class GameManager : MonoBehaviour
             fadeImage.gameObject.SetActive(false);
         }
     }
+
+    public void CalcularPuntajeFinOleada()
+{
+    // Necesitas referencia al ShipData (puedes arrastrarlo en el inspector o buscar al player)
+    Ship player = FindFirstObjectByType<Ship>();
+    if (player == null || player.shipData == null) return;
+
+    ShipData data = player.shipData;
+
+    // FÓRMULA PEDIDA: (Score * Vida) + Dinero + Balas Gastadas
+    // Nota: cuidado si el Score es muy alto, multiplicarlo por la vida puede dar un número gigante.
+    
+    long puntajeFinalOleada = (data.score * data.puntosDeVida) + data.dinero + data.balasGastadas;
+
+    Debug.Log($"CÁLCULO DE OLEADA:");
+    Debug.Log($"Score Base ({data.score}) * Vida ({data.puntosDeVida}) = {data.score * data.puntosDeVida}");
+    Debug.Log($"+ Dinero ({data.dinero})");
+    Debug.Log($"+ Balas Gastadas ({data.balasGastadas})");
+    Debug.Log($"TOTAL FINAL: {puntajeFinalOleada}");
+
+    // Opcional: ¿Quieres actualizar el score con este resultado o solo mostrarlo?
+    // data.score = (int)puntajeFinalOleada; // Descomentar si el score debe actualizarse al valor calculado
+}
 }
