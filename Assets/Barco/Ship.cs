@@ -102,6 +102,7 @@ public class Ship : Entity
         }
         else
         {
+            Debug.Log("Algo golpeo invicibilidad, vida actual: " + HP);
             // 3. Si sigue vivo, activamos la invulnerabilidad temporal
             StartCoroutine(RutinaInvulnerabilidad());
         }

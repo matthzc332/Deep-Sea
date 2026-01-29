@@ -9,6 +9,7 @@ public class BossWaveController : MonoBehaviour
 
     [Header("Configuración")]
     public BossController bossScript;
+    public GameManager gameManager;
 
     // Variable para saber si ya encontramos al boss y evitar buscarlo todo el tiempo
     private bool bossFound = false;
@@ -89,7 +90,7 @@ public class BossWaveController : MonoBehaviour
         // Aquí tu lógica de victoria (cambiar escena, desactivar barra, etc.)
         if (healthBarPanel != null)
             healthBarPanel.SetActive(false);
-
+        gameManager.EndWave();
         // Desactivamos este script para que deje de procesar
         this.enabled = false;
     }
