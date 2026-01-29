@@ -63,10 +63,15 @@ public class Ship : Entity
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
         {
-           // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+            base.OnTriggerEnter2D(other); 
+
             if (other.CompareTag("Enemy"))
             {
-                //Debug.Log("colisionó un enemigo");
+            // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+                if (other.CompareTag("Enemy"))
+                {
+                    //Debug.Log("colisionó un enemigo");
+                }
             }
         }
 

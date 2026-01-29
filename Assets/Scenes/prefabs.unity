@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameLevels:
   - {fileID: 11400000, guid: 073f9921b2bf1da40a33ce5dad7cf762, type: 2}
-  - {fileID: 11400000, guid: b9bf5c63852129f438f74ab34145ce20, type: 2}
+  - {fileID: 11400000, guid: 2176f51fda9b5e740b6a719e1c35fadf, type: 2}
   - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
   spawnpoints:
   - {fileID: 458157012}
@@ -4457,6 +4457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f395b79c8fe049926eee33d107884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  datosDelBarco: {fileID: 0}
   MainMenu: {fileID: 506692521}
   PauseMenu: {fileID: 111316424}
   UpgradesMenu: {fileID: 0}

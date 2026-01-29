@@ -1,33 +1,24 @@
 using UnityEngine;
-using System.Collections; // Necesario para usar Corrutinas
+using System.Collections;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField]
-    public float HP;
-    [SerializeField]
-    protected float speed;
-    [SerializeField]
-    protected bool isAlive = true;
+    [SerializeField] public float HP;
+    [SerializeField] protected float speed;
+    [SerializeField] protected bool isAlive = true;
 
     protected bool collision_with_ship = false;
 
-
-
-    public float getSpeed() {return speed;}
-    public float getHP() {return HP;}
-    public bool getIsAlive() {return isAlive;}
-    public bool getCollisionWithShip() {return collision_with_ship;}
-
+    public float getSpeed() { return speed; }
+    public float getHP() { return HP; }
+    public bool getIsAlive() { return isAlive; }
+    public bool getCollisionWithShip() { return collision_with_ship; }
 
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
-
-    // modifica dificultad a la oleada
     protected virtual void Awake()
     {
-        // Guardamos la referencia y el color inicial al empezar
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
@@ -46,7 +37,6 @@ public class Entity : MonoBehaviour
         {
             HP -= damage;
 
-            // Iniciamos el efecto visual si no ha muerto
             if (HP > 0)
             {
                 StartCoroutine(DamageEffectRoutine());
@@ -62,38 +52,19 @@ public class Entity : MonoBehaviour
     private IEnumerator DamageEffectRoutine()
     {
         if (spriteRenderer == null) yield break;
-
-        // Cambiar a rojo con menos opacidad (Alpha)
-        // Color(R, G, B, A) -> Valores de 0 a 1
         spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f); 
-
-        // Esperar 0.3 segundos
         yield return new WaitForSeconds(0.3f);
-
-        // Volver al color original
         spriteRenderer.color = originalColor;
     }
 
-    // Método que se ejecuta cuando ocurre una colisión con trigger 2D
+    // MÉTODO CORREGIDO: Sin lógica de balas para evitar fuego amigo
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-            //Debug.Log("Detectó la colision");
-        // Verificar si el objeto con el que colisionó tiene la etiqueta "Bullet"
-        if (collision.CompareTag("Bullet"))
-        {
-            //Debug.Log("Colisionó con una bala");
-            Bullet bullet = collision.GetComponent<Bullet>();
-            if (bullet != null) // Pequeña seguridad extra
-            {
-            takeDamage(bullet.getDamage());
-            //Debug.Log("Vida Actual:"+ HP);
-            }
-        }
-
-        else if (collision.CompareTag("Ship"))
+        // La lógica de daño por balas ahora vive solo en Bullet.cs
+        
+        if (collision.CompareTag("Ship"))
         {
             collision_with_ship = true;
         }
     }
-
 }

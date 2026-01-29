@@ -4,68 +4,95 @@ using DG.Tweening;
 public class BossJumpState : State_Base
 {
     [Header("Configuración del Salto")]
-    public float jumpPower = 5f;
-    public float jumpDuration = 2f;
-    public float targetRightX = 6f; // Distancia hacia la derecha
+    public float jumpPower = 7f;
+    public float jumpDuration = 1.5f;
+    public float targetDistanceX = 8f; // Cuánto se desplaza lateralmente
 
     [Header("Animación y Efectos")]
-    public string jumpAnimationTrigger = "Jump"; // El nombre del Trigger en tu Animator
-    public GameObject jumpEffectPrefab; // Arrastra aquí tu prefab (ej. salpicadura)
+    public string jumpAnimName = "Salto"; 
+    public GameObject jumpEffectPrefab; 
     
     private Animator animator;
+    private Sequence jumpSequence;
+    private Vector3 originalPos;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        animator = controlledObject.GetComponentInChildren<Animator>();
+    }
 
     public override void EnterState()
     {
-        // 1. Obtener componentes
-     //   animator = controlledObject.GetComponent<Animator>();
-     //   if (animator == null) animator = controlledObject.GetComponentInChildren<Animator>();
+        Debug.Log("Cachalote iniciando: SALTO");
+        originalPos = controlledObject.transform.position;
 
-        // 2. Activar Animación
-    //    if (animator != null)
+        // 1. Ejecutar animación de Salto
+        if (animator != null)
         {
-       //     animator.SetBool("Pursuit", false);
-            //
-            
+            animator.Play(jumpAnimName);
         }
 
-        // 3. Instanciar el Prefab del efecto (al inicio del salto)
+        // 2. Efecto visual de salpicadura al inicio
         if (jumpEffectPrefab != null)
         {
             Instantiate(jumpEffectPrefab, controlledObject.transform.position, Quaternion.identity);
         }
 
-        // 4. Lógica de Movimiento (DOTween)
-        PerformJump();
+        // 3. Iniciar la secuencia de movimiento
+        PerformJumpSequence();
     }
 
-    void PerformJump()
+    // El UpdateState queda libre por si quieres añadir lógica de daño por contacto durante el salto
+    public override void UpdateState() { }
+
+    void PerformJumpSequence()
+{
+    // 1. Buscamos al jugador para decidir a qué extremo saltar
+    GameObject player = GameObject.FindGameObjectWithTag("Ship");
+    float targetX = 0f;
+
+    if (player != null)
     {
-        Vector3 originalPos = controlledObject.transform.position;
-        // Calcula el punto objetivo sumando a la posición actual (o fijo según tu lógica)
-        Vector3 targetPos = new Vector3(originalPos.x + targetRightX, originalPos.y, 0);
-
-        // Salto hacia la derecha
-        controlledObject.transform.DOJump(targetPos, jumpPower, 1, jumpDuration)
-            .OnComplete(() => {
-                // AL ATERRIZAR:
-                
-                // Opcional: Instanciar efecto de caída si quisieras
-                // if (jumpEffectPrefab) Instantiate(jumpEffectPrefab, transform.position, Quaternion.identity);
-
-                ReturnToPosition(originalPos);
-            });
+        // Si el jefe está a la derecha del barco, salta hasta el extremo izquierdo (-10)
+        // Si el jefe está a la izquierda del barco, salta hasta el extremo derecho (10)
+        targetX = (controlledObject.transform.position.x > player.transform.position.x) ? -9f : 9f;
+    }
+    else
+    {
+        // Fallback: Si no hay barco, elige el extremo más lejano a su posición actual
+        targetX = (controlledObject.transform.position.x > 0) ? -10f : 10f;
     }
 
-    void ReturnToPosition(Vector3 returnPos)
+    // 2. Calculamos la posición final exacta (X: 10 o -10, Y: -1)
+    Vector3 targetPos = new Vector3(targetX, -1f, 0);
+
+    jumpSequence = DOTween.Sequence();
+
+    // PASO 1: El Salto Parabólico hacia el destino fijo
+    jumpSequence.Append(controlledObject.transform.DOJump(targetPos, jumpPower, 1, jumpDuration).SetEase(Ease.Linear));
+
+    // PASO 2: Efecto al caer
+    jumpSequence.AppendCallback(() => {
+        if (jumpEffectPrefab != null)
+        {
+            Instantiate(jumpEffectPrefab, controlledObject.transform.position, Quaternion.identity);
+        }
+    });
+
+    // PASO 3: Fin y cambio de estado
+    jumpSequence.OnComplete(() => {
+        state_machine.SetState<BossPursueState>();
+    });
+}
+
+    public override void ExitState(string nextState)
     {
-        // Regreso suave a la posición original (o volver a perseguir directamente)
-        controlledObject.transform.DOMove(returnPos, 1f)
-            .OnComplete(() => {
-                // Avisar al animator que terminó (opcional, si tienes estado Idle)
-             //   if (animator != null) animator.SetTrigger("Idle"); 
-                
-                // Volver al estado de persecución
-                state_machine.SetState<BossPursueState>();
-            });
+        // Matamos la secuencia para evitar que el Cachalote siga moviéndose por código
+        if (jumpSequence != null) jumpSequence.Kill();
+
+        // Nos aseguramos de que termine en una posición coherente si se interrumpe
+        // (Opcional: podrías forzar la posición original aquí también)
+        Debug.Log("Estado Salto finalizado.");
     }
 }

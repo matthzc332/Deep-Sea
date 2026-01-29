@@ -1,89 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &827444293134154053
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3223942762309918446}
-  - component: {fileID: 2729390951505432116}
-  m_Layer: 0
-  m_Name: Jump
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3223942762309918446
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 827444293134154053}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2979801298658796928}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2729390951505432116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 827444293134154053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e4c50c496685143b45734ed9320908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpPower: 10
-  jumpDuration: 5
-  targetRightX: 6
-  jumpAnimationTrigger: Jump
-  jumpEffectPrefab: {fileID: 0}
---- !u!1 &895895639982226136
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2979801298658796928}
-  m_Layer: 0
-  m_Name: States
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2979801298658796928
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895895639982226136}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7098468151846897881}
-  - {fileID: 3223942762309918446}
-  - {fileID: 8347252762146935369}
-  - {fileID: 2837419864236703833}
-  m_Father: {fileID: 892258685177920540}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1462392096505775602
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,11 +14,7 @@ GameObject:
   - component: {fileID: 3831164567082135132}
   - component: {fileID: 306024466319631200}
   - component: {fileID: 1906850539406192618}
-  - component: {fileID: -39164268082537692}
-  - component: {fileID: 7100843382178958914}
   - component: {fileID: 7081107125241934758}
-  - component: {fileID: -96271905651657663}
-  - component: {fileID: -6243211599026623324}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -119,11 +31,11 @@ Transform:
   m_GameObject: {fileID: 1462392096505775602}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.1, y: -90, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 5.1, y: 0, z: 0}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2979801298658796928}
+  - {fileID: 7098468151846897881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3955035021231847198
@@ -272,9 +184,9 @@ MonoBehaviour:
   verticalSpeed: 2
   attackInterval: 4
   attackPool:
-  - {fileID: -39164268082537692}
-  - {fileID: 7100843382178958914}
-  - {fileID: -96271905651657663}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1906850539406192618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,40 +200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 3452855487070210910}
---- !u!114 &-39164268082537692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 6044418166369280425, guid: ae045bf4516973540b8b814203477dee, type: 3}
-  bombCount: 4
-  throwInterval: 0.3
---- !u!114 &7100843382178958914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311440a5e89474a48857517f6e21a7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sinkDepth: 10
-  riseHeight: 0
-  sinkDuration: 2
-  biteDuration: 0.5
-  stayBitingTime: 0.5
-  biteEffectPrefab: {fileID: 0}
-  biteAnimTrigger: Bite
 --- !u!95 &7081107125241934758
 Animator:
   serializedVersion: 7
@@ -344,35 +222,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-96271905651657663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e4c50c496685143b45734ed9320908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpPower: 7
-  jumpDuration: 3
-  targetRightX: 15
-  jumpAnimationTrigger: Jump
-  jumpEffectPrefab: {fileID: 0}
---- !u!114 &-6243211599026623324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462392096505775602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46dc80cb879f7cb4c8334758d901c94f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,8 +232,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7098468151846897881}
   - component: {fileID: 3452855487070210910}
+  - component: {fileID: 3108462945151121792}
+  - component: {fileID: 4542339417335358752}
+  - component: {fileID: 4974943394716349161}
   m_Layer: 0
-  m_Name: Pursue
+  m_Name: States
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,12 +250,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3006381190256591062}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.029999971, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2979801298658796928}
+  m_Father: {fileID: 892258685177920540}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3452855487070210910
 MonoBehaviour:
@@ -417,101 +269,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af08ee4c7ff8764494bca83c8ee28b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4949344949803099799
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8347252762146935369}
-  - component: {fileID: 7090184810957119680}
-  m_Layer: 0
-  m_Name: Bite
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8347252762146935369
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949344949803099799}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2979801298658796928}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7090184810957119680
+  timeBeforeNextAttack: 3
+  entrySinkDepth: -2
+  targetY: 0.5
+  transitionDuration: 1
+--- !u!114 &3108462945151121792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949344949803099799}
+  m_GameObject: {fileID: 3006381190256591062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e4c50c496685143b45734ed9320908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpPower: 10
+  jumpDuration: 2
+  targetDistanceX: 8
+  jumpAnimName: Salto
+  jumpEffectPrefab: {fileID: 0}
+--- !u!114 &4542339417335358752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006381190256591062}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 311440a5e89474a48857517f6e21a7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sinkDepth: 10
-  riseHeight: 0
+  targetY: 0.9
   sinkDuration: 1
   biteDuration: 0.5
   stayBitingTime: 0.5
   biteEffectPrefab: {fileID: 0}
-  biteAnimTrigger: Bite
---- !u!1 &6978026188625187665
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2837419864236703833}
-  - component: {fileID: 1844466364958916123}
-  m_Layer: 0
-  m_Name: Bombs
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2837419864236703833
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6978026188625187665}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2979801298658796928}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1844466364958916123
+  biteAnimName: mordida
+--- !u!114 &4974943394716349161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6978026188625187665}
+  m_GameObject: {fileID: 3006381190256591062}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 6044418166369280425, guid: ae045bf4516973540b8b814203477dee, type: 3}
+  bombPrefab: {fileID: 6044418166369280425, guid: e60d1d1621b73fd42ac28b1415f0b949, type: 3}
   bombCount: 7
   throwInterval: 0.3

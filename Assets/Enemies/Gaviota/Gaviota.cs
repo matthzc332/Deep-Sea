@@ -12,7 +12,7 @@ public class Gaviota : Entity
     public float limiteXDerecha = 10f;
 
     [Header("Vida")]
-    public float vida = 10f;
+    public float vida = 5f;
 
     public Transform barco;
 
