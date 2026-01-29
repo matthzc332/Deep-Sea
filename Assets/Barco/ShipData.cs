@@ -12,15 +12,18 @@ public class ShipData : ScriptableObject
     public int score;          // Puntaje acumulado
     public int balasGastadas;  // Contador de disparos
 
-    // Método útil para reiniciar datos al empezar el juego
+   
+
+    [Header("Prefabs de Posiciones")]
+    public GameObject posicion1;
+    public GameObject posicion2;
+    
+
+     // Método útil para reiniciar datos al empezar el juego
     public void ResetRunData()
     {
         score = 0;
         balasGastadas = 0;
         // Reiniciar vida o munición si es necesario
     }
-
-    [Header("Prefabs de Posiciones")]
-    public GameObject posicion1;
-    public GameObject posicion2;
 }

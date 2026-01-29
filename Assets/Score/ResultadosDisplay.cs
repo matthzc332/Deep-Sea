@@ -1,12 +1,12 @@
 using UnityEngine;
-using TMPro; 
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ResultadosDisplay : MonoBehaviour
 {
     [Header("Datos")]
-    public ShipData shipData; 
+    public ShipData shipData;
 
     [Header("UI References")]
     public TextMeshProUGUI textoScoreBase;
@@ -14,28 +14,36 @@ public class ResultadosDisplay : MonoBehaviour
     public TextMeshProUGUI textoDinero;
     public TextMeshProUGUI textoBalas;
     public TextMeshProUGUI textoTotal;
-    
+
     [Header("Botones")]
     public Button botonContinuar;
-
-    void Start()
+    void OnEnable()
     {
         CalcularYMostrar();
-        
+    }
+   void Start() 
+    {
+        // Configuramos el botón solo una vez
         if (botonContinuar != null)
         {
+            botonContinuar.onClick.RemoveAllListeners(); // Evita clics duplicados
             botonContinuar.onClick.AddListener(AlPulsarContinuar);
         }
     }
 
-    void CalcularYMostrar()
+void CalcularYMostrar()
     {
-        if (shipData == null) return;
+        if (shipData == null) 
+        {
+            Debug.LogError("Falta asignar el ShipData en el Prefab");
+            return;
+        }
 
-        // Fórmula de puntaje
+        Debug.Log("Actualizando Scoreboard..."); // Para ver si funciona en la consola
+
         long total = (shipData.score * shipData.puntosDeVida) + shipData.dinero + shipData.balasGastadas;
 
-        // Actualizar Textos (verificando que existan para no dar error)
+        // El signo ? evita error si olvidaste asignar algun texto
         if(textoScoreBase) textoScoreBase.text = shipData.score.ToString();
         if(textoVida)      textoVida.text = shipData.puntosDeVida.ToString();
         if(textoDinero)    textoDinero.text = shipData.dinero.ToString();
@@ -45,15 +53,14 @@ public class ResultadosDisplay : MonoBehaviour
 
     void AlPulsarContinuar()
     {
-        // Si la vida es 0, es Game Over -> Reiniciar Juego
         if (shipData.puntosDeVida <= 0)
         {
-            shipData.ResetRunData(); // Reiniciar contadores
-            SceneManager.LoadScene("MainMenu"); // O el nombre de tu escena de menú
+            shipData.ResetRunData(); 
+            SceneManager.LoadScene("MainMenu"); 
         }
         else
         {
-            // Si estamos vivos (fin de oleada) -> Cerrar cartel
+            // Si estamos en la isla, al cerrar el cartel desactivamos este objeto
             gameObject.SetActive(false);
         }
     }
