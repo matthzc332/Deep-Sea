@@ -27,16 +27,6 @@ public class Wave_Spawner : MonoBehaviour
 
     private void Update()
     {
-        // Debug Temporal
-        if (GameManager.instance == null) { Debug.Log("No hay GameManager"); return; }
-        if (GameManager.instance.currentGameState != GameManager.GameState.OnWave)
-        {
-            // Solo para ver si el problema es el estado, quitar después porque llenará la consola
-            // Debug.Log("Esperando estado OnWave... Estado actual: " + GameManager.instance.currentGameState);
-            return;
-        }
-
-        // ... resto de tu código
 
         if (GameManager.instance == null) return;
         if (GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;

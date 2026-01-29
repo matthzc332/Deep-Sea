@@ -12,4 +12,5 @@ public class PlantillaObjeto : ScriptableObject
     public int precio;
     public Sprite[] idleAnimationSprites; 
     public float animationSpeed = 2f; // Valor por defecto mayor a 0
+    public GameObject prefabDelObjeto; // Este es el campo para el Prefab
 }

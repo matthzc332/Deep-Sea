@@ -11,10 +11,19 @@ public class Base_Gun : MonoBehaviour
     protected GameObject ship;
 
     public Vector3 objective;
+    
+    public ShipData shipData;
 
-
-    void Start(){
+    void Start()
+    {
         ship = FindParentWithTag(transform, "Ship");
+
+        // SINCRONIZACIÓN DE MUNICIÓN
+        if (shipData != null)
+        {
+            amount_ammunition = shipData.municion;
+            Debug.Log($"Arma cargada con {amount_ammunition} balas.");
+        }
     }
 
 

@@ -6,10 +6,9 @@ public class BossWaveController : MonoBehaviour
     [Header("Referencias de UI")]
     public GameObject healthBarPanel;
     public Slider hpSlider;
-
-    [Header("Configuración")]
-    public BossController bossScript;
     public GameManager gameManager;
+    [Header("Configuraciï¿½n")]
+    public BossController bossScript;
 
     // Variable para saber si ya encontramos al boss y evitar buscarlo todo el tiempo
     private bool bossFound = false;
@@ -32,17 +31,17 @@ public class BossWaveController : MonoBehaviour
 
     private void Update()
     {
-        // CASO 1: Aún no hemos encontrado al Boss
+        // CASO 1: Aï¿½n no hemos encontrado al Boss
         if (!bossFound)
         {
             SearchForBoss();
-            return; // No hacemos nada más hasta encontrarlo
+            return; // No hacemos nada mï¿½s hasta encontrarlo
         }
 
         // CASO 2: Ya tenemos Boss, pero ha desaparecido (ej. destruido antes de tiempo)
         if (bossScript == null)
         {
-            // Opcional: Si desaparece el objeto, asumimos que murió
+            // Opcional: Si desaparece el objeto, asumimos que muriï¿½
             OnBossDefeated();
             return;
         }
@@ -52,7 +51,10 @@ public class BossWaveController : MonoBehaviour
 
         if (bossScript.HP <= 0)
         {
-            OnBossDefeated();
+            OnBossDefeated();{
+      
+        transform.rotation = Quaternion.Euler(0, 0, -90f);
+    }
         }
     }
 
@@ -87,10 +89,10 @@ public class BossWaveController : MonoBehaviour
     {
         Debug.Log("El Boss ha sido derrotado.");
 
-        // Aquí tu lógica de victoria (cambiar escena, desactivar barra, etc.)
+        // Aquï¿½ tu lï¿½gica de victoria (cambiar escena, desactivar barra, etc.)
         if (healthBarPanel != null)
             healthBarPanel.SetActive(false);
-        gameManager.EndWave();
+            gameManager.EndWave();
         // Desactivamos este script para que deje de procesar
         this.enabled = false;
     }

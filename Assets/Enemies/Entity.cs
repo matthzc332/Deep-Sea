@@ -1,43 +1,47 @@
 using UnityEngine;
+using System.Collections;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField]
-    public int HP;
-    [SerializeField]
-    protected float speed;
-    [SerializeField]
-    protected bool isAlive = true;
+    [SerializeField] public float HP;
+    [SerializeField] protected float speed;
+    [SerializeField] protected bool isAlive = true;
 
     protected bool collision_with_ship = false;
 
+    public float getSpeed() { return speed; }
+    public float getHP() { return HP; }
+    public bool getIsAlive() { return isAlive; }
+    public bool getCollisionWithShip() { return collision_with_ship; }
 
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
 
-    public float getSpeed() {return speed;}
-    public float getHP() {return HP;}
-    public bool getIsAlive() {return isAlive;}
-    public bool getCollisionWithShip() {return collision_with_ship;}
-
-
-
-    // modifica dificultad a la oleada
     protected virtual void Awake()
     {
-        // Si existe el GameManager, sumamos vida base + dificultad
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
+
         if (GameManager.instance != null)
         {
-            // Ejemplo: +1 de vida por cada nivel de dificultad
-            // O puedes hacer: HP += GameManager.instance.difficultyLevel * 10;
-            //  HP += GameManager.instance.difficultyLevel;
             HP += GameManager.difficultyLevel;
         }
     }
+
     public virtual void takeDamage(int damage)
     {
         if (isAlive)
         {
             HP -= damage;
-            if (HP <= 0)
+
+            if (HP > 0)
+            {
+                StartCoroutine(DamageEffectRoutine());
+            }
+            else
             {
                 isAlive = false;
                 Destroy(gameObject);
@@ -45,26 +49,22 @@ public class Entity : MonoBehaviour
         }
     }
 
-    // Método que se ejecuta cuando ocurre una colisión con trigger 2D
+    private IEnumerator DamageEffectRoutine()
+    {
+        if (spriteRenderer == null) yield break;
+        spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f); 
+        yield return new WaitForSeconds(0.3f);
+        spriteRenderer.color = originalColor;
+    }
+
+    // MÉTODO CORREGIDO: Sin lógica de balas para evitar fuego amigo
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-            //Debug.Log("Detectó la colision");
-        // Verificar si el objeto con el que colisionó tiene la etiqueta "Bullet"
-        if (collision.CompareTag("Bullet"))
-        {
-            //Debug.Log("Colisionó con una bala");
-            Bullet bullet = collision.GetComponent<Bullet>();
-            if (bullet != null) // Pequeña seguridad extra
-            {
-            takeDamage(bullet.getDamage());
-            //Debug.Log("Vida Actual:"+ HP);
-            }
-        }
-
-        else if (collision.CompareTag("Ship"))
+        // La lógica de daño por balas ahora vive solo en Bullet.cs
+        
+        if (collision.CompareTag("Ship"))
         {
             collision_with_ship = true;
         }
     }
-
 }

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5641146098987151703}
   - component: {fileID: 5721335033677454835}
-  - component: {fileID: 3764740642703437747}
   - component: {fileID: 8814782367129651040}
+  - component: {fileID: 3764740642703437747}
   - component: {fileID: 8722892198022260057}
   - component: {fileID: 4618490196580125317}
   - component: {fileID: 7134887311043407514}
@@ -38,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 1850420110061761352}
   - {fileID: 3553071297557301018}
+  - {fileID: 5124872348044976231}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5721335033677454835
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4875193837647451105, guid: 5d4acd73bdc2095449140b2ce980fc53, type: 3}
+  m_Sprite: {fileID: -4875193837647451105, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,6 +96,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8814782367129651040
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323983583771341356}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7d621399534937649afd413a740344d3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &3764740642703437747
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,28 +164,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 107.83674, y: 76.09183}
   m_EdgeRadius: 0
---- !u!95 &8814782367129651040
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323983583771341356}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5efebd7b69bec76439086ef192929f86, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &8722892198022260057
 Rigidbody2D:
   serializedVersion: 5
@@ -202,18 +203,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9883170e8b762e46ad0d2c54a422c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
+  HP: 1
   speed: 0
   isAlive: 1
   velocidadNormal: 7
   velocidadPicada: 13
   limiteXIzquierda: -10
   limiteXDerecha: 10
-  vida: 10
+  vida: 1
   barco: {fileID: 0}
   debug: 1
-  prefabExplosion: {fileID: 7143228047683219664}
-  duracionExplosion: 2
+  prefabExplosion: {fileID: 5932107102603200552}
+  duracionExplosion: 0.2
   enAreaBarco: 0
 --- !u!114 &7134887311043407514
 MonoBehaviour:
@@ -240,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d352d4fd704b2c46b4a1e856df847a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 2
+  HP: 0
   speed: 5
   isAlive: 1
 --- !u!1 &2596120283281919619
@@ -295,6 +296,50 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2596120283281919619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8851d0713de78394d8b704763c8a0b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5932107102603200552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5124872348044976231}
+  - component: {fileID: 6553310658439952826}
+  m_Layer: 0
+  m_Name: Explotando
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5124872348044976231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5932107102603200552}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.83782727, y: -3.5458963, z: 0}
+  m_LocalScale: {x: 54.114727, y: 54.114727, z: 54.114727}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5641146098987151703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6553310658439952826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5932107102603200552}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8851d0713de78394d8b704763c8a0b5e, type: 3}
