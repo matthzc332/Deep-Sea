@@ -4,6 +4,10 @@ public class Shoot_Cannon : State_Base
 {
     protected Cannon2 cannon;
     public GameObject bulletPrefab;
+    
+    // 1. Agregamos una variable para el archivo de sonido
+    [Header("Audio")]
+    public AudioClip sonidoDisparo; 
 
     public override void EnterState()
     {
@@ -16,6 +20,9 @@ public class Shoot_Cannon : State_Base
 
         cannon = controlledObject.GetComponent<Cannon2>();
 
+        // 2. Intentamos obtener el AudioSource del objeto que controlamos (el cañón)
+        AudioSource audioSource = controlledObject.GetComponent<AudioSource>();
+
         if (bulletPrefab != null)
         {
             Vector3 spawnPosition = controlledObject.transform.position;
@@ -27,18 +34,25 @@ public class Shoot_Cannon : State_Base
             {
                 float speed = cannon.power_shoot;
                 int power = 1; 
-                int pierceCount = 0; // Añadimos el valor de pierce que faltaba
+                int pierceCount = 0; 
 
-                // Corregido: Ahora enviamos los 4 parámetros que pide Bullet.cs
                 bulletScript.Initialize(cannon.objective, speed, power, pierceCount);
                 
-                // IMPORTANTE:
-                // Si 'cannon.objective' es un Vector3, no podemos usar LaunchTowards(Transform).
-                // Como Initialize ya aplica la velocidad, NO es necesario llamar a LaunchTowards aquí.
-                // bulletScript.LaunchTowards(...) -> Se elimina para evitar conflictos de tipos.
-
-                //Debug.Log($"Bala disparada hacia: {cannon.objective}");
                 cannon.amount_ammunition -= 1;
+
+                // --- AQUÍ REPRODUCIMOS EL SONIDO ---
+                // Usamos PlayOneShot para que si disparas rápido, los sonidos se superpongan y no se corten
+                if (audioSource != null && sonidoDisparo != null)
+                {
+                    audioSource.PlayOneShot(sonidoDisparo);
+                }
+                else
+                {
+                    // Debug para saber si te olvidaste de asignar algo en Unity
+                    if (audioSource == null) Debug.LogWarning("El Cañón no tiene componente AudioSource");
+                    if (sonidoDisparo == null) Debug.LogWarning("No has asignado el AudioClip de disparo en el inspector");
+                }
+                // ------------------------------------
             }
             else
             {
