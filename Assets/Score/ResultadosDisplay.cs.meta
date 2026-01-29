@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 27aacaaa242530d4c8bb962c9ba3c164
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - shipData: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  - textoScoreBase: {instanceID: 0}
+  - textoVida: {instanceID: 0}
+  - textoDinero: {instanceID: 0}
+  - textoBalas: {instanceID: 0}
+  - textoTotal: {instanceID: 0}
+  - botonContinuar: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

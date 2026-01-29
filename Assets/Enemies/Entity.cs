@@ -44,6 +44,18 @@ public class Entity : MonoBehaviour
             else
             {
                 isAlive = false;
+                // --- NUEVO: LÓGICA DE PUNTUACIÓN AL MORIR ---
+                // Verificamos si es un enemigo para dar puntos
+                if (CompareTag("Enemy")) 
+                {
+                    // Buscamos el barco para acceder al ShipData (Forma segura)
+                    Ship playerShip = FindFirstObjectByType<Ship>();
+                    if (playerShip != null && playerShip.shipData != null)
+                    {
+                        playerShip.shipData.score += 10;
+                        Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+                    }
+                }
                 Destroy(gameObject);
             }
         }
