@@ -14,11 +14,43 @@ public class Ship : Entity
     private float limiteDerecho = 7.300274f;
     private float limiteIzquierdo = -7.300274f;
     public float initialSpeed = 0.9f;
-    void Start()
+
+    public ShipData shipData;
+    public Transform puntoPosicion1;
+    public Transform puntoPosicion2;
+
+
+   void Start()
     {
         Ships = GetComponent<Transform>();
         spr = gameObject.GetComponent<SpriteRenderer>();
         speed = initialSpeed;
+
+        if (shipData != null)
+        {
+            // Sincronizar vida
+            HP = shipData.puntosDeVida;
+
+            // INSTANCIAR MARINEROS EN POSICIONES FIJAS
+            CargarTripulacionFija();
+        }
+    }
+
+    private void CargarTripulacionFija()
+    {
+        // Posición 1
+        if (shipData.posicion1 != null && puntoPosicion1 != null)
+        {
+            Instantiate(shipData.posicion1, puntoPosicion1.position, Quaternion.identity, puntoPosicion1);
+            Debug.Log("Marinero instanciado en Posición 1");
+        }
+
+        // Posición 2
+        if (shipData.posicion2 != null && puntoPosicion2 != null)
+        {
+            Instantiate(shipData.posicion2, puntoPosicion2.position, Quaternion.identity, puntoPosicion2);
+            Debug.Log("Marinero instanciado en Posición 2");
+        }
     }
     
     void Update()

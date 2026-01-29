@@ -1688,6 +1688,7 @@ MonoBehaviour:
   inspeccionPrefab: {fileID: 7856524568163324064, guid: d0547c756df8478488d61f815f909f1c, type: 3}
   inspeccionContainer: {fileID: 317429386}
   textoMonedas: {fileID: 509131821}
+  shipData: {fileID: 0}
   monedaJugador: 500
 --- !u!1 &549070579
 GameObject:
@@ -1857,6 +1858,7 @@ MonoBehaviour:
   inspeccionPrefab: {fileID: 7856524568163324064, guid: d0547c756df8478488d61f815f909f1c, type: 3}
   inspeccionContainer: {fileID: 317429386}
   textoMonedas: {fileID: 509131821}
+  shipData: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
   monedaJugador: 500
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
@@ -4531,6 +4533,7 @@ MonoBehaviour:
   inspeccionPrefab: {fileID: 7856524568163324064, guid: 030d8c0377f7cfa4283918baf5f01322, type: 3}
   inspeccionContainer: {fileID: 2124819652}
   textoMonedas: {fileID: 1513920516}
+  shipData: {fileID: 0}
   monedaJugador: 1
 --- !u!1 &1236587725
 GameObject:
@@ -6151,6 +6154,7 @@ MonoBehaviour:
   inspeccionPrefab: {fileID: 7856524568163324064, guid: 030d8c0377f7cfa4283918baf5f01322, type: 3}
   inspeccionContainer: {fileID: 2124819652}
   textoMonedas: {fileID: 1513920516}
+  shipData: {fileID: 0}
   monedaJugador: 10
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: f1fd714436de1aa43834cd373067590f, type: 2}

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puntosDeVida: 6
   municion: 25
+  dinero: 60
   posicion1: {fileID: 0}
-  posicion2: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
+  posicion2: {fileID: 0}

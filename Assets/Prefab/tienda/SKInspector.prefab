@@ -861,9 +861,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipoVista: 1
-  nombreTxt: {fileID: 0}
-  precioTxt: {fileID: 0}
-  iconoMarinero: {fileID: 0}
-  descTxt: {fileID: 0}
+  nombreTxt: {fileID: 741929418130067512}
+  precioTxt: {fileID: 6981526079743083423}
+  iconoMarinero: {fileID: 8414042159866530070}
+  descTxt: {fileID: 5275891489651831569}
   strongTxt: {fileID: 0}
   weakTxt: {fileID: 0}
