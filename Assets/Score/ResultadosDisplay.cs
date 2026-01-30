@@ -21,7 +21,7 @@ public class ResultadosDisplay : MonoBehaviour
     {
         CalcularYMostrar();
     }
-   void Start() 
+    void Start()
     {
         // Configuramos el botón solo una vez
         if (botonContinuar != null)
@@ -31,9 +31,9 @@ public class ResultadosDisplay : MonoBehaviour
         }
     }
 
-void CalcularYMostrar()
+    void CalcularYMostrar()
     {
-        if (shipData == null) 
+        if (shipData == null)
         {
             Debug.LogError("Falta asignar el ShipData en el Prefab");
             return;
@@ -44,19 +44,19 @@ void CalcularYMostrar()
         long total = (shipData.score * shipData.puntosDeVida) + shipData.dinero + shipData.balasGastadas;
 
         // El signo ? evita error si olvidaste asignar algun texto
-        if(textoScoreBase) textoScoreBase.text = shipData.score.ToString();
-        if(textoVida)      textoVida.text = shipData.puntosDeVida.ToString();
-        if(textoDinero)    textoDinero.text = shipData.dinero.ToString();
-        if(textoBalas)     textoBalas.text = shipData.balasGastadas.ToString();
-        if(textoTotal)     textoTotal.text = total.ToString();
+        if (textoScoreBase) textoScoreBase.text = shipData.score.ToString();
+        if (textoVida) textoVida.text = shipData.puntosDeVida.ToString();
+        if (textoDinero) textoDinero.text = shipData.dinero.ToString();
+        if (textoBalas) textoBalas.text = shipData.balasGastadas.ToString();
+        if (textoTotal) textoTotal.text = total.ToString();
     }
 
     void AlPulsarContinuar()
     {
         if (shipData.puntosDeVida <= 0)
         {
-            shipData.ResetRunData(); 
-            SceneManager.LoadScene("MainMenu"); 
+            shipData.ResetRunData();
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
