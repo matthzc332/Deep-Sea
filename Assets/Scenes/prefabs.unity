@@ -1378,8 +1378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5ddddf73e6fc744b6b62a219080648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveTimer: 40
-  normalWaveTime: 40
+  waveTimer: 10
+  normalWaveTime: 10
   timerUI: 
   GameManager: {fileID: 1300800121}
   shipData: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
@@ -6010,7 +6010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584303279199666108, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: amount_ammunition
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7584303279199666108, guid: aa6bb36e4bf7a9343921caaf153f6a34, type: 3}
       propertyPath: damage_percentage

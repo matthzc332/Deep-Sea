@@ -32,12 +32,16 @@ public class ResultadosDisplay : MonoBehaviour
     {
         if (shipData == null) return;
 
-        // Fórmula de puntaje
+        // 1. Calculamos el total
         long total = (shipData.score * shipData.puntosDeVida) + shipData.dinero + shipData.balasGastadas;
 
-        // Actualizar Textos (verificando que existan para no dar error)
-        if(textoScoreBase) textoScoreBase.text = shipData.score.ToString();
-        if(textoVida)      textoVida.text = shipData.puntosDeVida.ToString();
+        // 2. ¡IMPORTANTE! Guardar el resultado en el ScriptableObject
+        // para que sea persistente entre escenas.
+        shipData.score = (int)total;
+
+        // 3. Mostrar en UI
+        if (textoScoreBase) textoScoreBase.text = shipData.score.ToString();
+        if (textoVida)      textoVida.text = shipData.puntosDeVida.ToString();
         if(textoDinero)    textoDinero.text = shipData.dinero.ToString();
         if(textoBalas)     textoBalas.text = shipData.balasGastadas.ToString();
         if(textoTotal)     textoTotal.text = total.ToString();
@@ -49,7 +53,7 @@ public class ResultadosDisplay : MonoBehaviour
         if (shipData.puntosDeVida <= 0)
         {
             shipData.ResetRunData(); // Reiniciar contadores
-            SceneManager.LoadScene("MainMenu"); // O el nombre de tu escena de menú
+            SceneManager.LoadScene("ISLA"); // O el nombre de tu escena de menú
         }
         else
         {

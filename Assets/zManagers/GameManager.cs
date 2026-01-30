@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     void AlCargarEscena(Scene escena, LoadSceneMode modo)
     {
+        Debug.Log("Dificultad " + difficultyLevel);
         uiManager = FindFirstObjectByType<UIManager>();
 
         // --- CORRECCIÓN DE RESETEO ---
@@ -86,9 +87,12 @@ public class GameManager : MonoBehaviour
         if (playerShipData != null)
         {
             playerShipData.puntosDeVida = 6;
-            playerShipData.municion = 50;
+            playerShipData.municion = 30;
             playerShipData.dinero = 60;
-            
+            playerShipData.balasGastadas = 0;
+            playerShipData.score = 0;
+
+
             Debug.Log("GameManager: Datos de ShipData reseteados (Dificultad 0).");
         }
 
@@ -169,6 +173,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(bullet);
         }
+
 
         difficultyLevel++;
         Debug.Log("Dificultad aumentada a: " + difficultyLevel);
