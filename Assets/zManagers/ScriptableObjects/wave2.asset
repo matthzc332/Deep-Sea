@@ -15,8 +15,6 @@ MonoBehaviour:
   isBossWave: 0
   enemiesInWave:
   - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
-  - {fileID: 323983583771341356, guid: c319f4605eb3e744aaf25a5681bc4adb, type: 3}
   - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
-  - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
-  timeBeforeThisWave: 1
-  numberToSpawn: 4
+  timeBeforeThisWave: 2
+  numberToSpawn: 5

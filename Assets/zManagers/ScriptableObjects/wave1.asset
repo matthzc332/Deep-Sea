@@ -16,4 +16,4 @@ MonoBehaviour:
   enemiesInWave:
   - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
   timeBeforeThisWave: 3
-  numberToSpawn: 1
+  numberToSpawn: 3
