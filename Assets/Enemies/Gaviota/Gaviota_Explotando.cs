@@ -3,6 +3,7 @@
 public class Gaviota_Explotando : State_Base
 {
     private bool yaExploto = false;
+    private AnimationController anim;
 
     public override void EnterState()
     {
@@ -12,18 +13,21 @@ public class Gaviota_Explotando : State_Base
         Gaviota gaviota = controlledObject.GetComponent<Gaviota>();
         if (gaviota == null) return;
 
-        Animator anim = controlledObject.GetComponent<Animator>();
+        anim = controlledObject.GetComponent<AnimationController>();
+
+        // 👉 Pedir animación EXPLOTANDO (una sola vez)
         if (anim != null)
-            anim.Play("Explotando");
+            anim.Play(2, 1f); // 2 = Explotando
 
         if (!yaExploto)
         {
             yaExploto = true;
 
-            // 🔴 DAÑO DE LA EXPLOSIÓN
+            // 🔴 DAÑO DE EXPLOSIÓN
             Collider2D[] hits = Physics2D.OverlapCircleAll(
                 controlledObject.transform.position,
-                gaviota.radioExplosion);
+                gaviota.radioExplosion
+            );
 
             foreach (Collider2D hit in hits)
             {
@@ -35,12 +39,14 @@ public class Gaviota_Explotando : State_Base
                 }
             }
 
+            // FX visual opcional
             if (gaviota.prefabExplosion != null)
             {
                 GameObject exp = Instantiate(
                     gaviota.prefabExplosion,
                     controlledObject.transform.position,
-                    Quaternion.identity);
+                    Quaternion.identity
+                );
 
                 Destroy(exp, gaviota.duracionExplosion);
             }

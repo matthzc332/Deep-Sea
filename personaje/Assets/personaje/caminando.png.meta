@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: d8349f485e9552e4f9128e9ca8ef943d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3437172505203853665
+    second: PJ_Caminando_Nivel2-sheet_0
+  - first:
+      213: -9200271263795774554
+    second: PJ_Caminando_Nivel2-sheet_1
+  - first:
+      213: -9208814338527134720
+    second: PJ_Caminando_Nivel2-sheet_2
+  - first:
+      213: -7909065407736660131
+    second: PJ_Caminando_Nivel2-sheet_3
+  - first:
+      213: 3663229003472683418
+    second: PJ_Caminando_Nivel2-sheet_4
+  - first:
+      213: 1090945071236752456
+    second: PJ_Caminando_Nivel2-sheet_5
+  - first:
+      213: -7532049292963123757
+    second: PJ_Caminando_Nivel2-sheet_6
+  - first:
+      213: 7058417863323825860
+    second: PJ_Caminando_Nivel2-sheet_7
+  - first:
+      213: 4028963306351729130
+    second: PJ_Caminando_Nivel2-sheet_8
+  - first:
+      213: 6264046772794781118
+    second: PJ_Caminando_Nivel2-sheet_9
+  - first:
+      213: -8667954000603429640
+    second: PJ_Caminando_Nivel2-sheet_10
+  - first:
+      213: 1476198512493239235
+    second: PJ_Caminando_Nivel2-sheet_11
+  - first:
+      213: -1436558110214917252
+    second: PJ_Caminando_Nivel2-sheet_12
+  - first:
+      213: 7039028132283656810
+    second: PJ_Caminando_Nivel2-sheet_13
+  - first:
+      213: 8692775985078437607
+    second: PJ_Caminando_Nivel2-sheet_14
+  - first:
+      213: -5728955319215210008
+    second: PJ_Caminando_Nivel2-sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 86
+        width: 519
+        height: 894
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f96b59341d5bc40d0800000000000000
+      internalID: -3437172505203853665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1386
+        y: 65
+        width: 613
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6abf73cd702125080800000000000000
+      internalID: -9200271263795774554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2366
+        y: 55
+        width: 678
+        height: 918
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00cf0954628b33080800000000000000
+      internalID: -9208814338527134720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 3455
+        y: 52
+        width: 569
+        height: 936
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5fb68a6aea5d3290800000000000000
+      internalID: -7909065407736660131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 4583
+        y: 86
+        width: 539
+        height: 894
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a91c5eabe5766d230800000000000000
+      internalID: 3663229003472683418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 5706
+        y: 65
+        width: 613
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 844a78023c0d32f00800000000000000
+      internalID: 1090945071236752456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 6686
+        y: 55
+        width: 678
+        height: 918
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dd63361319c87790800000000000000
+      internalID: -7532049292963123757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 7775
+        y: 52
+        width: 569
+        height: 936
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c630bb46a984f160800000000000000
+      internalID: 7058417863323825860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 8903
+        y: 86
+        width: 539
+        height: 894
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae99d20e7c0c9e730800000000000000
+      internalID: 4028963306351729130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 10026
+        y: 65
+        width: 613
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebd6ddcf95d5ee650800000000000000
+      internalID: 6264046772794781118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 11006
+        y: 55
+        width: 678
+        height: 918
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f44b90e2cd35b780800000000000000
+      internalID: -8667954000603429640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 12095
+        y: 52
+        width: 569
+        height: 936
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cb9e13d9b28c7410800000000000000
+      internalID: 1476198512493239235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 13223
+        y: 86
+        width: 539
+        height: 894
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c73fe6d8202501ce0800000000000000
+      internalID: -1436558110214917252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 14346
+        y: 65
+        width: 613
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6aafbcbac6afa160800000000000000
+      internalID: 7039028132283656810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 15326
+        y: 55
+        width: 678
+        height: 918
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e685aeb3b1f2a870800000000000000
+      internalID: 8692775985078437607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PJ_Caminando_Nivel2-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 16415
+        y: 52
+        width: 569
+        height: 936
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e1c7109d79ae70b0800000000000000
+      internalID: -5728955319215210008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PJ_Caminando_Nivel2-sheet_0: -3437172505203853665
+      PJ_Caminando_Nivel2-sheet_1: -9200271263795774554
+      PJ_Caminando_Nivel2-sheet_10: -8667954000603429640
+      PJ_Caminando_Nivel2-sheet_11: 1476198512493239235
+      PJ_Caminando_Nivel2-sheet_12: -1436558110214917252
+      PJ_Caminando_Nivel2-sheet_13: 7039028132283656810
+      PJ_Caminando_Nivel2-sheet_14: 8692775985078437607
+      PJ_Caminando_Nivel2-sheet_15: -5728955319215210008
+      PJ_Caminando_Nivel2-sheet_2: -9208814338527134720
+      PJ_Caminando_Nivel2-sheet_3: -7909065407736660131
+      PJ_Caminando_Nivel2-sheet_4: 3663229003472683418
+      PJ_Caminando_Nivel2-sheet_5: 1090945071236752456
+      PJ_Caminando_Nivel2-sheet_6: -7532049292963123757
+      PJ_Caminando_Nivel2-sheet_7: 7058417863323825860
+      PJ_Caminando_Nivel2-sheet_8: 4028963306351729130
+      PJ_Caminando_Nivel2-sheet_9: 6264046772794781118
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
