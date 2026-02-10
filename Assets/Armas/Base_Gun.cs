@@ -18,17 +18,22 @@ public class Base_Gun : MonoBehaviour
     {
         ship = FindParentWithTag(transform, "Ship");
 
-        // SINCRONIZACIÓN DE MUNICIÓN
+        // SINCRONIZACIÓN:
         if (shipData != null)
         {
-            amount_ammunition = 50;
-            Debug.Log($"Arma cargada con {amount_ammunition} balas.");
+            // Igualamos la munición del arma a la del ScriptableObject
+            amount_ammunition = shipData.municion;
+            Debug.Log($"Arma sincronizada: {amount_ammunition} balas.");
+        }
+        else
+        {
+            Debug.LogError("¡Base_Gun no tiene asignado el ShipData en el inspector!");
         }
     }
 
 
-// Método para buscar recursivamente en los padres
-private GameObject FindParentWithTag(Transform current, string tag)
+    // Método para buscar recursivamente en los padres
+    private GameObject FindParentWithTag(Transform current, string tag)
 {
     Transform parent = current.parent;
     

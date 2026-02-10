@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: ShipData
   m_EditorClassIdentifier: 
   puntosDeVida: 6
-  municion: 25
+  municion: 26
   dinero: 60
+  score: 184
+  balasGastadas: 4
   posicion1: {fileID: 0}
   posicion2: {fileID: 0}
