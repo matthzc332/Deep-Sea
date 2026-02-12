@@ -12,6 +12,8 @@ TagManager:
   - FondoModalTienda
   - ContenedorBarco
   - Boss
+  - Cofre
+  - BulletEnemy
   layers:
   - Default
   - TransparentFX
