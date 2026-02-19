@@ -1,87 +1,116 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class Wave_Spawner : MonoBehaviour
 {
-    // Elemento 0: Solo Globos
-    // Elemento 1: Globo + Gaviota
     public Wave_ScriptableObject[] gameLevels;
-
     [SerializeField] private Transform[] spawnpoints;
 
-    private float timeBtwnSpawns;
+    [Header("Ajustes de Flujo")]
+    [SerializeField] private int maxEnemiesAlive = 5;
+    [Tooltip("DuraciÃ³n de las oleadas normales en segundos")]
+    [SerializeField] private float normalWaveDuration = 30f; 
 
-    // Variable para recordar qué configuración estamos usando
-    private Wave_ScriptableObject currentConfig;
+    private float timeBtwnSpawns;
+    private float waveEndTime; // Momento exacto en que debe terminar
+    [SerializeField] private Wave_ScriptableObject currentConfig;
+
+    private bool bossSpawned = false;
+    private bool waveFinished = false;
+    
+    [Header("Contadores de Estado")]
+    [SerializeField] private int currentEnemyCount = 0; 
+    [SerializeField] private int enemiesSpawnedInTotal = 0; 
 
     private void Start()
     {
+
+
         if (gameLevels == null || gameLevels.Length == 0)
         {
-            Debug.LogError(" ERROR: Asigna los Game Levels en el Inspector del Spawner.");
+            Debug.LogError("ERROR: Asigna los Game Levels en el Inspector del Spawner.");
             return;
         }
-
-        // Inicializar el primer spawn
         UpdateWaveConfig();
-        timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
     }
 
     private void Update()
     {
-        if (GameManager.instance == null) return;
+        if (GameManager.instance == null || GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
+        if (waveFinished) return;
 
-        // Si no estamos en oleada, no hacemos nada
-        if (GameManager.instance.currentGameState != GameManager.GameState.OnWave) return;
-
-        // --- CLAVE DEL ÉXITO: ---
-        // Antes de spawnear, nos aseguramos de tener la configuración de la dificultad actual
         UpdateWaveConfig();
 
-        if (Time.time >= timeBtwnSpawns)
+        // 1. LÃ³gica de FinalizaciÃ³n
+        if (currentConfig.isBossWave)
         {
-            SpawnWave();
-            // Reiniciar contador usando el tiempo del nivel actual
+            // Termina si el jefe fue spawneado y ya no existe en la escena
+            bool bossAlive = GameObject.FindGameObjectWithTag("Boss") != null;
+            if (bossSpawned && !bossAlive) EndWave();
+        }
+        else
+        {
+            // Termina cuando el tiempo se agota
+            if (Time.time >= waveEndTime) EndWave();
+        }
+
+        // 2. LÃ³gica de Spawneo (Solo spawnea si hay espacio)
+        if (currentEnemyCount < maxEnemiesAlive)
+        {
+            // En oleadas normales, ignoramos el "NumberToSpawn" y spawneamos por tiempo infinito
+            // En oleadas de jefe, podrÃ­as querer limitar los minions (opcional)
+            if (Time.time >= timeBtwnSpawns)
+            {
+                SpawnEnemy();
+                timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
+            }
+        }
+    }
+
+    private void EndWave()
+    {
+        if (waveFinished) return;
+        waveFinished = true;
+        Debug.Log("Oleada Completada. Iniciando transiciÃ³n...");
+        // Llama aquÃ­ a tu rutina de fin de oleada del GameManager
+    }
+
+    private void UpdateWaveConfig()
+    {
+        int currentDifficulty = GameManager.difficultyLevel;
+        if (currentDifficulty >= gameLevels.Length) currentDifficulty = gameLevels.Length - 1;
+
+        if (currentConfig != gameLevels[currentDifficulty])
+        {
+            currentConfig = gameLevels[currentDifficulty];
+            bossSpawned = false;
+            enemiesSpawnedInTotal = 0; 
+            waveFinished = false;
+            
+            // Calculamos cuÃ¡nto durarÃ¡ esta oleada si es normal
+            waveEndTime = Time.time + normalWaveDuration;
             timeBtwnSpawns = Time.time + currentConfig.TimeBeforeThisWave;
         }
     }
 
-    // Esta función selecciona el archivo correcto según la dificultad del GameManager
-    private void UpdateWaveConfig()
+    private void SpawnEnemy()
     {
-        int currentDifficulty = GameManager.difficultyLevel;
-
-        // Protección: Si la dificultad es mayor que los niveles que tenemos, usamos el último
-        if (currentDifficulty >= gameLevels.Length)
+        if (spawnpoints == null || spawnpoints.Length == 0 || currentConfig.EnemiesInWave.Length == 0) return;
+        
+        int enemyIndex = 0;
+        if (currentConfig.isBossWave)
         {
-            currentDifficulty = gameLevels.Length - 1;
+            if (!bossSpawned) { enemyIndex = 0; bossSpawned = true; }
+            else { enemyIndex = Random.Range(1, currentConfig.EnemiesInWave.Length); }
         }
+        else { enemyIndex = Random.Range(0, currentConfig.EnemiesInWave.Length); }
 
-        // Asignamos la configuración actual
-        currentConfig = gameLevels[currentDifficulty];
-    }
-
-    private void SpawnWave()
-    {
-        if (spawnpoints == null || spawnpoints.Length == 0) return;
-
-        // Fórmula: Enemigos base + Dificultad actual (para que sean más cada vez)
-        //int extraEnemies = GameManager.instance.difficultyLevel;
-        //float totalToSpawn = currentConfig.NumberToSpawn + extraEnemies;
-        int extraEnemies = GameManager.difficultyLevel;
-        int currentDifficulty = GameManager.difficultyLevel;
-
-        //for (int i = 0; i < totalToSpawn; i++)
-        {
-            if (currentConfig.EnemiesInWave != null && currentConfig.EnemiesInWave.Length > 0)
-            {
-                // Elegir enemigo al azar de la lista actual (Nivel 0: Solo globo, Nivel 1: Globo o Gaviota)
-                int enemyIndex = Random.Range(0, currentConfig.EnemiesInWave.Length);
-                int spawnIndex = Random.Range(0, spawnpoints.Length);
-
-                Instantiate(currentConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
-            }
-        }
+        int spawnIndex = Random.Range(0, spawnpoints.Length);
+        GameObject enemy = Instantiate(currentConfig.EnemiesInWave[enemyIndex], spawnpoints[spawnIndex].position, spawnpoints[spawnIndex].rotation);
+        
+        currentEnemyCount++;
+        enemiesSpawnedInTotal++; 
+        
+        EnemyDeathNotifier notifier = enemy.GetComponent<EnemyDeathNotifier>() ?? enemy.AddComponent<EnemyDeathNotifier>();
+        notifier.OnDeath += () => { currentEnemyCount--; };
     }
 }

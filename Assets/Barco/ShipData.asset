@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4ad1ee5ca3044438e6c0151716e470, type: 3}
-  m_Name: globo2
+  m_Script: {fileID: 11500000, guid: 0290e199145abf04ca2714ffc60d67f2, type: 3}
+  m_Name: ShipData
   m_EditorClassIdentifier: 
-  enemiesInWave:
-  - {fileID: 7332662068828707175, guid: 05f742ed1940a9942b28d082225ebe73, type: 3}
-  timeBeforeThisWave: 4
-  numberToSpawn: 4
+  puntosDeVida: 6
+  municion: 26
+  dinero: 60
+  score: 184
+  balasGastadas: 4
+  posicion1: {fileID: 0}
+  posicion2: {fileID: 0}

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 public class Ship : Entity
 {
+    private bool esInvulnerable = false; // Controla si puede recibir daño
     private Transform Ships;
     private SpriteRenderer spr;
     public Joystick joystick;
@@ -13,11 +14,43 @@ public class Ship : Entity
     private float limiteDerecho = 7.300274f;
     private float limiteIzquierdo = -7.300274f;
     public float initialSpeed = 0.9f;
-    void Start()
+
+    public ShipData shipData;
+    public Transform puntoPosicion1;
+    public Transform puntoPosicion2;
+
+
+   void Start()
     {
         Ships = GetComponent<Transform>();
         spr = gameObject.GetComponent<SpriteRenderer>();
         speed = initialSpeed;
+
+        if (shipData != null)
+        {
+            // Sincronizar vida
+            HP = shipData.puntosDeVida;
+
+            // INSTANCIAR MARINEROS EN POSICIONES FIJAS
+            CargarTripulacionFija();
+        }
+    }
+
+    private void CargarTripulacionFija()
+    {
+        // Posición 1
+        if (shipData.posicion1 != null && puntoPosicion1 != null)
+        {
+            Instantiate(shipData.posicion1, puntoPosicion1.position, Quaternion.identity, puntoPosicion1);
+            Debug.Log("Marinero instanciado en Posición 1");
+        }
+
+        // Posición 2
+        if (shipData.posicion2 != null && puntoPosicion2 != null)
+        {
+            Instantiate(shipData.posicion2, puntoPosicion2.position, Quaternion.identity, puntoPosicion2);
+            Debug.Log("Marinero instanciado en Posición 2");
+        }
     }
     
     void Update()
@@ -62,23 +95,71 @@ public class Ship : Entity
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
         {
-           // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+            base.OnTriggerEnter2D(other); 
+
             if (other.CompareTag("Enemy"))
             {
-                //Debug.Log("colisionó un enemigo");
+            // Debug.Log("Trigger con: " + other.name + " (tag: " + other.tag + ")");
+                if (other.CompareTag("Enemy"))
+                {
+                    //Debug.Log("colisionó un enemigo");
+                }
             }
         }
 
+    // public override void takeDamage(int damage)
+    // {
+    //     if (isAlive)
+    //     {
+    //         HP -= damage;
+    //         if (HP <= 0)
+    //         {
+    //             isAlive = false;
+    //             SceneManager.LoadScene("prefabs");
+    //         }
+    //     }
+    // }
+
+    // modifico take damage para no morir de ataques constantes del jefe
     public override void takeDamage(int damage)
     {
-        if (isAlive)
+        // 1. Si ya murió o es invulnerable, no hacemos nada
+        if (!isAlive || esInvulnerable) return;
+
+        // 2. Aplicamos daño
+        HP -= damage;
+        
+        // Debug para ver que no baje a lo loco
+        Debug.Log($"Barco golpeado. Vida restante: {HP}");
+
+        if (HP <= 0)
         {
-            HP -= damage;
-            if (HP <= 0)
-            {
-                isAlive = false;
-                SceneManager.LoadScene("prefabs");
-            }
+            isAlive = false;
+            SceneManager.LoadScene("prefabs");
+        }
+        else
+        {
+            Debug.Log("Algo golpeo invicibilidad, vida actual: " + HP);
+            // 3. Si sigue vivo, activamos la invulnerabilidad temporal
+            StartCoroutine(RutinaInvulnerabilidad());
         }
     }
+    // CORRUTINA NUEVA PARA EL TIEMPO DE GRACIA
+    IEnumerator RutinaInvulnerabilidad()
+    {
+        esInvulnerable = true;
+        
+        // Opcional: Hacemos que el barco parpadee (se ponga medio transparente)
+        if (spr != null) spr.color = new Color(1f, 1f, 1f, 0.5f);
+
+        // Esperamos 1.5 segundos (puedes cambiar este número)
+        yield return new WaitForSeconds(1.5f);
+
+        // Volvemos a la normalidad
+        if (spr != null) spr.color = Color.white;
+        esInvulnerable = false;
+        
+        Debug.Log("Barco vulnerable de nuevo.");
+    }
+
 }

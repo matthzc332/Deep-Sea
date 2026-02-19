@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] protected float HP;
+    [SerializeField] public float HP;
     [SerializeField] protected float speed;
     [SerializeField] protected bool isAlive = true;
 
@@ -13,8 +14,17 @@ public class Entity : MonoBehaviour
     public bool getIsAlive() { return isAlive; }
     public bool getCollisionWithShip() { return collision_with_ship; }
 
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+
     protected virtual void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
+
         if (GameManager.instance != null)
         {
             HP += GameManager.difficultyLevel;
@@ -23,37 +33,48 @@ public class Entity : MonoBehaviour
 
     public virtual void takeDamage(int damage)
     {
-        if (!isAlive) return;
-
-        HP -= damage;
-
-        if (HP <= 0)
+        if (isAlive)
         {
-            isAlive = false;
+            HP -= damage;
 
-            // 🔥 EN VEZ DE DESTRUIR, PASAMOS AL ESTADO DE MUERTE
-            State_Machine sm = GetComponent<State_Machine>();
-
-            if (sm != null)
+            if (HP > 0)
             {
-                sm.SetState<Gaviota_Explotando>();
+                StartCoroutine(DamageEffectRoutine());
             }
             else
             {
-                // Si no tiene máquina de estados, se destruye normal
+                isAlive = false;
+                // --- NUEVO: LÓGICA DE PUNTUACIÓN AL MORIR ---
+                // Verificamos si es un enemigo para dar puntos
+                if (CompareTag("Enemy")) 
+                {
+                    // Buscamos el barco para acceder al ShipData (Forma segura)
+                    Ship playerShip = FindFirstObjectByType<Ship>();
+                    if (playerShip != null && playerShip.shipData != null)
+                    {
+                        playerShip.shipData.score += 10;
+                        Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+                    }
+                }
                 Destroy(gameObject);
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator DamageEffectRoutine()
     {
-        if (collision.CompareTag("Bullet"))
-        {
-            Bullet bullet = collision.GetComponent<Bullet>();
-            takeDamage(bullet.getDamage());
-        }
-        else if (collision.CompareTag("Ship"))
+        if (spriteRenderer == null) yield break;
+        spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f); 
+        yield return new WaitForSeconds(0.3f);
+        spriteRenderer.color = originalColor;
+    }
+
+    // MÉTODO CORREGIDO: Sin lógica de balas para evitar fuego amigo
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        // La lógica de daño por balas ahora vive solo en Bullet.cs
+        
+        if (collision.CompareTag("Ship"))
         {
             collision_with_ship = true;
         }

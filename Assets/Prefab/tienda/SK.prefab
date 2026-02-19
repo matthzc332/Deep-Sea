@@ -303,15 +303,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipoVista: 0
-  textoObjeto: {fileID: 741929418130067512}
-  precioObjeto: {fileID: 0}
-  strongText: {fileID: 0}
-  weakText: {fileID: 0}
-  description: {fileID: 0}
-  marineroImage: {fileID: 8414042159866530070}
-  botonSeleccionar: {fileID: 6868024066673207700}
-  currentAnimationSprites: []
-  animationSpeed: 1
+  nombreTxt: {fileID: 741929418130067512}
+  precioTxt: {fileID: 0}
+  iconoMarinero: {fileID: 8414042159866530070}
+  descTxt: {fileID: 0}
+  strongTxt: {fileID: 0}
+  weakTxt: {fileID: 0}
 --- !u!114 &6868024066673207700
 MonoBehaviour:
   m_ObjectHideFlags: 0

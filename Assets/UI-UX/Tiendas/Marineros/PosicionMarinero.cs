@@ -3,14 +3,21 @@ using UnityEngine.UI;
 
 public class PosicionMarinero : MonoBehaviour
 {
+    public enum TipoPosicion { Posicion1, Posicion2 }
+
     [Header("Referencias de Managers")]
     public ShipPlacementManager shipPlacementManager; 
+
+    [Header("Conexión con Datos del Barco")]
+    // Arrastra aquí tu archivo ShipData desde la carpeta Assets
+    public ShipData datosDelBarco; 
+    public TipoPosicion quePosicionRepresenta;
 
     [Header("Configuración")]
     public PlantillaObjeto marineroAsignado;
     
     [Header("Silueta (para posición vacía)")]
-    public Sprite spriteSilueta; // Asigna esto en el inspector
+    public Sprite spriteSilueta; 
     
     private Image imagenPosicion;
     private Sprite spriteOriginal;
@@ -18,40 +25,89 @@ public class PosicionMarinero : MonoBehaviour
     private float timerAnimacion = 0f;
     private bool estadoInicializado = false;
     
-    void Awake()
-    {
-        imagenPosicion = GetComponent<Image>();
-        
-        // Forzamos color blanco opaco para que no sea invisible
-        if (imagenPosicion != null) 
-            imagenPosicion.color = Color.white;
-
-        ConfigurarBotonPosicion();
-    }
+void Awake()
+{
+    // 1. Referencias de componentes
+    imagenPosicion = GetComponent<Image>();
     
-    void Start()
+    if (imagenPosicion != null) 
+        imagenPosicion.color = Color.white;
+
+    ConfigurarBotonPosicion();
+
+    // 2. LIMPIEZA INMEDIATA
+    // Forzamos el estado null antes de que pase el primer frame
+    marineroAsignado = null;
+    LimpiarReferenciaEnScriptableObject();
+    
+    Debug.Log($"<color=cyan>[INICIO]</color> Posición {quePosicionRepresenta}: Marinero asignado es <b>NULL</b>.");
+}
+
+void Start()
+{
+    // Guardamos el sprite original si no se hizo en Awake
+    if (imagenPosicion != null && imagenPosicion.sprite != null)
+        spriteOriginal = imagenPosicion.sprite;
+
+    // Actualizamos lo visual para que muestre la silueta desde el segundo 0
+    ActualizarEstadoPosicion();
+    estadoInicializado = true;
+}
+
+    private void LimpiarReferenciaEnScriptableObject()
     {
-        // Guardamos el sprite original que tenga en el inspector
-        if (imagenPosicion != null && imagenPosicion.sprite != null)
-            spriteOriginal = imagenPosicion.sprite;
-        
-        ActualizarEstadoPosicion();
-        estadoInicializado = true;
+        if (datosDelBarco == null) return;
+
+        if (quePosicionRepresenta == TipoPosicion.Posicion1)
+        {
+            datosDelBarco.posicion1 = null;
+            Debug.Log("DEBUG: POSICION 1 LIMPIADA");
+        }
+        else if (quePosicionRepresenta == TipoPosicion.Posicion2)
+        {
+            datosDelBarco.posicion2 = null;
+            Debug.Log("DEBUG: POSICION 2 LIMPIADA");
+        }
+    }
+
+    private void ActualizarPrefabEnScriptableObject(GameObject nuevoPrefab)
+    {
+        if (datosDelBarco == null) return;
+
+        if (quePosicionRepresenta == TipoPosicion.Posicion1)
+            datosDelBarco.posicion1 = nuevoPrefab;
+        else if (quePosicionRepresenta == TipoPosicion.Posicion2)
+            datosDelBarco.posicion2 = nuevoPrefab;
     }
     
     public bool AsignarMarinero(PlantillaObjeto nuevoMarinero)
     {
+        // 1. Si ya hay alguien, rebotamos la acción
         if (marineroAsignado != null) return false;
         
+        // 2. Asignamos la referencia local
         marineroAsignado = nuevoMarinero;
-        imagenPosicion.material = null;
+
+        // 3. Sincronizamos con el ScriptableObject (ShipData)
+        if (nuevoMarinero != null && datosDelBarco != null)
+        {
+            // Pasamos el prefab que contiene la plantilla al ScriptableObject
+            ActualizarPrefabEnScriptableObject(nuevoMarinero.prefabDelObjeto);
+            Debug.Log($"<color=green>Sincronización:</color> Prefab {nuevoMarinero.prefabDelObjeto.name} guardado en {quePosicionRepresenta} de ShipData.");
+        }
+
+        // 4. Actualizamos el aspecto visual
+        if (imagenPosicion != null) imagenPosicion.material = null;
         ActualizarEstadoPosicion();
+        
         return true;
     }
     
     public void LiberarPosicion()
     {
         marineroAsignado = null;
+        // También limpiamos el ScriptableObject al liberar la posición
+        LimpiarReferenciaEnScriptableObject();
         ActualizarEstadoPosicion();
     }
     
@@ -61,30 +117,24 @@ public class PosicionMarinero : MonoBehaviour
         
         if (marineroAsignado == null)
         {
-            // Cuando NO hay marinero asignado: mostrar SILUETA BLANCA
             if (spriteSilueta != null)
             {
-                // Usar la silueta específica asignada en el inspector
                 imagenPosicion.sprite = spriteSilueta;
                 imagenPosicion.color = Color.white;
             }
             else
             {
-                // Si no hay silueta, mostrar el sprite original (si existe)
                 imagenPosicion.sprite = spriteOriginal;
                 imagenPosicion.color = Color.white;
             }
             
-            // Resetear cualquier animación
             frameActual = 0;
             timerAnimacion = 0f;
         }
         else
         {
-            // Cuando SÍ hay marinero asignado: mostrar el marinero REAL con animación
-            imagenPosicion.color = Color.white; // Color normal para sprites con color
+            imagenPosicion.color = Color.white; 
             
-            // ASIGNAR TEXTURA DEL MARINERO
             if (marineroAsignado.idleAnimationSprites != null && marineroAsignado.idleAnimationSprites.Length > 0)
             {
                 imagenPosicion.sprite = marineroAsignado.idleAnimationSprites[0];
@@ -98,7 +148,6 @@ public class PosicionMarinero : MonoBehaviour
     {
         if (!estadoInicializado || marineroAsignado == null) return;
         
-        // Animación si hay más de un frame
         if (marineroAsignado.idleAnimationSprites.Length > 1)
         {
             timerAnimacion += Time.deltaTime;
@@ -132,7 +181,6 @@ public class PosicionMarinero : MonoBehaviour
         boton.onClick.RemoveAllListeners();
         boton.onClick.AddListener(OnClickPosicion);
         
-        // Colores del botón sólidos para que se vea el cuadro
         ColorBlock colors = boton.colors;
         colors.normalColor = Color.white;
         colors.highlightedColor = new Color(0.9f, 0.9f, 0.9f, 1f);

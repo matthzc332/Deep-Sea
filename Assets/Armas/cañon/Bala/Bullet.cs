@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     public int damage;
     public int pierce;
     public float initialSpeed;
+    public bool isFromEnemy;
     
     [Header("State Data")]
     public Transform enemy;    // Objetivo como Transform (usado por estados)
@@ -77,26 +78,41 @@ public class Bullet : MonoBehaviour
 
     // 5. Detección de colisiones
     private void OnTriggerEnter2D(Collider2D other)
+{
+    // SEGURIDAD: Si ya impactó, no procesar nada más
+    if (hasHit) return;
+
+    if (isFromEnemy)
     {
-        // Si no es un enemigo, ignoramos
-        if (!other.CompareTag("Enemy")) return;
-
-        // Aplicar daño
-        Entity e = other.GetComponent<Entity>();
-        if (e != null)
+        // Si la bala es de un enemigo, IGNORA por completo a otros enemigos o jefes
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss")) 
         {
-            e.takeDamage(damage);
+            return; // Aquí salimos y hasHit sigue siendo FALSE
         }
+    }
+    else
+    {
+        // Si la bala es del jugador, IGNORA a la nave del jugador
+        if (other.CompareTag("Ship")) 
+        {
+            return;
+        }
+    }
 
-        // Lógica de perforación
+    // SI LLEGÓ AQUÍ, ES UN IMPACTO REAL
+    Entity e = other.GetComponent<Entity>();
+    if (e != null)
+    {
+        e.takeDamage(damage);
+
         if (pierce > 0)
         {
             pierce--;
         }
         else
         {
-            // Activamos la bandera para que BulletMoveState pase a Bullet_destroy
-            hasHit = true; 
+            hasHit = true; // Solo aquí se activa la destrucción
         }
     }
+}
 }

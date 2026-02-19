@@ -5,6 +5,7 @@ public class Focus_pistolero : State_Base
     private Animator animator;
     private float timer = 1f;
     private GameObject brazoPistola;
+    private GameObject manoConPistola;
     private ManagerMarineros marineroManager;
     public GameObject proyectilPrefab;
 
@@ -54,27 +55,67 @@ public class Focus_pistolero : State_Base
         }
     }
 
-    private void ApuntarAlEnemigo()
+private void ApuntarAlEnemigo()
+{
+    if (marineroManager != null && manoConPistola != null)
     {
-        if (marineroManager != null && brazoPistola != null)
+        GameObject enemigo = marineroManager.FindClosestEnemy();
+        if (enemigo == null) return;
+
+        // 1. Definimos el "Hombro": una posición relativa al marinero
+        // Ajusta estos valores (0.2f, 0.5f) para que coincidan con el hombro de tu sprite
+        Vector3 centroHombro = controlledObject.transform.position + new Vector3(0.2f, 0.5f, 0);
+
+        // 2. Calculamos la dirección y el ángulo
+        Vector3 direccion = enemigo.transform.position - centroHombro;
+        float anguloRad = Mathf.Atan2(direccion.y, direccion.x);
+        float anguloDeg = anguloRad * Mathf.Rad2Deg;
+
+        // 3. POSICIONAR LA MANO: 
+        // Usamos Seno y Coseno para mantener la mano a una distancia fija (Radio)
+        float radio = 0.8f; // El largo de tu "brazo invisible"
+        Vector3 offsetPosicion = new Vector3(Mathf.Cos(anguloRad), Mathf.Sin(anguloRad), 0) * radio;
+        
+        manoConPistola.transform.position = centroHombro + offsetPosicion;
+
+        // 4. ROTAR LA MANO
+        // Usamos rotación global para ignorar la escala del marinero
+        manoConPistola.transform.rotation = Quaternion.Euler(0, 0, anguloDeg - 10f);
+
+        // 5. CORRECCIÓN VISUAL (Flip y Sorting)
+        SpriteRenderer sr = manoConPistola.GetComponent<SpriteRenderer>();
+        if (sr != null)
         {
-            GameObject enemigoCercano = marineroManager.FindClosestEnemy();
-            
-            if (enemigoCercano != null)
-            {
-                // Calcular dirección hacia el enemigo
-                Vector3 direccion = enemigoCercano.transform.position - brazoPistola.transform.position;
-                
-                // Calcular ángulo de rotación
-                float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
-                angulo = angulo-10f;
-                
-                // Aplicar rotación al brazo
-                brazoPistola.transform.rotation = Quaternion.Euler(0f, 0f, angulo);
-                
-            }
+            bool miraIzquierda = Mathf.Abs(anguloDeg) > 90f;
+            sr.flipY = miraIzquierda;
+            sr.sortingOrder = miraIzquierda ? -1 : 1;
         }
     }
+}
+
+
+    // FUNCION VIEJA, DONDE EL BRAZO SI APUNTA DINAMICAMENTE
+    // private void ApuntarAlEnemigo()
+    // {
+    //     if (marineroManager != null && brazoPistola != null)
+    //     {
+    //         GameObject enemigoCercano = marineroManager.FindClosestEnemy();
+            
+    //         if (enemigoCercano != null)
+    //         {
+    //             // Calcular dirección hacia el enemigo
+    //             Vector3 direccion = enemigoCercano.transform.position - brazoPistola.transform.position;
+                
+    //             // Calcular ángulo de rotación
+    //             float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+    //             angulo = angulo-10f;
+                
+    //             // Aplicar rotación al brazo
+    //             brazoPistola.transform.rotation = Quaternion.Euler(0f, 0f, angulo);
+                
+    //         }
+    //     }
+    // }
 
 
     // Función auxiliar para buscar hijo por nombre

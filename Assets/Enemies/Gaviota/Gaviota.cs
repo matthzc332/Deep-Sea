@@ -12,77 +12,80 @@ public class Gaviota : Entity
     public float limiteXDerecha = 10f;
 
     [Header("Vida")]
-    public float vida = 1f;
+    public float vida = 5f;
 
-    [Header("Objetivo")]
     public Transform barco;
 
-    [Header("Daño explosión")]
-    public int dañoAlBarco = 1;
-    public float radioExplosion = 0.8f;
 
-    [Header("Explosión")]
+    [Header("Opciones adicionales")]
+    public bool debug = true;
+
+    [Header("Prefab de explosión")]
     public GameObject prefabExplosion;
     public float duracionExplosion = 2f;
 
-    [Header("Debug")]
-    public bool debug = true;
+    [HideInInspector]
+    public bool enAreaBarco = false;
 
-    [HideInInspector] public bool enAreaBarco = false;
-
+    // Referencia al teclado para el nuevo Input System
     private Keyboard keyboard;
-    private State_Machine stateMachine;
-    private bool muerta = false;
 
     void Start()
     {
-        stateMachine = GetComponent<State_Machine>();
-        keyboard = Keyboard.current;
+        // Obtener referencia al teclado
+        GameObject objetoBarco = GameObject.FindGameObjectWithTag("Ship");
 
-        GameObject shipObj = GameObject.FindGameObjectWithTag("Ship");
-        if (shipObj != null)
-        {
-            barco = shipObj.transform;
-            if (debug) Debug.Log("Barco asignado a gaviota");
-        }
-        else
-        {
-            if (debug) Debug.LogWarning("No se encontró objeto con tag Ship");
-        }
+    if (objetoBarco != null)
+    {
+        barco = objetoBarco.transform;
+
+        // 2. Ahora puedes usar 'barco' (que es un Transform) para calcular la dirección
+        // Asegúrate de que 'controlledObject' esté asignado en tu script
+        Vector3 direccion = (barco.position - transform.position).normalized;
+        
+        if(debug); //Debug.Log("Barco encontrado en: " + barco.position);
+    }
+    else
+    {
+        //Debug.LogError("No se encontró ningún objeto con el Tag 'Ship'");
+    }
+        keyboard = Keyboard.current;
     }
 
     void Update()
     {
-        if (muerta) return;
-
-        // TEST daño manual
+        // Test: restar vida con D - Usando nuevo Input System
         if (keyboard != null && keyboard.dKey.wasPressedThisFrame)
         {
             vida -= 1f;
-            if (debug) Debug.Log("Vida gaviota: " + vida);
+            if (debug); //Debug.Log($"Gaviota recibe daño, vida actual: {vida}");
         }
-
-        if (vida <= 0)
-            Morir();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ship"))
-        {
-            if (debug) Debug.Log("Gaviota toca barco → explota");
-            Morir();
-        }
+    //    Debug.Log($"=== COLISIÓN DETECTADA ===");
+    //Debug.Log($"Objeto: {other.gameObject.name}");
+    //Debug.Log($"Tag: {other.tag}");
+    //Debug.Log($"Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+    
+    if (other.CompareTag("Ship"))
+    {
+    //    Debug.Log("✅ Gaviota entró en área del barco");
+        enAreaBarco = true;
+    }
+    else
+    {
+    //    Debug.Log("❌ No es el barco");
+    }
     }
 
-    void Morir()
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (muerta) return;
-
-        muerta = true;
-
-        if (debug) Debug.Log("Gaviota muere → estado Explotando");
-
-        stateMachine.SetState<Gaviota_Explotando>();
+        if (other.CompareTag("Ship"))
+        {
+            enAreaBarco = false;
+            if (debug); //Debug.Log("Gaviota salió del área del barco");
+        }
     }
 }

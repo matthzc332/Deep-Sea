@@ -1,73 +1,107 @@
 using UnityEngine;
-using System.Collections; // Necesario si usas corrutinas
+using DG.Tweening;
 
 public class BossBiteState : State_Base
 {
-    private BossController boss;
-    private Transform target;
+    [Header("ConfiguraciÃ³n de la Emboscada")]
+    public float sinkDepth = 10f;       
+    public float targetY = 0.9f;        // Altura de la mordida
+    public float sinkDuration = 1f;     
+    public float biteDuration = 0.5f;   
+    public float stayBitingTime = 0.5f; 
+    
+    [Header("Efectos")]
+    public GameObject biteEffectPrefab; 
+    public string biteAnimName = "mordida"; 
 
-    // Variables para configurar el ataque (puedes ajustarlas)
-    private float biteSpeed = 5f;
-    private float stopDistance = 0.5f;
+    private BossController boss;
+    private Collider2D bossCollider;
+    private Animator animator;
+    
+    private float startY; 
+    private Sequence ambushSequence;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        boss = controlledObject.GetComponent<BossController>();
+        bossCollider = controlledObject.GetComponent<Collider2D>();
+        animator = controlledObject.GetComponentInChildren<Animator>();
+    }
 
     public override void EnterState()
     {
-        // 1. OBTENER EL CONTROLADOR
-        boss = controlledObject.GetComponent<BossController>();
+        Debug.Log("Cachalote iniciando: ATAQUE DE MORDIDA");
+        
+        startY = controlledObject.transform.position.y; 
 
-        // Chequeo de seguridad: ¿Tiene el script BossController?
-        if (boss == null)
+        if (boss.GetTarget() == null)
         {
-            Debug.LogError("ERROR: El objeto no tiene el componente BossController.");
-            return;
-        }
-
-        // 2. OBTENER EL OBJETIVO DESDE EL CONTROLADOR
-        // Aquí es donde probablemente tenías el error en la línea 11
-        target = boss.GetTarget();
-
-        // Chequeo de seguridad: ¿Existe el barco?
-        if (target == null)
-        {
-            Debug.LogWarning("BossBiteState: No hay objetivo (Ship). Volviendo a perseguir.");
             state_machine.SetState<BossPursueState>();
             return;
         }
 
-        // Si todo está bien, inicia la lógica del ataque
-        // Debug.Log("¡GRRR! Boss inicia mordisco hacia " + target.name);
+        StartAmbushSequence();
     }
 
-    public override void UpdateState()
-    {
-        // Si por alguna razón el target desaparece (se destruye el barco), salimos
-        if (target == null || boss == null) return;
+    public override void UpdateState() { }
 
-        // LÓGICA DEL MORDISCO (Ejemplo simple: ir rápido hacia el barco)
-        float distance = Vector2.Distance(controlledObject.transform.position, target.position);
+   void StartAmbushSequence()
+{
+    if(bossCollider) bossCollider.enabled = false;
 
-        if (distance > stopDistance)
-        {
-            // Moverse hacia el barco
-            controlledObject.transform.position = Vector2.MoveTowards(
-                controlledObject.transform.position,
-                target.position,
-                biteSpeed * Time.deltaTime
-            );
-        }
-        else
-        {
-            // Llegó al objetivo: Causar daño y salir del estado
-            // Aquí podrías llamar a una función de daño en el barco
+    ambushSequence.Kill();
+    ambushSequence = DOTween.Sequence();
 
-            // Volver a perseguir después del mordisco
-            state_machine.SetState<BossPursueState>();
-        }
-    }
+    // PASO 1: HUNDIRSE
+    ambushSequence.Append(controlledObject.transform.DOMoveY(startY - sinkDepth, sinkDuration).SetEase(Ease.InBack));
+
+    // PASO 2: RESETEAR ESCALA Y ROTAR 90Â°
+    ambushSequence.AppendCallback(() => {
+        // Forzamos escala positiva para que al rotar 90 deg se vea bien
+        Vector3 s = controlledObject.transform.localScale;
+        controlledObject.transform.localScale = new Vector3(Mathf.Abs(s.x), s.y, s.z);
+        
+        controlledObject.transform.position = new Vector3(0f, controlledObject.transform.position.y, 0);
+        controlledObject.transform.rotation = Quaternion.Euler(0, 0, 90); 
+    });
+
+    // PASO 3: SUBIR VERTICAL
+    ambushSequence.Append(controlledObject.transform.DOMoveY(targetY, biteDuration).SetEase(Ease.OutBack));
+    
+    ambushSequence.AppendCallback(() => {
+        if(bossCollider) bossCollider.enabled = true; 
+        if (animator != null) animator.Play("CachaPursuit"); // O la de morder
+        if (biteEffectPrefab != null) 
+            Instantiate(biteEffectPrefab, controlledObject.transform.position, Quaternion.identity);
+    });
+
+    // PASO 4: ESPERAR
+    ambushSequence.AppendInterval(stayBitingTime);
+
+    // PASO 5: BAJAR EN PERFECTO VERTICAL
+    float randomX = Random.value > 0.5f ? 10f : -10f;
+    float bottomY = startY - sinkDepth;
+
+    // Bajamos sin rotar (mantiene los 90 grados o la rotaciÃ³n que tenga)
+    ambushSequence.Append(controlledObject.transform.DOMoveY(bottomY, sinkDuration).SetEase(Ease.InQuad));
+
+    // PASO 6: MOVERSE LATERALMENTE Y RESETEAR ROTACIÃ“N
+    ambushSequence.Append(controlledObject.transform.DOMoveX(randomX, 0.5f).SetEase(Ease.Linear));
+    
+    // Al final, el BossPursueState se encargarÃ¡ de re-ajustar el Flip 
+    // automÃ¡ticamente en su primer UpdateState()
+    ambushSequence.Join(controlledObject.transform.DORotate(Vector3.zero, 0.3f)); 
+
+    ambushSequence.OnComplete(() => {
+        state_machine.SetState<BossPursueState>();
+    });
+}
 
     public override void ExitState(string nextState)
     {
-        // Limpieza si es necesaria
-        // Debug.Log("Terminó el mordisco.");
+        if (ambushSequence != null) ambushSequence.Kill();
+        if(bossCollider) bossCollider.enabled = true;
+        Debug.Log("Saliendo de Mordida.");
     }
 }

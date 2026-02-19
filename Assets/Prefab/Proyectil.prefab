@@ -244,6 +244,7 @@ MonoBehaviour:
   damage: 0
   pierce: 0
   initialSpeed: 0
+  isFromEnemy: 0
   enemy: {fileID: 0}
   hasHit: 0
   rb: {fileID: 0}
@@ -299,7 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0da3b1a8309a454baa78e1a4b1c565a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  habilidad: {fileID: 0}
   desbloqueado: 0
   active: 0
   cantidadPerforacion: 1
