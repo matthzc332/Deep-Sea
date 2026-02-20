@@ -7,7 +7,7 @@ public class SpriteAnimation
     public float frameTime = 0.1f;
 }
 
-public class AnimationController : MonoBehaviour
+public class Animation_Controller : MonoBehaviour
 {
     public SpriteRenderer sprite;
 

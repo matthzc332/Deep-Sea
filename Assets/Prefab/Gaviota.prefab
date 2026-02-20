@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5641146098987151703}
   - component: {fileID: 5721335033677454835}
-  - component: {fileID: 8814782367129651040}
   - component: {fileID: 4618490196580125317}
   - component: {fileID: 5078913539493021778}
   - component: {fileID: 3764740642703437747}
@@ -96,28 +95,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8814782367129651040
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323983583771341356}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7d621399534937649afd413a740344d3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &4618490196580125317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +119,8 @@ MonoBehaviour:
   debug: 1
   prefabExplosion: {fileID: 5932107102603200552}
   duracionExplosion: 0.2
+  radioExplosion: 0.8
+  "da\xF1oAlBarco": 1
   enAreaBarco: 0
 --- !u!114 &5078913539493021778
 MonoBehaviour:

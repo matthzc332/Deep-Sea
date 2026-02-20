@@ -3,21 +3,18 @@
 public class Gaviota_Explotando : State_Base
 {
     private bool yaExploto = false;
-    private AnimationController anim;
+    private Animation_Controller anim;
+    private Gaviota gaviota;
 
     public override void EnterState()
     {
         controlledObject = state_machine.gameObject;
         if (controlledObject == null) return;
 
-        Gaviota gaviota = controlledObject.GetComponent<Gaviota>();
+        gaviota = controlledObject.GetComponent<Gaviota>();
         if (gaviota == null) return;
 
-        anim = controlledObject.GetComponent<AnimationController>();
-
-        // 👉 Pedir animación EXPLOTANDO (una sola vez)
-        if (anim != null)
-            anim.Play(2, 1f); // 2 = Explotando
+        anim = controlledObject.GetComponent<Animation_Controller>();
 
         if (!yaExploto)
         {
@@ -50,11 +47,19 @@ public class Gaviota_Explotando : State_Base
 
                 Destroy(exp, gaviota.duracionExplosion);
             }
-        }
 
-        Destroy(controlledObject, gaviota.duracionExplosion);
+            // 🔥 Destruir después de la animación
+            Destroy(controlledObject, gaviota.duracionExplosion);
+        }
     }
 
-    public override void UpdateState() { }
+    public override void UpdateState()
+    {
+        if (anim == null) return;
+
+        // 👉 Animación EXPLOTANDO (índice 2)
+        anim.Play(2, 1f);
+    }
+
     public override void ExitState(string nextState) { }
 }

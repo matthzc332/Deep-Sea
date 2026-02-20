@@ -4,11 +4,15 @@ public class EnemigoSimple : MonoBehaviour
 {
     private float timer = 3f;
     private bool isMoving = false;
-    public float speed = 2f; // Velocidad de movimiento
+
+    public float speed = 2f;
+
+    private Animation_Controller anim;
 
     void Start()
     {
-        // Iniciar el movimiento automáticamente al empezar
+        anim = GetComponent<Animation_Controller>();
+
         isMoving = true;
         timer = 3f;
     }
@@ -17,18 +21,22 @@ public class EnemigoSimple : MonoBehaviour
     {
         if (isMoving)
         {
-            // Reducir el timer
             timer -= Time.deltaTime;
-            
-            // Mover a la izquierda
+
             transform.Translate(Vector3.left * speed * Time.deltaTime);
-            
-            // Detener el movimiento cuando el timer llegue a 0
+
+            if (anim != null)
+                anim.Play(0, speed); // Animacion movimiento
+
             if (timer <= 0f)
             {
                 isMoving = false;
-                Debug.Log("El enemigo dejó de moverse");
             }
+        }
+        else
+        {
+            if (anim != null)
+                anim.Play(1, 1f); // Animacion idle si la tienes
         }
     }
 }

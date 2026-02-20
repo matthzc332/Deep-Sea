@@ -4,22 +4,21 @@ public class Gaviota_Volando : State_Base
 {
     private Gaviota gaviota;
     private float direccionX = 1f;
-    private AnimationController anim;
+    private Animation_Controller anim;
     private Vector3 escalaOriginal;
 
     public override void EnterState()
     {
         controlledObject = transform.parent.gameObject;
         gaviota = controlledObject.GetComponent<Gaviota>();
-        anim = controlledObject.GetComponent<AnimationController>();
+        anim = controlledObject.GetComponent<Animation_Controller>();
         escalaOriginal = controlledObject.transform.localScale;
     }
 
     public override void UpdateState()
     {
-        if (gaviota == null) return;
+        if (gaviota == null || anim == null) return;
 
-        // Movimiento X con leve descenso
         Vector3 movimiento = new Vector3(
             direccionX * gaviota.velocidadNormal * Time.deltaTime,
             -0.2f * Time.deltaTime,
@@ -28,20 +27,14 @@ public class Gaviota_Volando : State_Base
 
         controlledObject.transform.Translate(movimiento);
 
-        // 👉 Pedido de animación (VOLANDO)
-        anim.Play(
-            0, // estado Volando
-            gaviota.velocidadNormal
-        );
+        anim.Play(0, gaviota.velocidadNormal);
 
-        // Cambiar a Picada si entra en área del barco
         if (gaviota.enAreaBarco)
         {
             state_machine.SetState<Gaviota_Picada>();
             return;
         }
 
-        // Cambia dirección en límites
         if (controlledObject.transform.position.x > gaviota.limiteXDerecha)
         {
             direccionX = -1f;

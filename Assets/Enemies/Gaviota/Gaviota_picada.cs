@@ -5,15 +5,15 @@ public class Gaviota_Picada : State_Base
     private Gaviota gaviota;
     private float distanciaParaExplotar = 0.3f;
 
-    private AnimationController anim;
+    private Animation_Controller anim;
 
     public override void EnterState()
     {
         controlledObject = transform.parent.gameObject;
         gaviota = controlledObject.GetComponent<Gaviota>();
 
-        // Reemplazo del Animator
-        anim = controlledObject.GetComponent<AnimationController>();
+        // 🔥 Usar tu animator personalizado
+        anim = controlledObject.GetComponent<Animation_Controller>();
 
         if (gaviota != null && gaviota.debug)
             Debug.Log("Gaviota entra en Picada");
@@ -21,7 +21,8 @@ public class Gaviota_Picada : State_Base
 
     public override void UpdateState()
     {
-        if (gaviota == null || gaviota.barco == null) return;
+        if (gaviota == null || gaviota.barco == null || anim == null)
+            return;
 
         // Movimiento hacia el barco
         Vector3 direccion =
@@ -31,9 +32,9 @@ public class Gaviota_Picada : State_Base
             direccion * gaviota.velocidadPicada * Time.deltaTime
         );
 
-        // 👉 Pedido de animación (NO Play)
+        // 👉 Animación PICADA (índice 1)
         anim.Play(
-            1, // estado Picada (ejemplo)
+            1,
             gaviota.velocidadPicada
         );
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8203156578716418398}
   - component: {fileID: 5413910017317024528}
   - component: {fileID: 5637020219804354414}
-  - component: {fileID: 6159451939076745255}
+  - component: {fileID: 6423032087357548086}
   m_Layer: 0
   m_Name: Cofre
   m_TagString: Enemy
@@ -153,25 +153,17 @@ MonoBehaviour:
   isAlive: 1
   efecto: {fileID: 0}
   cantidadPuntos: 10
---- !u!95 &6159451939076745255
-Animator:
-  serializedVersion: 7
+--- !u!114 &6423032087357548086
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6549202885219787810}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f41d272971111414da56be8e7e247d62, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  animations: []
