@@ -13,7 +13,7 @@ public class Shoot_Cannon : State_Base
 
     public override void EnterState()
     {
-        if (Joystick.estoyTocando)
+        if (Joystick.estoyTocando || BloqueoUI.TocandoBoton)
         {
             //Debug.Log("No se puede disparar - Joystick en uso");
             ExitState("Idle");
