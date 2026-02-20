@@ -2,35 +2,24 @@ using UnityEngine;
 
 public class State_Base : MonoBehaviour
 {
-
-    //Creo el atributo que me permitira controlar la maquina de estados.
+    // Cambiamos el nombre a state_machine para que coincida con tus otros scripts
     protected State_Machine state_machine;
-    //Creo el atributo que me permitira controlar al objeto que se le aplica el estado
     protected GameObject controlledObject;
 
-    // Buscar el componente State_Machine y controlledObject en la jerarquia del objeto.
-    void Start()
-    {
-        state_machine = GetComponentInParent<State_Machine>();
-        controlledObject = transform.parent != null ? transform.parent.gameObject : null;
-    }
-
-    // prueba para el boss
-    // Usamos Awake para que se configure ANTES de cualquier ataque
     protected virtual void Awake()
     {
+        // Buscamos la referencia con el nombre corregido
         state_machine = GetComponentInParent<State_Machine>();
 
-        // El objeto controlado SIEMPRE es el que tiene la State_Machine
         if (state_machine != null)
         {
             controlledObject = state_machine.gameObject;
         }
     }
 
+    public virtual void EnterState() { }
+    public virtual void UpdateState() { }
 
-    // Metodos virtuales que pueden ser sobrescritos por estados derivados.
-    public virtual void EnterState() {} //Se ejecuta cuando inicia el estado.
-    public virtual void UpdateState() {} //El "update" del estado.
-    public virtual void ExitState(string nextState) {} //Se ejecua al finalizar el estado, se debe acceder desde UpdateState.
+    // Dejamos el ExitState sin parámetros para evitar el error CS0115 anterior
+    public virtual void ExitState(string nextState) { }
 }

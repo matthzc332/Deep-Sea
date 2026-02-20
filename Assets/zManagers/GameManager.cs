@@ -160,12 +160,15 @@ public class GameManager : MonoBehaviour
     public void EndWave()
     {
         currentGameState = GameState.Playing;
-        Debug.Log("Oleada terminada. Limpiando escena...");
 
         GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemigo in enemigos)
         {
-            Destroy(enemigo);
+            // CAMBIO: Buscamos la clase 'Entity', no la variable 'isRetreating'
+            if (enemigo.TryGetComponent<Entity>(out var entityScript))
+            {
+                entityScript.StartRetreat(2);
+            }
         }
 
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");

@@ -16,6 +16,8 @@ public class Entity : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    private bool isRetreating = false;
+    public float retreatSpeed = 1;
 
     protected virtual void Awake()
     {
@@ -78,5 +80,34 @@ public class Entity : MonoBehaviour
         {
             collision_with_ship = true;
         }
+    }
+
+
+
+    //###############   Solo para enemigos   #################
+    public void StartRetreat(float speed)
+    {
+        // Evitamos disparar la corrutina dos veces si ya está en marcha
+        if (isRetreating) return;
+
+        isRetreating = true;
+        retreatSpeed = speed;
+
+        // Desactivamos colisiones para que atraviesen todo al irse
+        if (TryGetComponent(out Collider2D col)) col.enabled = false;
+        //if (TryGetComponent(out Rigidbody2D rb)) rb.simulated = false; // Opcional: frena la física
+
+        StartCoroutine(RetreatRoutine());
+    }
+
+    private IEnumerator RetreatRoutine()
+    {
+        // El bucle ahora es infinito (mientras el objeto exista)
+        while (true)
+        {
+            transform.Translate(Vector2.left * retreatSpeed * Time.deltaTime);
+            yield return null;
+        }
+
     }
 }
