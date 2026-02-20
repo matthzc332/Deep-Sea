@@ -124,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0099922195, y: 0.0033308864}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.38714224, y: 0.28055805}
   m_EdgeRadius: 0
 --- !u!114 &5637020219804354414
 MonoBehaviour:
@@ -151,6 +151,7 @@ MonoBehaviour:
   HP: 4
   speed: 3
   isAlive: 1
+  retreatSpeed: 1
   efecto: {fileID: 0}
   cantidadPuntos: 10
 --- !u!95 &6159451939076745255

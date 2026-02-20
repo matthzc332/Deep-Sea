@@ -97,5 +97,5 @@ public class UIManager : MonoBehaviour
     }
 
     public void CloseGame() => Application.Quit();
-    public void StartNextWave() => SceneManager.LoadScene(0);
+    public void StartNextWave() => SceneManager.LoadScene(1);
 }

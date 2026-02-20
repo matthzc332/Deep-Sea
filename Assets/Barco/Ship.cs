@@ -279,7 +279,7 @@ public class Ship : Entity
     //         if (other.CompareTag("Enemy"))
     //         {
     //             //Debug.Log("colisionó un enemigo");
-                
+
     //             // Usando DOTween para animar la colicion con el barco
     //             // Centralizamos aquí el feedback visual
     //             AplicarFeedbackVisual();
@@ -288,26 +288,34 @@ public class Ship : Entity
     //     }
     // }
 
-            //efectos con DOTween
-   protected virtual void OnTriggerEnter2D(Collider2D other)
+    //efectos con DOTween
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        base.OnTriggerEnter2D(other); 
+        // 1. REGLA DE ORO: Si el impacto es detectado por un trigger hijo (marinero)
+        // y no por el propio collider del barco, lo ignoramos.
 
-        // Si es un enemigo (como los globos) O es el Cachalote (Boss)
+        // Obtenemos el collider que recibió el contacto en el Barco
+        // (Esto requiere que el Barco tenga su propio Collider2D)
+        Collider2D miCollider = GetComponent<Collider2D>();
+
+        // Si el contacto NO fue con el collider principal del barco, salimos.
+        // Esto filtra cualquier colisión que venga de los marineros.
+        if (!miCollider.IsTouching(other)) return;
+
+        // 2. FILTRO DE TAGS
         if (other.CompareTag("Enemy") || other.CompareTag("Boss") || other.CompareTag("BulletEnemy"))
         {
-            // Solo activamos el temblor y el flash rojo si es un enemigo real
+            // Si el 'other' es un trigger (como una bala que no choca físicamente), 
+            // podrías querer recibir daño igual, pero si es el rango del marinero, NO.
+            // Por eso la línea 'miCollider.IsTouching(other)' es la más segura.
+
             AplicarFeedbackVisualDaño();
-            takeDamage(1); 
-            
-            // Debug para el equipo
-            Debug.Log("Impacto detectado con: " + other.tag);
+            takeDamage(1);
+            Debug.Log("Impacto REAL en el casco detectado con: " + other.tag);
         }
-        // NUEVA LÓGICA PARA EL COFRE
-        else if (other.CompareTag("Cofre")) 
+        else if (other.CompareTag("Cofre"))
         {
             AplicarFeedbackRecoleccion();
-            Debug.Log("¡Cofre recolectado!");
         }
     }
 

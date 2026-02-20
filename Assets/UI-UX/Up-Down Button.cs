@@ -4,18 +4,20 @@ using DG.Tweening;
 
 public class UpDownButton : MonoBehaviour, IPointerClickHandler
 {
-    public  float shopOpenY = 300f;
-    private const float shopClosedY = -300f;
-    private const float shopAnimTime = 0.25f;
+    [Header("Configuración de Movimiento")]
+    public float shopOpenY = 300f;
+    public float shopClosedY = -300f;
+    public float shopAnimTime = 0.25f;
 
+    [Header("Referencias UI")]
     public GameObject NPCShop;
-    public GameObject otherButton;
-    public bool upper = false;
-    
+    public bool upper = false; // true = abierto/abajo, false = cerrado/arriba
+
     [Header("Background (opcional)")]
     public GameObject background;
+
     private RectTransform npcShopRect;
-    
+
     void Start()
     {
         if (NPCShop != null)
@@ -24,53 +26,39 @@ public class UpDownButton : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // Este método se llama automáticamente cuando se hace click
     public void OnPointerClick(PointerEventData eventData)
     {
         ExecuteButtonClick();
     }
 
     void ExecuteButtonClick()
-{
-    float targetY = upper ? shopOpenY : shopClosedY;
-    
-    Debug.Log(upper ? "Bajando Cartel (Abriendo Tienda)" : "Subiendo Cartel (Cerrando Tienda)");
-    
-    // Alternar botones
-    if (otherButton != null) 
-        otherButton.SetActive(true);
-    
-    gameObject.SetActive(false);
-    
-    // Controlar background según si se abre (upper=true) o cierra (upper=false)
-    if (background != null)
     {
-        // Mostrar background cuando se ABRE la tienda, ocultar cuando se CIERRA
-        background.SetActive(upper);
-        
-        // O si prefieres al revés (mostrar cuando se cierra):
-        // background.SetActive(!upper);
-    }
+        // 1. Invertimos el booleano (Alternamos el estado)
+        upper = !upper;
 
-    // Mover la tienda
-    if (npcShopRect != null)
-    {
-        npcShopRect
-            .DOAnchorPosY(targetY, shopAnimTime)
-            .SetEase(Ease.OutCubic)
-            .SetUpdate(true)
-            .OnComplete(() => Debug.Log("Animación completada"));
-    }
-    else if (NPCShop != null)
-    {
-        npcShopRect = NPCShop.GetComponent<RectTransform>();
+        // 2. Definimos el destino basado en el nuevo estado
+        float targetY = upper ? shopOpenY : shopClosedY;
+
+        // Log realista para debug
+        Debug.Log(upper ? "Abriendo Tienda (Bajando)" : "Cerrando Tienda (Subiendo)");
+
+        // 3. Controlar background (se activa si la tienda se abre)
+        if (background != null)
+        {
+            background.SetActive(upper);
+        }
+
+        // 4. Ejecutar la animación con DOTween
         if (npcShopRect != null)
         {
+            // Matamos cualquier animación previa para evitar conflictos si el usuario cliquea rápido
+            npcShopRect.DOKill();
+
             npcShopRect
                 .DOAnchorPosY(targetY, shopAnimTime)
                 .SetEase(Ease.OutCubic)
-                .SetUpdate(true);
+                .SetUpdate(true) // Importante si el juego está en pausa (Timescale 0)
+                .OnComplete(() => Debug.Log("Tienda en posición: " + targetY));
         }
     }
-}
 }

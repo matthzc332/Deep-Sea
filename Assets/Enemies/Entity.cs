@@ -94,7 +94,7 @@ public class Entity : MonoBehaviour
         retreatSpeed = speed;
 
         // Desactivamos colisiones para que atraviesen todo al irse
-        if (TryGetComponent(out Collider2D col)) col.enabled = false;
+        //if (TryGetComponent(out Collider2D col)) col.enabled = false;
         //if (TryGetComponent(out Rigidbody2D rb)) rb.simulated = false; // Opcional: frena la física
 
         StartCoroutine(RetreatRoutine());
