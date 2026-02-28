@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class ShipPlacementManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class ShipPlacementManager : MonoBehaviour
     public GameObject fondoModal;
     public GameObject contenedorBarco;
     public List<PosicionMarinero> posicionesExistentes = new List<PosicionMarinero>();
+
+[Header("UI de Espacio")]
+    public TextMeshProUGUI textoEspacio; // Referencia al texto 0/2
+
 
     // Variables de control de la transacción actual
     private PlantillaObjeto objetoEnEspera;
@@ -69,6 +74,7 @@ public class ShipPlacementManager : MonoBehaviour
         {
             // ÉXITO: La tienda cobra y destruye la carta
             tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
+            tiendaActiva.ActualizarUI();
             CerrarPanel();
         }
         else
@@ -96,10 +102,10 @@ public class ShipPlacementManager : MonoBehaviour
 
     public bool TieneEspacioDisponible()
     {
-        // Revisa si alguna posición en la lista no tiene un marinero asignado
         foreach (var pos in posicionesExistentes)
         {
-            if (pos != null && pos.EstaDisponible()) // EstaDisponible() está en PosicionMarinero.cs
+            // Verifica si la posición tiene el script y si está libre
+            if (pos != null && pos.EstaDisponible())
             {
                 return true;
             }
@@ -112,6 +118,7 @@ public class ShipPlacementManager : MonoBehaviour
         int ocupados = 0;
         foreach (var pos in posicionesExistentes)
         {
+            // Si no está disponible, es porque hay un marinero
             if (pos != null && !pos.EstaDisponible()) ocupados++;
         }
         return ocupados;
