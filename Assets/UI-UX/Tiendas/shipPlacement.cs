@@ -8,7 +8,7 @@ public class ShipPlacementManager : MonoBehaviour
     [SerializeField] private string nombreContenedorBarco = "ContenedorBarco";
 
     [Header("Referencias de Escena")]
-    public GameObject fondoModal; 
+    public GameObject fondoModal;
     public GameObject contenedorBarco;
     public List<PosicionMarinero> posicionesExistentes = new List<PosicionMarinero>();
 
@@ -38,7 +38,7 @@ public class ShipPlacementManager : MonoBehaviour
             posicionesExistentes.AddRange(Object.FindObjectsByType<PosicionMarinero>(FindObjectsSortMode.None));
         }
 
-        CerrarPanel(); 
+        CerrarPanel();
     }
 
     public void AbrirSeleccionDePosicion(PlantillaObjeto objeto, ShopManager shop, GameObject cartaUI)
@@ -89,5 +89,31 @@ public class ShipPlacementManager : MonoBehaviour
         {
             if (pos != null) pos.ActivarParpadeo(false);
         }
+    }
+
+    // Contador de lugares en barco
+
+
+    public bool TieneEspacioDisponible()
+    {
+        // Revisa si alguna posición en la lista no tiene un marinero asignado
+        foreach (var pos in posicionesExistentes)
+        {
+            if (pos != null && pos.EstaDisponible()) // EstaDisponible() está en PosicionMarinero.cs
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int GetCantidadOcupada()
+    {
+        int ocupados = 0;
+        foreach (var pos in posicionesExistentes)
+        {
+            if (pos != null && !pos.EstaDisponible()) ocupados++;
+        }
+        return ocupados;
     }
 }
