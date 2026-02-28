@@ -13,7 +13,7 @@ public class ShipPlacementManager : MonoBehaviour
     public GameObject contenedorBarco;
     public List<PosicionMarinero> posicionesExistentes = new List<PosicionMarinero>();
 
-[Header("UI de Espacio")]
+    [Header("UI de Espacio")]
     public TextMeshProUGUI textoEspacio; // Referencia al texto 0/2
 
 
@@ -21,6 +21,26 @@ public class ShipPlacementManager : MonoBehaviour
     private PlantillaObjeto objetoEnEspera;
     private ShopManager tiendaActiva;
     private GameObject cartaOrigenUI;
+
+
+void Start()
+{
+    ActualizarTextoContador(); // Actualiza al empezar la escena (0/2)
+}
+// public void ActualizarTextoContador()
+// {
+//     if (textoEspacio != null)
+//     {
+//         int ocupados = GetCantidadOcupada();
+//         int total = posicionesExistentes.Count;
+//         textoEspacio.text = $"Espacio: {ocupados}/{total}";
+
+//         // Feedback visual opcional
+//         textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
+//     }
+// }
+
+
 
     void Awake()
     {
@@ -65,23 +85,62 @@ public class ShipPlacementManager : MonoBehaviour
         }
     }
 
-    // ESTE ES EL MÉTODO QUE DABA ERROR SI ESTABA FUERA DE LA CLASE
-    public void IntentarColocarEnSlot(PosicionMarinero slot)
-    {
-        if (objetoEnEspera == null || tiendaActiva == null) return;
+    // En ShipPlacementManager.cs
 
-        if (slot.AsignarMarinero(objetoEnEspera))
+public void ActualizarTextoContador()
+{
+    if (textoEspacio == null) return;
+
+    int ocupados = 0;
+    foreach (var pos in posicionesExistentes)
+    {
+        // Forzamos la comprobación directa
+        if (pos != null && !pos.EstaDisponible()) 
         {
-            // ÉXITO: La tienda cobra y destruye la carta
-            tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
-            tiendaActiva.ActualizarUI();
-            CerrarPanel();
-        }
-        else
-        {
-            Debug.Log("El slot seleccionado ya está ocupado.");
+            ocupados++;
         }
     }
+
+    int total = posicionesExistentes.Count;
+    textoEspacio.text = $"Espacio: {ocupados}/{total}";
+
+    // Feedback visual: Rojo si está lleno
+    textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
+}
+
+public void IntentarColocarEnSlot(PosicionMarinero slot)
+{
+    if (objetoEnEspera == null || tiendaActiva == null) return;
+
+    if (slot.AsignarMarinero(objetoEnEspera))
+    {
+        tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
+        
+        // REFRESCAR CONTADOR AQUÍ
+        ActualizarTextoContador(); 
+        
+        CerrarPanel();
+    }
+}
+
+    // // ESTE ES EL MÉTODO QUE DABA ERROR SI ESTABA FUERA DE LA CLASE
+    // public void IntentarColocarEnSlot(PosicionMarinero slot)
+    // {
+    //     if (objetoEnEspera == null || tiendaActiva == null) return;
+
+    //     if (slot.AsignarMarinero(objetoEnEspera))
+    //     {
+    //         // ÉXITO: La tienda cobra y destruye la carta
+    //         tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
+    //         tiendaActiva.ActualizarUI();
+    //         ActualizarTextoContador();
+    //         CerrarPanel();
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("El slot seleccionado ya está ocupado.");
+    //     }
+    // }
 
     public void CerrarPanel()
     {

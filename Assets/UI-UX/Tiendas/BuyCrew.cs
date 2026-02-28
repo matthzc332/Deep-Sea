@@ -34,6 +34,18 @@ public class BuyCrew : MonoBehaviour
     [Header("Aviso de UI")]
     public GameObject cartelLleno; // Referencia al panel de aviso
 
+    // public void IntentarIniciarCompra()
+    // {
+    //     // 1. Buscamos al manager en la jerarquía
+    //     ShipPlacementManager placement = Object.FindFirstObjectByType<ShipPlacementManager>();
+
+    //     // 2. BLOQUEO: Si el manager dice que no hay espacio, activamos aviso y salimos
+    //     if (placement != null && !placement.TieneEspacioDisponible())
+    //     {
+    //         if (cartelLleno != null) cartelLleno.SetActive(true);
+    //         Debug.Log("Compra bloqueada: Barco lleno.");
+    //         return;
+    //     }
     public void IntentarIniciarCompra()
     {
         // 1. Buscamos al manager en la jerarquía
