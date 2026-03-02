@@ -101,7 +101,7 @@ public class BossPursueState : State_Base
 
         if (randomPoint < chanceBomb)
         {
-            state_machine.SetState<BossBombState>();
+            state_machine.SetState<BossEcoState>();
         }
         else if (randomPoint < chanceBomb + chanceBite)
         {

@@ -28,49 +28,56 @@
 // }
 
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class BuyCrew : MonoBehaviour
 {
     [Header("Aviso de UI")]
-    public GameObject cartelLleno; // Referencia al panel de aviso
+    public GameObject cartelLleno; 
 
-    // public void IntentarIniciarCompra()
-    // {
-    //     // 1. Buscamos al manager en la jerarquía
-    //     ShipPlacementManager placement = Object.FindFirstObjectByType<ShipPlacementManager>();
+    private Button miBoton;
+    private Image imagenBoton;
 
-    //     // 2. BLOQUEO: Si el manager dice que no hay espacio, activamos aviso y salimos
-    //     if (placement != null && !placement.TieneEspacioDisponible())
-    //     {
-    //         if (cartelLleno != null) cartelLleno.SetActive(true);
-    //         Debug.Log("Compra bloqueada: Barco lleno.");
-    //         return;
-    //     }
+    void Awake()
+    {
+        miBoton = GetComponent<Button>();
+        imagenBoton = GetComponent<Image>();
+    }
+
+    void OnEnable()
+    {
+        ActualizarEstadoBoton();
+    }
+
     public void IntentarIniciarCompra()
     {
-        // 1. Buscamos al manager en la jerarquía
         ShipPlacementManager placement = Object.FindFirstObjectByType<ShipPlacementManager>();
 
-        // 2. BLOQUEO: Si el manager dice que no hay espacio, activamos aviso y salimos
+        // 1. Verificamos si hay espacio
         if (placement != null && !placement.TieneEspacioDisponible())
         {
-            if (cartelLleno != null) cartelLleno.SetActive(true);
-            Debug.Log("Compra bloqueada: Barco lleno.");
-            return;
+            // HACER QUE EL CONTADOR REACCIONE (Vibración)
+            placement.FeedbackTextoLleno();
+            
+            // Feedback en el propio botón para que el jugador sienta el clic bloqueado
+            transform.DOShakePosition(0.3f, 10f).SetUpdate(true);
+            
+            Debug.Log("Barco lleno: Reacción del contador activada.");
+            return; 
         }
 
-        // 3. Obtenemos el componente Objeto del padre (el prefab de inspección)
+        // 2. Si hay espacio, procedemos con la lógica de obtención de datos
         Objeto objetoPadre = GetComponentInParent<Objeto>();
         if (objetoPadre == null) return;
 
-        // 4. Extraemos los datos necesarios del objeto
         PlantillaObjeto datos = objetoPadre.GetDatos();
         ShopManager tienda = objetoPadre.GetManager();
         GameObject cartaOriginal = objetoPadre.GetCartaOriginal();
 
         if (datos == null || tienda == null) return;
 
-        // 5. Verificamos economía y procedemos a la selección de posición
+        // 3. Verificamos economía y procedemos a la selección de posición
         if (tienda.monedaJugador >= datos.precio)
         {
             if (placement != null)
@@ -81,6 +88,26 @@ public class BuyCrew : MonoBehaviour
         else 
         {
             Debug.Log("No hay suficiente dinero.");
+            // Opcional: podrías hacer que el texto de dinero vibre aquí también
         }
+    }
+
+    public void ActualizarEstadoBoton()
+    {
+        ShipPlacementManager placement = Object.FindFirstObjectByType<ShipPlacementManager>();
+        if (placement == null) return;
+
+        bool hayEspacio = placement.TieneEspacioDisponible();
+
+        if (imagenBoton != null)
+        {
+            // Si está lleno, se pone gris; si no, blanco normal
+            // Usamos DOColor para que el cambio sea suave
+            Color colorObjetivo = hayEspacio ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
+            imagenBoton.DOColor(colorObjetivo, 0.3f).SetUpdate(true);
+        }
+
+        // Nota: No desactivamos miBoton.interactable para que el clic 
+        // siga funcionando y pueda activar la reacción del contador.
     }
 }

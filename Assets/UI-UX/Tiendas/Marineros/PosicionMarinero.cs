@@ -190,6 +190,7 @@ void Start()
 
     public bool EstaDisponible() => marineroAsignado == null;
     
+    
     public void ActivarParpadeo(bool activar) 
     {
         if (imagenPosicion != null) imagenPosicion.color = Color.white;

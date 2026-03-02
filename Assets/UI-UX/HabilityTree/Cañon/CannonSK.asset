@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4c1ae6ef5ce1c0489048fb5609fedf2, type: 3}
   m_Name: CannonSK
   m_EditorClassIdentifier: 
-  habilidadesDesbloqueadas: []
+  habilidadesDesbloqueadas:
+  - Pierce1
