@@ -322,8 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidad: 6
-  duracionVida: 2.5
-  escalaFinal: {x: 3, y: 2, z: 1}
-  "da\xF1oMaximo": 4
-  "distanciaParaDa\xF1oMinimo": 12
+  ecoPrefab: {fileID: 8757801670334387962, guid: 0f2fe82ad4a1516488910ddefdbda7e6, type: 3}
+  ecoCount: 4
+  throwInterval: 0.6

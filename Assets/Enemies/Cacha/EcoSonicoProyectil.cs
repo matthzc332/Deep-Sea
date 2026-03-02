@@ -1,55 +1,80 @@
 using UnityEngine;
-using System.Collections;
+using DG.Tweening;
+using System.Collections.Generic;
 
-public class BossEcoState : State_Base
+public class EcoSonicoProyectil : MonoBehaviour
 {
-    [Header("Eco Settings")]
-    public GameObject ecoPrefab;
-    public int ecoCount = 3;
-    public float intervaloDisparo = 0.5f;
+    [Header("Configuración")]
+    public float velocidad = 6f;
+    public float duracionVida = 2.5f;
+    public Vector3 escalaFinal = new Vector3(4f, 2.5f, 1f);
 
-    private Transform _playerTransform;
+    [Header("Daño")]
+    public int dañoMaximo = 4;
+    public float distanciaParaDañoMinimo = 12f;
+    
+    private Vector3 _posicionOrigen;
+    private float _direccionX;
+    
+    // Lista para registrar quién ya recibió daño de esta onda
+    private List<GameObject> objetosDañados = new List<GameObject>();
 
-    public override void EnterState()
+    public void Inicializar(float direccion, Vector3 origen)
     {
-        Debug.Log("INICIANDO ATAQUE ECO SÓNICO");
+        _direccionX = direccion;
+        _posicionOrigen = origen;
+
+        // Orientación
+        if (_direccionX < 0) transform.rotation = Quaternion.Euler(0, 180, 0);
+        else transform.rotation = Quaternion.identity;
+
+        // --- EFECTO DOTWEEN: Crecimiento y Punch ---
+        transform.localScale = new Vector3(0.1f, 0.1f, 1f);
         
-        // 1. Localizar al jugador (usando tu lógica de Ship)
-        GameObject player = GameObject.FindGameObjectWithTag("Ship");
-        if (player != null)
-        {
-            _playerTransform = player.transform;
-        }
+        // 1. Crecimiento fluido hacia la escala final
+        transform.DOScale(escalaFinal, duracionVida).SetEase(Ease.OutQuad).SetUpdate(true);
+        
+        // 2. Efecto de "vibración" sonora al nacer (opcional, le da fuerza)
+        transform.DOPunchRotation(new Vector3(0, 0, 10), 0.5f, 10, 1).SetUpdate(true);
 
-        StartCoroutine(EmitirEcos());
+        // Desvanecimiento
+        SpriteRenderer spr = GetComponent<SpriteRenderer>();
+        if(spr != null)
+        {
+            // El eco se vuelve más transparente conforme se aleja
+            spr.DOFade(0, duracionVida).SetEase(Ease.InExpo).OnComplete(() => Destroy(gameObject)).SetUpdate(true);
+        }
+        else Destroy(gameObject, duracionVida);
     }
 
-    IEnumerator EmitirEcos()
+    void Update()
     {
-        for (int i = 0; i < ecoCount; i++)
-        {
-            // 2. Instanciar el eco
-            GameObject ecoGO = Instantiate(ecoPrefab, controlledObject.transform.position, Quaternion.identity);
-            EcoSonicoProyectil ecoScript = ecoGO.GetComponent<EcoSonicoProyectil>();
+        transform.Translate(Vector2.right * velocidad * Time.deltaTime);
+    }
 
-            if (ecoScript != null)
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Si es el barco y NO lo hemos dañado todavía
+        if (other.CompareTag("Ship") && !objetosDañados.Contains(other.gameObject))
+        {
+            objetosDañados.Add(other.gameObject); // Lo registramos
+
+            float distancia = Vector3.Distance(_posicionOrigen, transform.position);
+            float factor = 1f - Mathf.Clamp01(distancia / distanciaParaDañoMinimo);
+            int dañoFinal = Mathf.Max(1, Mathf.RoundToInt(dañoMaximo * factor));
+
+            Ship barco = other.GetComponent<Ship>();
+            if (barco != null)
             {
-                // 3. CALCULAR DIRECCIÓN (Igual que en tus bombas)
-                float directionX = (controlledObject.transform.position.x > _playerTransform.position.x) ? -1f : 1f;
+                barco.takeDamage(dañoFinal);
                 
-                // Iniciar el proyectil con su dirección y origen
-                ecoScript.Inicializar(directionX, controlledObject.transform.position);
+                // --- EFECTO DOTWEEN AL IMPACTAR EL BARCO ---
+                // El eco hace un pequeño "flash" o pulso cuando toca al jugador
+                transform.DOPunchScale(Vector3.one * 0.2f, 0.2f).SetUpdate(true);
             }
-
-            yield return new WaitForSeconds(intervaloDisparo);
+            
+            // IMPORTANTE: Ya no llamamos a Destroy(gameObject) aquí
+            // para que el proyectil siga su camino y atraviese el barco.
         }
-
-        // 4. Regresar al estado de persecución (Controlador de la FSM)
-        state_machine.SetState<BossPursueState>();
-    }
-
-    public override void ExitState(string nextStateName)
-    {
-        // Resetear cualquier cambio visual si fuera necesario
     }
 }
