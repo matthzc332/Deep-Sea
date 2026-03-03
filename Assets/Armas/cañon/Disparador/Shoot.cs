@@ -8,14 +8,13 @@ public class Shoot_Cannon : State_Base
     [Header("Audio")]
     public AudioClip sonidoDisparo;
 
-    // Referencia temporal para acceder a los datos
     private ShipData shipData; 
 
     public override void EnterState()
     {
+        // 1. VALIDACIÓN INICIAL (¿Puedo disparar?)
         if (Joystick.estoyTocando || BloqueoUI.TocandoBoton)
         {
-            //Debug.Log("No se puede disparar - Joystick en uso");
             ExitState("Idle");
             return;
         }
@@ -23,37 +22,32 @@ public class Shoot_Cannon : State_Base
         cannon = controlledObject.GetComponent<Cannon2>();
         AudioSource audioSource = controlledObject.GetComponent<AudioSource>();
 
-        // Intentamos obtener el ShipData desde el barco (asumiendo que el cañón es hijo del Barco)
+        // 2. FEEDBACK INSTANTÁNEO (Sonido apenas entra al estado)
+        if (audioSource != null && sonidoDisparo != null)
+        {
+            audioSource.PlayOneShot(sonidoDisparo);
+        }
+
+        // 3. LÓGICA DE PROCESAMIENTO (Búsqueda de datos y spawn)
         if(shipData == null)
         {
-            // Busca el componente Ship en el padre o en el mismo objeto
             Ship playerShip = controlledObject.GetComponentInParent<Ship>();
             if (playerShip != null) shipData = playerShip.shipData;
         }
 
         if (bulletPrefab != null)
         {
-            // ... (código de instanciación igual) ...
             GameObject bulletObj = Instantiate(bulletPrefab, controlledObject.transform.position, Quaternion.identity);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             
             if (bulletScript != null)
             {
-                // ... (inicialización de bala igual) ...
                 bulletScript.Initialize(cannon.objective, cannon.power_shoot, 1, 0);
-                
                 cannon.amount_ammunition -= 1;
 
-                // --- NUEVO: REGISTRAR BALA GASTADA ---
                 if (shipData != null)
                 {
                     shipData.balasGastadas++;
-                }
-                // -------------------------------------
-
-                if (audioSource != null && sonidoDisparo != null)
-                {
-                    audioSource.PlayOneShot(sonidoDisparo);
                 }
             }
         }
