@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     void Update()
@@ -89,7 +89,15 @@ public class UIManager : MonoBehaviour
 
     public void PauseGame() => PauseMenu.SetActive(true);
     public void ResumeGame() => PauseMenu.SetActive(false);
-    
+    public void IrAlMenuInicio()
+    {
+        // Aseguramos que el tiempo corra normal antes de cambiar de escena
+        Time.timeScale = 1f;
+
+        // Carga la escena por su nombre exacto
+        SceneManager.LoadScene("MenuInicio");
+    }
+
     public void OpenMainMenu()
     {
         if (waveTimerText != null) waveTimerText.gameObject.SetActive(false);

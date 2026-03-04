@@ -7,56 +7,62 @@ public class WaveController : MonoBehaviour
     public float normalWaveTime = 90f;
     public string timerUI;
 
-    public GameManager GameManager;
+    public GameManager gameManager; // Cambiado a minúscula por convención de C#
 
     [Header("Guardado de Datos")]
-    public ShipData shipData; // Arrastra el ScriptableObject aquí
+    public ShipData shipData;
 
     void Start()
     {
-        if (GameManager == null)
+        if (gameManager == null)
         {
-            GameManager = GameManager.instance;
+            gameManager = GameManager.instance;
         }
     }
 
     void Update()
     {
-        // ... (Tu lógica de timer se mantiene igual)
+        // --- CORRECCIÓN CLAVE ---
+        // Solo ejecuta la lógica del timer si el juego está efectivamente en "OnWave"
+        // Si está en "Countdown" o "Pause", este código se salta.
+        if (gameManager == null || gameManager.currentGameState != GameManager.GameState.OnWave)
+        {
+            return;
+        }
+
+        if (waveTimer > 0)
+        {
+            waveTimer -= Time.deltaTime;
+        }
+        else
+        {
+            waveTimer = 0;
+            EndWave();
+        }
+
+        // Formateo del texto para la UI
         int minutes = Mathf.FloorToInt(waveTimer / 60);
         int seconds = Mathf.FloorToInt(waveTimer % 60);
         timerUI = string.Format("{0:0}:{1:00}", minutes, seconds);
-
-        if (waveTimer > 0)
-    {
-        waveTimer -= Time.deltaTime;
     }
-    // Solo entramos aquí si el tiempo se acabó Y el estado sigue siendo OnWave
-    else if (waveTimer <= 0 && GameManager.instance.currentGameState == GameManager.GameState.OnWave)
-    {
-        waveTimer = 0;
-        EndWave();
-    }
-}
 
     public void StartWave()
     {
+        // Aquí solo seteamos el tiempo. 
+        // El Update empezará a descontar cuando el GameManager cambie el estado a OnWave
         waveTimer = normalWaveTime;
     }
 
     public void EndWave()
     {
-        // --- NUEVA LÓGICA DE GUARDADO ---
         if (shipData != null)
         {
-            // 1. Buscar el barco en la escena para obtener su vida actual
             Ship playerShip = Object.FindFirstObjectByType<Ship>();
             if (playerShip != null)
             {
                 shipData.puntosDeVida = (int)playerShip.HP;
             }
 
-            // 2. Buscar el arma para obtener la munición actual
             Base_Gun playerGun = Object.FindFirstObjectByType<Base_Gun>();
             if (playerGun != null)
             {
@@ -65,13 +71,12 @@ public class WaveController : MonoBehaviour
 
             Debug.Log("Datos guardados en ShipData al finalizar la oleada.");
         }
-        // --------------------------------
 
-        if (GameManager == null) GameManager = GameManager.instance;
-        
-        if (GameManager != null)
+        if (gameManager == null) gameManager = GameManager.instance;
+
+        if (gameManager != null)
         {
-            GameManager.EndWave();
+            gameManager.EndWave();
         }
     }
 }

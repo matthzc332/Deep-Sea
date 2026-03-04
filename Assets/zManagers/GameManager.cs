@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     public int wood;
     public TMP_Text woodText;
 
+    [Header("UI de Conteo")]
+    public TMP_Text countdownText; // Arrastra aquí el texto para el 3,2,1
+
     public Image fadeImage;
     public float fadeDuration = 2f;
 
@@ -32,7 +35,8 @@ public class GameManager : MonoBehaviour
         MainMenu,
         Playing,
         OnWave,
-        Pause
+        Pause,
+        Countdown // Nuevo estado para evitar disparar cosas durante el conteo
     }
 
     public static int difficultyLevel = 0;
@@ -46,33 +50,19 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject); 
+        DontDestroyOnLoad(gameObject);
+        Time.timeScale = 1f;
 
-        Time.timeScale = 0f;
-
-        if (fadeImage == null)
-        {
-            CreateFadeImage();
-        }
+        if (fadeImage == null) CreateFadeImage();
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += AlCargarEscena;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= AlCargarEscena;
-    }
+    private void OnEnable() => SceneManager.sceneLoaded += AlCargarEscena;
+    private void OnDisable() => SceneManager.sceneLoaded -= AlCargarEscena;
 
     void AlCargarEscena(Scene escena, LoadSceneMode modo)
     {
-        Debug.Log("Dificultad " + difficultyLevel);
         uiManager = FindFirstObjectByType<UIManager>();
 
-        // --- CORRECCIÓN DE RESETEO ---
-        // Si la dificultad es 0, reseteamos los ScriptableObjects automáticamente
         if (difficultyLevel == 0)
         {
             ResetearDatosPersistentes();
@@ -81,7 +71,6 @@ public class GameManager : MonoBehaviour
         FadeOut();
     }
 
-    // Método privado para no ensuciar AlCargarEscena
     private void ResetearDatosPersistentes()
     {
         if (playerShipData != null)
@@ -91,110 +80,116 @@ public class GameManager : MonoBehaviour
             playerShipData.dinero = 60;
             playerShipData.balasGastadas = 0;
             playerShipData.score = 0;
-
-
-            Debug.Log("GameManager: Datos de ShipData reseteados (Dificultad 0).");
+            Debug.Log("GameManager: ShipData reseteado.");
         }
 
         if (skillStatus != null)
         {
             skillStatus.ResetearProgreso();
-            Debug.Log("GameManager: Lista de habilidades limpiada.");
+            Debug.Log("GameManager: Habilidades reseteadas.");
         }
     }
 
     void Start()
     {
+        // Inicializamos el fade
         if (fadeImage != null)
         {
             Color color = fadeImage.color;
-            color.a = 0f; 
+            color.a = 0f;
             fadeImage.color = color;
             fadeImage.gameObject.SetActive(false);
         }
-        // DontDestroyOnLoad ya está en Awake, se puede omitir aquí
+
+        // Si estamos en la escena de juego al empezar, lanzamos el conteo
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            StartCoroutine(CountdownCoroutine());
+        }
     }
 
-    // Este es el método que debes llamar desde tu botón de "Jugar" en el menú
+    // --- LÓGICA DE CONTEO Y OLEADA ---
+
     public void StartGame()
     {
-        difficultyLevel = 0; // Al ponerlo en 0, AlCargarEscena se encargará del resto
-        
-        if(uiManager != null) uiManager.StartGame();
-        StartWave();
+        difficultyLevel = 0;
+        if (uiManager != null) uiManager.StartGame();
+        StartWave(); // Esto ahora activará el conteo
     }
 
     public void StartWave()
     {
-        currentGameState = GameState.OnWave;
-        waveController.StartWave();
+        StopAllCoroutines(); // Evita bugs si se llama dos veces
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    private IEnumerator CountdownCoroutine()
+    {
+        currentGameState = GameState.Countdown;
         Time.timeScale = 1f;
+
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+
+            int count = 3;
+            while (count > 0)
+            {
+                countdownText.text = count.ToString();
+                // Efecto visual simple: un pequeño "punch" de escala
+                countdownText.transform.localScale = Vector3.one * 1.5f;
+                count--;
+                yield return new WaitForSeconds(1f);
+            }
+
+            countdownText.text = "0";
+            yield return new WaitForSeconds(0.5f);
+            countdownText.gameObject.SetActive(false);
+        }
+
+        RealStartWaveLogic();
+    }
+
+    private void RealStartWaveLogic()
+    {
+        currentGameState = GameState.OnWave;
+
+        if (waveController != null)
+            waveController.StartWave(); // Aquí inicia el timer de la oleada y spawn
+
+        if (uiManager != null)
+        {
+            uiManager.MainMenu.SetActive(false);
+            if (uiManager.waveTimerText != null)
+                uiManager.waveTimerText.gameObject.SetActive(true);
+        }
 
         if (costaIsla0 != null)
             costaIsla0.SetActive(false);
     }
 
-    void Update()
-    {
-    }
-
-    private void CreateFadeImage()
-    {
-        GameObject fadeObject = new GameObject("FadeImage");
-        fadeImage = fadeObject.AddComponent<Image>();
-        fadeImage.color = Color.black; 
-        fadeImage.raycastTarget = false;
-
-        RectTransform rectTransform = fadeImage.GetComponent<RectTransform>();
-        rectTransform.SetParent(GetComponentInChildren<Canvas>().transform);
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = Vector2.zero;
-        rectTransform.offsetMax = Vector2.zero;
-        rectTransform.localScale = Vector3.one;
-
-        fadeObject.transform.SetAsLastSibling();
-        fadeObject.SetActive(false);
-    }
+    // --- TRANSICIONES Y OTROS MÉTODOS ---
 
     public void EndWave()
     {
         currentGameState = GameState.Playing;
 
-        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemigo in enemigos)
-        {
-            // CAMBIO: Buscamos la clase 'Entity', no la variable 'isRetreating'
-            if (enemigo.TryGetComponent<Entity>(out var entityScript))
-            {
-                entityScript.StartRetreat(2);
-            }
-        }
+        // Retirada de enemigos
+        Entity[] enemigos = FindObjectsByType<Entity>(FindObjectsSortMode.None);
+        foreach (Entity e in enemigos) e.StartRetreat(2);
 
+        // Limpieza de balas
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
-        foreach (GameObject bullet in bullets)
-        {
-            Destroy(bullet);
-        }
-
+        foreach (GameObject bullet in bullets) Destroy(bullet);
 
         difficultyLevel++;
-        Debug.Log("Dificultad aumentada a: " + difficultyLevel);
 
         if (costaIsla0 != null)
         {
-            costaIsla0.SetActive(true); 
+            costaIsla0.SetActive(true);
             costa_isla scriptIsla = costaIsla0.GetComponent<costa_isla>();
-            if (scriptIsla != null)
-            {
-                scriptIsla.ActivarMovimiento(true); 
-                Debug.Log("Iniciando movimiento de la isla hacia el barco.");
-            }
+            if (scriptIsla != null) scriptIsla.ActivarMovimiento(true);
         }
-    }
-
-    public void GoIsland()
-    {
     }
 
     public void Pause()
@@ -212,116 +207,71 @@ public class GameManager : MonoBehaviour
         currentGameState = gameStateBeforePause;
     }
 
-    public void softTransition()
-    {
-        StartCoroutine(SoftTransitionCoroutine());
-    }
+    // Fades y Escenas
+    public void softTransition() => StartCoroutine(SoftTransitionCoroutine());
 
     private IEnumerator SoftTransitionCoroutine()
     {
-        if (fadeImage != null)
-        {
-            fadeImage.gameObject.SetActive(true);
-            Color startColor = Color.black;
-            startColor.a = 0f;
-            fadeImage.color = startColor;
-        }
+        yield return StartCoroutine(FadeRoutine(0f, 1f));
 
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
+        int nextScene = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
+        if (nextScene == 0) nextScene = 1; // Evitar volver al Main Menu si no quieres
 
-            if (fadeImage != null)
-            {
-                Color color = fadeImage.color;
-                color.a = alpha; 
-                fadeImage.color = color;
-            }
-            yield return null;
-        }
-
-        if (fadeImage != null)
-        {
-            Color finalColor = fadeImage.color;
-            finalColor.a = 1f;
-            fadeImage.color = finalColor;
-        }
-
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
-        int totalScenes = SceneManager.sceneCountInBuildSettings;
-
-        if (nextSceneIndex < totalScenes)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene(1);
-        }
+        SceneManager.LoadScene(nextScene);
     }
 
-    public void FadeOut()
-    {
-        StartCoroutine(FadeOutCoroutine());
-    }
+    public void FadeOut() => StartCoroutine(FadeOutCoroutine());
 
     private IEnumerator FadeOutCoroutine()
     {
-        if (fadeImage != null)
-        {
-            fadeImage.gameObject.SetActive(true);
-            Color startColor = Color.black;
-            startColor.a = 1f;
-            fadeImage.color = startColor;
-        }
+        yield return StartCoroutine(FadeRoutine(1f, 0f));
+        fadeImage.gameObject.SetActive(false);
+    }
 
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
+    private IEnumerator FadeRoutine(float startAlpha, float endAlpha)
+    {
+        if (fadeImage == null) yield break;
+        fadeImage.gameObject.SetActive(true);
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float alpha = 1f - Mathf.Clamp01(elapsedTime / fadeDuration);
-
-            if (fadeImage != null)
-            {
-                Color color = fadeImage.color;
-                color.a = alpha; 
-                fadeImage.color = color;
-            }
+            elapsed += Time.deltaTime;
+            Color c = fadeImage.color;
+            c.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / fadeDuration);
+            fadeImage.color = c;
             yield return null;
-        }
-
-        if (fadeImage != null)
-        {
-            Color finalColor = fadeImage.color;
-            finalColor.a = 0f;
-            fadeImage.color = finalColor;
-            fadeImage.gameObject.SetActive(false);
         }
     }
 
+    private void CreateFadeImage()
+    {
+        GameObject fadeObject = new GameObject("FadeImage");
+        fadeImage = fadeObject.AddComponent<Image>();
+        fadeImage.color = Color.black;
+        fadeImage.raycastTarget = false;
+
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        if (canvas == null) return;
+
+        RectTransform rect = fadeImage.GetComponent<RectTransform>();
+        rect.SetParent(canvas.transform);
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.localScale = Vector3.one;
+        fadeObject.transform.SetAsLastSibling();
+        fadeObject.SetActive(false);
+    }
+
     public void CalcularPuntajeFinOleada()
-{
-    // Necesitas referencia al ShipData (puedes arrastrarlo en el inspector o buscar al player)
-    Ship player = FindFirstObjectByType<Ship>();
-    if (player == null || player.shipData == null) return;
+    {
+        Ship player = FindFirstObjectByType<Ship>();
+        if (player == null || player.shipData == null) return;
 
-    ShipData data = player.shipData;
+        ShipData data = player.shipData;
+        long puntajeFinalOleada = (data.score * data.puntosDeVida) + data.dinero + data.balasGastadas;
 
-    // FÓRMULA PEDIDA: (Score * Vida) + Dinero + Balas Gastadas
-    // Nota: cuidado si el Score es muy alto, multiplicarlo por la vida puede dar un número gigante.
-    
-    long puntajeFinalOleada = (data.score * data.puntosDeVida) + data.dinero + data.balasGastadas;
-
-    Debug.Log($"CÁLCULO DE OLEADA:");
-    Debug.Log($"Score Base ({data.score}) * Vida ({data.puntosDeVida}) = {data.score * data.puntosDeVida}");
-    Debug.Log($"+ Dinero ({data.dinero})");
-    Debug.Log($"+ Balas Gastadas ({data.balasGastadas})");
-    Debug.Log($"TOTAL FINAL: {puntajeFinalOleada}");
-
-    // Opcional: ¿Quieres actualizar el score con este resultado o solo mostrarlo?
-    // data.score = (int)puntajeFinalOleada; // Descomentar si el score debe actualizarse al valor calculado
-}
+        Debug.Log($"TOTAL FINAL OLEADA: {puntajeFinalOleada}");
+    }
 }
