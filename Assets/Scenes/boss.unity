@@ -1062,8 +1062,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 578e69f23c11beb458644a1a68e8c2f6, type: 2}
   spawnpoints:
   - {fileID: 458157012}
+  maxEnemiesAlive: 5
+  normalWaveDuration: 30
   currentConfig: {fileID: 0}
-  bossSpawned: 0
+  currentEnemyCount: 0
+  enemiesSpawnedInTotal: 0
 --- !u!4 &424154833
 Transform:
   m_ObjectHideFlags: 0
@@ -1359,6 +1362,7 @@ MonoBehaviour:
   normalWaveTime: 45
   timerUI: 
   GameManager: {fileID: 1300800121}
+  shipData: {fileID: 0}
 --- !u!4 &482489649
 Transform:
   m_ObjectHideFlags: 0
@@ -3853,9 +3857,13 @@ MonoBehaviour:
   HP: 6
   speed: 0
   isAlive: 1
+  retreatSpeed: 1
   joystick: {fileID: 445337321}
   vida: 0
   initialSpeed: 0.9
+  shipData: {fileID: 0}
+  puntoPosicion1: {fileID: 0}
+  puntoPosicion2: {fileID: 0}
 --- !u!61 &1265282251
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3979,6 +3987,8 @@ MonoBehaviour:
   woodText: {fileID: 867853229}
   fadeImage: {fileID: 1861283464}
   fadeDuration: 2
+  playerShipData: {fileID: 0}
+  skillStatus: {fileID: 0}
 --- !u!4 &1300800122
 Transform:
   m_ObjectHideFlags: 0
@@ -4120,6 +4130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f395b79c8fe049926eee33d107884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  datosDelBarco: {fileID: 0}
   MainMenu: {fileID: 506692521}
   PauseMenu: {fileID: 111316424}
   UpgradesMenu: {fileID: 0}
@@ -5484,7 +5495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2024114098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5501,8 +5512,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fe5a3cb0dba232d4fa299d469e8f2176, type: 2}
   spawnpoints:
   - {fileID: 2024114099}
+  maxEnemiesAlive: 5
+  normalWaveDuration: 30
   currentConfig: {fileID: 0}
-  bossSpawned: 0
+  currentEnemyCount: 0
+  enemiesSpawnedInTotal: 0
 --- !u!4 &2024114099
 Transform:
   m_ObjectHideFlags: 0
@@ -5646,8 +5660,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6aeea92ed6049014f8dd8b1c27205782, type: 2}
   spawnpoints:
   - {fileID: 8242113207582323143, guid: 2da2c0acc2489344ca0835f9b2d12cd7, type: 3}
+  maxEnemiesAlive: 5
+  normalWaveDuration: 30
   currentConfig: {fileID: 0}
-  bossSpawned: 0
+  currentEnemyCount: 0
+  enemiesSpawnedInTotal: 0
 --- !u!1001 &2140678717
 PrefabInstance:
   m_ObjectHideFlags: 0

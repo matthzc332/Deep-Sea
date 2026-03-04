@@ -92,18 +92,18 @@ public class BossPursueState : State_Base
     private void SelectRandomAttack()
     {
         // Definimos probabilidades (puedes mover esto a variables serializadas)
-        float chanceBomb = 35f;
+        float chanceEco = 35f;
         float chanceBite = 30f;
         float chanceJump = 35f;
 
-        float total = chanceBomb + chanceBite + chanceJump;
+        float total = chanceEco + chanceBite + chanceJump;
         float randomPoint = Random.Range(0, total);
 
-        if (randomPoint < chanceBomb)
+        if (randomPoint < chanceEco)
         {
-            state_machine.SetState<BossBombState>();
+            state_machine.SetState<BossEcoState>();
         }
-        else if (randomPoint < chanceBomb + chanceBite)
+        else if (randomPoint < chanceEco + chanceBite)
         {
             state_machine.SetState<BossBiteState>();
         }

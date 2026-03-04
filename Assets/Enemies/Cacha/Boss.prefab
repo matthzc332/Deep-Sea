@@ -181,6 +181,7 @@ MonoBehaviour:
   HP: 15
   speed: 5
   isAlive: 1
+  retreatSpeed: 1
   verticalSpeed: 2
   attackInterval: 4
   attackPool:
@@ -321,6 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 6044418166369280425, guid: e60d1d1621b73fd42ac28b1415f0b949, type: 3}
-  bombCount: 7
-  throwInterval: 0.3
+  ecoPrefab: {fileID: 8757801670334387962, guid: 0f2fe82ad4a1516488910ddefdbda7e6, type: 3}
+  ecoCount: 4
+  throwInterval: 0.6

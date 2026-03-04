@@ -195,6 +195,8 @@ public class Ship : Entity
     public ShipData shipData;
     public Transform puntoPosicion1;
     public Transform puntoPosicion2;
+    //efectos de audio barco
+    public ShipSound shipSound;
 
     void Start()
     {
@@ -257,17 +259,40 @@ public class Ship : Entity
         body.position = pos;
     }
     
-    public void splitSpeed()
+    // public void splitSpeed()
+    // {
+    //     if (joystick.angulo > 0)
+    //     {
+    //         speed = initialSpeed*-1; // Mover hacia la izquierda
+    //     }
+    //     else if (joystick.angulo < 0)
+    //     {
+    //         speed = initialSpeed; // Mover hacia la derecha
+    //     }
+    // }
+    private float ultimaDireccion; // Para detectar cambios
+
+public void splitSpeed()
+{
+    float nuevaVelocidad = 0;
+
+    if (joystick.angulo > 0)
     {
-        if (joystick.angulo > 0)
-        {
-            speed = initialSpeed*-1; // Mover hacia la izquierda
-        }
-        else if (joystick.angulo < 0)
-        {
-            speed = initialSpeed; // Mover hacia la derecha
-        }
+        nuevaVelocidad = initialSpeed * -1; // Izquierda
     }
+    else if (joystick.angulo < 0)
+    {
+        nuevaVelocidad = initialSpeed; // Derecha
+    }
+
+    // Si la nueva velocidad es distinta a la anterior, el timón se movió
+    if (nuevaVelocidad != speed && nuevaVelocidad != 0)
+    {
+        shipSound.Timon();
+    }
+
+    speed = nuevaVelocidad;
+}
 
     // protected virtual void OnTriggerEnter2D(Collider2D other)
     // {
@@ -296,6 +321,7 @@ public class Ship : Entity
 
         // Obtenemos el collider que recibió el contacto en el Barco
         // (Esto requiere que el Barco tenga su propio Collider2D)
+        
         Collider2D miCollider = GetComponent<Collider2D>();
 
         // Si el contacto NO fue con el collider principal del barco, salimos.
@@ -308,13 +334,14 @@ public class Ship : Entity
             // Si el 'other' es un trigger (como una bala que no choca físicamente), 
             // podrías querer recibir daño igual, pero si es el rango del marinero, NO.
             // Por eso la línea 'miCollider.IsTouching(other)' es la más segura.
-
+            shipSound.Danio(); //sonido de daño
             AplicarFeedbackVisualDaño();
             takeDamage(1);
             Debug.Log("Impacto REAL en el casco detectado con: " + other.tag);
         }
         else if (other.CompareTag("Cofre"))
         {
+            shipSound.Cofre(); // Reproduce el sonido de recolectar cofre
             AplicarFeedbackRecoleccion();
         }
     }
