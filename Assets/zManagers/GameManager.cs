@@ -174,21 +174,35 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = GameState.Playing;
 
-        // Retirada de enemigos
-        Entity[] enemigos = FindObjectsByType<Entity>(FindObjectsSortMode.None);
-        foreach (Entity e in enemigos) e.StartRetreat(2);
+        // 1. Buscamos todas las entidades
+        Entity[] todasLasEntidades = FindObjectsByType<Entity>(FindObjectsSortMode.None);
 
-        // Limpieza de balas
+        foreach (Entity e in todasLasEntidades)
+        {
+            // CORRECCIÓN: Solo activamos la retirada si el objeto tiene el tag "Enemy"
+            // Esto evita que el Barco (Player) sea afectado si comparte el script Entity
+            if (e.CompareTag("Enemy"))
+            {
+                e.StartRetreat(2);
+            }
+        }
+
+        // 2. Limpieza de proyectiles
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         foreach (GameObject bullet in bullets) Destroy(bullet);
 
         difficultyLevel++;
 
+        // 3. Activación de la costa/isla
         if (costaIsla0 != null)
         {
             costaIsla0.SetActive(true);
             costa_isla scriptIsla = costaIsla0.GetComponent<costa_isla>();
-            if (scriptIsla != null) scriptIsla.ActivarMovimiento(true);
+            if (scriptIsla != null)
+            {
+                scriptIsla.ActivarMovimiento(true);
+                Debug.Log("Barco a salvo. Iniciando aproximación a la isla.");
+            }
         }
     }
 
