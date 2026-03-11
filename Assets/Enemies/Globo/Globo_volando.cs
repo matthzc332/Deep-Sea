@@ -28,7 +28,7 @@ public class Globo_Volando : State_Base
             ExitState("Colision_con_barco");
         }
         if (globo.getHP() <= 0){
-            ExitState("Globo_Explotando");
+            ExitState("Globito_Explotando");
         }
     }
 
@@ -40,7 +40,7 @@ public class Globo_Volando : State_Base
             state_machine.SetState<Globo_Explotando>();
         }
 
-        if (nextState == "Globo_Explotando"){
+        if (nextState == "Globito_Explotando"){
             state_machine.SetState<Globo_Explotando>();
         }
     }
