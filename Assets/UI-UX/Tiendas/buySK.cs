@@ -75,11 +75,5 @@ public class BuySK : MonoBehaviour
 
         PlantillaObjeto datos = objetoPadre.GetDatos();
         
-        // Si es permanente y ya está en la lista, desactivamos el botón
-        // if (datos != null && datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId))
-        // {
-        //     if (miBoton != null) miBoton.interactable = false;
-        //     // Opcional: Cambiar texto a "Vendido" si tienes una referencia al texto del botón
-        // }
     }
 }

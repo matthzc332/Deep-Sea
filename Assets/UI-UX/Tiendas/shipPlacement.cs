@@ -225,10 +225,6 @@ public class ShipPlacementManager : MonoBehaviour
         //textoEspacio.transform.localScale = Vector3.one;
 
         // Animación: Sacudida de escala y destello rojo
-        //textoEspacio.transform.DOShakeScale(0.5f, 0.2f).SetUpdate(true);
-        // textoEspacio.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0), 0.5f)
-        // .SetUpdate(true);
-        // textoEspacio.transform.DOShakePosition(0.5f, 5f);
         textoEspacio.transform.DOShakePosition(0.4f, 10f, 20, 90);
         textoEspacio.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
         {

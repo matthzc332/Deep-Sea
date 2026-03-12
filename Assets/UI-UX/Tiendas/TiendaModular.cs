@@ -58,4 +58,16 @@ public class TiendaModular : ShopManager
         base.ConfirmarVenta(objeto, cartaVisual);
         if (inspeccionActual != null) Destroy(inspeccionActual);
     }
+
+    public override void ActualizarUI()
+{
+    // 1. Actualiza solo el dinero usando la lógica de la clase padre
+    if (textoMonedas != null) textoMonedas.text = $"Monedas: {monedaJugador}";
+
+    // 2. Limpia o desactiva el texto de espacio para que no diga 0/2
+    if (textoEspacio != null) 
+    {
+        textoEspacio.text = "Ya Adquirido"; // O puedes poner algo como "Habilidades"
+    }
+}
 }
