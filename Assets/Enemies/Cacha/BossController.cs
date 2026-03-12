@@ -8,7 +8,6 @@ public class BossController : Entity
     private Transform targetShip;
     private State_Machine stateMachine;
     private Rigidbody2D rb;
-    private Animator animator;
 
     [Header("Movimiento")]
     public float verticalSpeed = 2f;
@@ -18,34 +17,26 @@ public class BossController : Entity
     public float attackInterval = 4f;
     private float nextAttackTimer;
 
-    [Tooltip("Arrastra aquí los GameObjects hijos que tienen los scripts de ataque")]
     public List<State_Base> attackPool;
 
     void Start()
     {
-        // 1. POSICIONAMIENTO INICIAL INMEDIATO
         transform.position = new Vector3(-10f, -0.9f, 0f);
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
-        // 2. OBTENER COMPONENTES
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         stateMachine = GetComponent<State_Machine>();
         nextAttackTimer = attackInterval;
 
-        // 3. CONFIGURACIÓN FÍSICA Y ROTACIÓN
         if (rb != null)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.gravityScale = 0; // Aseguramos que no caiga si hay gravedad global
+            rb.gravityScale = 0;
         }
 
-        // 4. BÚSQUEDA DEL JUGADOR
         GameObject shipObj = GameObject.FindGameObjectWithTag("Ship");
         if (shipObj != null)
-        {
             targetShip = shipObj.transform;
-        }
 
         if (HP <= 0) HP = 50;
 
@@ -56,15 +47,12 @@ public class BossController : Entity
     {
         if (!isAlive || targetShip == null) return;
 
-        // Solo descontamos tiempo si estamos en persecución
         if (stateMachine.GetCurrentState() is BossPursueState)
         {
             nextAttackTimer -= Time.deltaTime;
 
             if (nextAttackTimer <= 0 && attackPool.Count > 0)
-            {
                 TriggerRandomAttack();
-            }
         }
     }
 
@@ -72,26 +60,22 @@ public class BossController : Entity
     {
         if (!isAlive || targetShip == null || !allowFollow) return;
 
-        // El movimiento vertical solo ocurre durante la persecución
         if (stateMachine.GetCurrentState() is BossPursueState)
-        {
             MoveBoss();
-        }
     }
-
 
     void MoveBoss()
     {
-        float newY = Mathf.Lerp(transform.position.y, targetShip.position.y, verticalSpeed * Time.fixedDeltaTime);
-        
+        float newY = Mathf.Lerp(
+            transform.position.y,
+            targetShip.position.y,
+            verticalSpeed * Time.fixedDeltaTime
+        );
+
         if (rb != null)
-        {
             rb.MovePosition(new Vector2(transform.position.x, newY));
-        }
         else
-        {
             transform.position = new Vector3(transform.position.x, newY, 0);
-        }
     }
 
     void TriggerRandomAttack()
@@ -111,35 +95,10 @@ public class BossController : Entity
     IEnumerator EnableFollowAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
         if (stateMachine.GetCurrentState() == null)
-        {
             stateMachine.SetState<BossPursueState>();
-        }
+
         allowFollow = true;
-    }
-
-    protected override void OnTriggerEnter2D(Collider2D collision)
-    {
-        base.OnTriggerEnter2D(collision);
-
-        if (collision.CompareTag("Ship"))
-        {
-            Ship playerShip = collision.gameObject.GetComponent<Ship>();
-            if (playerShip != null)
-            {
-                playerShip.takeDamage(2);
-                Debug.Log("¡BOSS golpeó al barco!");
-            }
-        }
-    }
-
-    public override void takeDamage(int damage)
-    {
-        base.takeDamage(damage);
-        if (HP <= 0)
-        {
-            Debug.Log("EL BOSS HA MUERTO.");
-            // Aquí podrías desactivar el script o disparar animación de muerte
-        }
     }
 }

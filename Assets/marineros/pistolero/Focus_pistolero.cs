@@ -2,87 +2,71 @@ using UnityEngine;
 
 public class Focus_pistolero : State_Base
 {
-    private Animator animator;
+    private Animation_Controller anim;
     private float timer = 1f;
     private GameObject brazoPistola;
     private GameObject manoConPistola;
     private ManagerMarineros marineroManager;
     public GameObject proyectilPrefab;
 
-    public override void EnterState(){
-        // Obtener componentes
-        animator = controlledObject.GetComponent<Animator>();
+    public override void EnterState()
+    {
+        anim = controlledObject.GetComponent<Animation_Controller>();
         marineroManager = controlledObject.GetComponent<ManagerMarineros>();
-        
-        // Reproducir la animación "apuntando"
-        if (animator != null)
-        {
-            animator.Play("apuntando");
-        }
-        else
-        {
-            Debug.LogWarning("Animator no encontrado en el objeto controlado: " + controlledObject.name);
-        }
-        
-        // Buscar y activar el brazo con pistola
+
+        // Activar animacion Focus (indice 1)
+        if (anim != null)
+            anim.Play(1, 1f);
+
         brazoPistola = FindChildWithName(controlledObject.transform, "brazo con pistola");
         if (brazoPistola != null)
-        {
             brazoPistola.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("No se encontró el hijo 'brazo con pistola'");
-        }
-        
-        // Reiniciar el timer
+
+        manoConPistola = brazoPistola;
+
         timer = 1f;
     }
 
-    public override void UpdateState(){
-        // Reducir el timer
+    public override void UpdateState()
+    {
+        if (anim != null)
+            anim.Play(1, 1f);
+
         timer -= Time.deltaTime;
-        
-        // Apuntar hacia el enemigo más cercano
+
         ApuntarAlEnemigo();
-        
-        // Verificar si el timer llegó a 0 para cambiar de estado (ejemplo)
+
         if (timer <= 0f)
         {
-            // Cambiar al siguiente estado (disparar, por ejemplo)
             ExitState("Charge_pistolero");
-
         }
     }
 
-private void ApuntarAlEnemigo()
-{
-    if (marineroManager != null && manoConPistola != null)
+    private void ApuntarAlEnemigo()
     {
+        if (marineroManager == null || manoConPistola == null)
+            return;
+
         GameObject enemigo = marineroManager.FindClosestEnemy();
-        if (enemigo == null) return;
+        if (enemigo == null)
+            return;
 
-        // 1. Definimos el "Hombro": una posición relativa al marinero
-        // Ajusta estos valores (0.2f, 0.5f) para que coincidan con el hombro de tu sprite
-        Vector3 centroHombro = controlledObject.transform.position + new Vector3(0.2f, 0.5f, 0);
+        Vector3 centroHombro =
+            controlledObject.transform.position + new Vector3(0.2f, 0.5f, 0);
 
-        // 2. Calculamos la dirección y el ángulo
         Vector3 direccion = enemigo.transform.position - centroHombro;
+
         float anguloRad = Mathf.Atan2(direccion.y, direccion.x);
         float anguloDeg = anguloRad * Mathf.Rad2Deg;
 
-        // 3. POSICIONAR LA MANO: 
-        // Usamos Seno y Coseno para mantener la mano a una distancia fija (Radio)
-        float radio = 0.8f; // El largo de tu "brazo invisible"
-        Vector3 offsetPosicion = new Vector3(Mathf.Cos(anguloRad), Mathf.Sin(anguloRad), 0) * radio;
-        
+        float radio = 0.8f;
+        Vector3 offsetPosicion =
+            new Vector3(Mathf.Cos(anguloRad), Mathf.Sin(anguloRad), 0) * radio;
+
         manoConPistola.transform.position = centroHombro + offsetPosicion;
+        manoConPistola.transform.rotation =
+            Quaternion.Euler(0, 0, anguloDeg - 10f);
 
-        // 4. ROTAR LA MANO
-        // Usamos rotación global para ignorar la escala del marinero
-        manoConPistola.transform.rotation = Quaternion.Euler(0, 0, anguloDeg - 10f);
-
-        // 5. CORRECCIÓN VISUAL (Flip y Sorting)
         SpriteRenderer sr = manoConPistola.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
@@ -91,42 +75,14 @@ private void ApuntarAlEnemigo()
             sr.sortingOrder = miraIzquierda ? -1 : 1;
         }
     }
-}
 
-
-    // FUNCION VIEJA, DONDE EL BRAZO SI APUNTA DINAMICAMENTE
-    // private void ApuntarAlEnemigo()
-    // {
-    //     if (marineroManager != null && brazoPistola != null)
-    //     {
-    //         GameObject enemigoCercano = marineroManager.FindClosestEnemy();
-            
-    //         if (enemigoCercano != null)
-    //         {
-    //             // Calcular dirección hacia el enemigo
-    //             Vector3 direccion = enemigoCercano.transform.position - brazoPistola.transform.position;
-                
-    //             // Calcular ángulo de rotación
-    //             float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
-    //             angulo = angulo-10f;
-                
-    //             // Aplicar rotación al brazo
-    //             brazoPistola.transform.rotation = Quaternion.Euler(0f, 0f, angulo);
-                
-    //         }
-    //     }
-    // }
-
-
-    // Función auxiliar para buscar hijo por nombre
     private GameObject FindChildWithName(Transform parent, string name)
     {
         foreach (Transform child in parent)
         {
             if (child.name == name)
                 return child.gameObject;
-            
-            // Búsqueda recursiva en hijos
+
             GameObject found = FindChildWithName(child, name);
             if (found != null)
                 return found;
@@ -134,56 +90,53 @@ private void ApuntarAlEnemigo()
         return null;
     }
 
-
-
-
-
     public override void ExitState(string nextState)
     {
-        // Desactivar el brazo al salir del estado si es necesario
         if (brazoPistola != null && nextState != "disparando")
-        {
             brazoPistola.SetActive(false);
-        }
-        
+
         if (nextState == "Charge_pistolero")
         {
-            if (proyectilPrefab != null)
+            if (proyectilPrefab != null && marineroManager != null)
             {
-                GameObject enemigoCercano = marineroManager.FindClosestEnemy();
-                
-                if (enemigoCercano != null)
+                GameObject enemigo = marineroManager.FindClosestEnemy();
+
+                if (enemigo != null)
                 {
-                    Vector3 posicionInstancia = brazoPistola != null ? 
-                        brazoPistola.transform.position : 
+                    Vector3 posicionInstancia =
+                        brazoPistola != null ?
+                        brazoPistola.transform.position :
                         controlledObject.transform.position;
-                    
-                    GameObject proyectilObj = Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
-                    proyectilObj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+
+                    GameObject proyectilObj =
+                        Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
+
+                    proyectilObj.transform.localScale =
+                        new Vector3(0.5f, 0.5f, 1f);
+
                     Bullet bulletScript = proyectilObj.GetComponent<Bullet>();
-                    
+
                     if (bulletScript != null)
                     {
-                        int power = 1; 
-                        float speed = 20f; 
-                        int pierce = 0; // Añadimos el parámetro que faltaba
+                        int power = 1;
+                        float speed = 20f;
+                        int pierce = 0;
 
-                        // ERROR 1 CORREGIDO: Ahora enviamos los 4 parámetros (Vector3, float, int, int)
-                        bulletScript.Initialize(enemigoCercano.transform.position, speed, power, pierce);
-                        
-                        // ERROR 2 CORREGIDO: 
-                        // Si quieres usar LaunchTowards con un Transform (el enemigo), 
-                        // debes pasar el objeto completo, no solo su .position
-                        bulletScript.LaunchTowards(enemigoCercano.transform, speed);
-                    }
-                    else
-                    {
-                        Debug.LogError("El prefab Proyectil no tiene el componente Bullet");
+                        bulletScript.Initialize(
+                            enemigo.transform.position,
+                            speed,
+                            power,
+                            pierce
+                        );
+
+                        bulletScript.LaunchTowards(
+                            enemigo.transform,
+                            speed
+                        );
                     }
                 }
             }
-            
-            // Cambiar al siguiente estado
+
             state_machine.SetState<Charge_pistolero>();
         }
     }

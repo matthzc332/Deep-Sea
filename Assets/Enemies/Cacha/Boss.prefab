@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3831164567082135132}
   - component: {fileID: 306024466319631200}
   - component: {fileID: 1906850539406192618}
-  - component: {fileID: 7081107125241934758}
+  - component: {fileID: 2484211596269375516}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -181,7 +181,6 @@ MonoBehaviour:
   HP: 15
   speed: 5
   isAlive: 1
-  retreatSpeed: 1
   verticalSpeed: 2
   attackInterval: 4
   attackPool:
@@ -201,28 +200,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 3452855487070210910}
---- !u!95 &7081107125241934758
-Animator:
-  serializedVersion: 7
+--- !u!114 &2484211596269375516
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462392096505775602}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8634ca5f6b189b741baae7886b6d2bbe, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 3955035021231847198}
+  animations: []
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ecoPrefab: {fileID: 8757801670334387962, guid: 0f2fe82ad4a1516488910ddefdbda7e6, type: 3}
-  ecoCount: 4
-  throwInterval: 0.6
+  bombPrefab: {fileID: 6044418166369280425, guid: e60d1d1621b73fd42ac28b1415f0b949, type: 3}
+  bombCount: 7
+  throwInterval: 0.3
+  throwForce: 10

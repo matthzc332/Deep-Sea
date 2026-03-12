@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 1932769044435143781}
   - component: {fileID: 2276081143414086356}
   - component: {fileID: 3417166649162762714}
-  - component: {fileID: 5192269362250819926}
+  - component: {fileID: 183195272820073435}
   m_Layer: 0
   m_Name: Pistolero
   m_TagString: Untagged
@@ -236,28 +236,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5192269362250819926
-Animator:
-  serializedVersion: 7
+--- !u!114 &183195272820073435
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6205863701267634285}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e3b2e359f2d38d74ab1e5edc9518e645, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  animations: []
 --- !u!1 &7638858693439999729
 GameObject:
   m_ObjectHideFlags: 0
