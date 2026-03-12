@@ -2746,7 +2746,7 @@ MonoBehaviour:
   textoMonedas: {fileID: 1091579734}
   shipData: {fileID: 0}
   monedaJugador: 1
-  textoEspacio: {fileID: 0}
+  textoEspacio: {fileID: 876658685}
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: f1fd714436de1aa43834cd373067590f, type: 2}
   cantidadObjetosEnTienda: 1
@@ -2972,7 +2972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &876658684
 RectTransform:
   m_ObjectHideFlags: 0
