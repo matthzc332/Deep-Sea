@@ -220,7 +220,9 @@ public class ShipPlacementManager : MonoBehaviour
         textoEspacio.DOKill();
 
         // Reset de escala y color por seguridad
-        textoEspacio.transform.localScale = Vector3.one;
+        Vector3 escalaOriginal = textoEspacio.transform.localScale;
+        textoEspacio.transform.localScale = escalaOriginal;
+        //textoEspacio.transform.localScale = Vector3.one;
 
         // Animación: Sacudida de escala y destello rojo
         //textoEspacio.transform.DOShakeScale(0.5f, 0.2f).SetUpdate(true);

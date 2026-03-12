@@ -19,8 +19,11 @@ MonoBehaviour:
   m_PlatformBuildProfile:
     rid: 4599472101471289575
   m_OverrideGlobalSceneList: 0
-  m_Scenes: []
-  m_ScriptingDefines: []
+  m_Scenes:
+  - m_enabled: 1
+    m_path: Assets/Scenes/prefabs.unity
+  m_ScriptingDefines:
+  - 
   m_PlayerSettingsYaml:
     m_Settings: []
   references:
