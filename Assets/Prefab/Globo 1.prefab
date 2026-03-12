@@ -57,8 +57,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd806cfa863d9b418438611e90d1554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spritesExplosion:
-  - {fileID: 0}
 --- !u!1 &7332662068828707175
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +203,8 @@ MonoBehaviour:
   speed: 2
   isAlive: 1
   retreatSpeed: 1
+  hp: 1
+  speed: 2
 --- !u!114 &3407283603174684500
 MonoBehaviour:
   m_ObjectHideFlags: 0

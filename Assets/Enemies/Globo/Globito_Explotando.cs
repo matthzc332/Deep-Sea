@@ -44,16 +44,22 @@ public class Globo_Explotando : State_Base
         // 2. Reproducir sonido (manteniendo tu ajuste de tiempo)
         if (audioSource != null)
         {
-            audioSource.time = 1.5f; 
+            audioSource.time = 1.5f;
             audioSource.Play();
         }
 
         // 3. Lanzar la animación de explosión
         if (animator != null)
         {
-            // Asegúrate de que en el Animator el parámetro se llame "Explotar"
+            animator.enabled = true; // Aseguramos que el animator esté prendido
+            animator.Play("Explotar", -1, 0f); // Esto fuerza a que inicie el clip "Explotar" inmediatamente
             animator.SetTrigger("Explotar");
         }
+        // if (animator != null)
+        // {
+        //     // Asegúrate de que en el Animator el parámetro se llame "Explotar"
+        //     animator.SetTrigger("Explotar");
+        // }
 
         // 4. Desactivar colisiones para que no siga haciendo daño mientras explota
         if (collider != null) collider.enabled = false;

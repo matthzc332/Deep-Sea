@@ -21,34 +21,29 @@ public class Globo : Entity
 
     private void OnCollisionEnter2D(Collision2D collision)
 {
-    // Si choca con el barco
-    if (collision.gameObject.CompareTag("Ship"))
+    // Si choca con el barco O con la bala, activamos la colisión
+    if (collision.gameObject.CompareTag("Ship") || collision.gameObject.CompareTag("Bullet"))
     {
         collisionWithShip = true;
-    }
-    
-    // Si choca con una bala (fuera del if anterior)
-    if (collision.gameObject.CompareTag("Bullet"))
-    {
-        // Aquí podrías activar otra variable como 'isDead' 
-        // para que tu StateMachine cambie a Globo_Explotando
-        collisionWithShip = true; 
+        // Si tienes lógica de vida, puedes poner hp = 0 aquí también
     }
 }
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     // Verificar si el objeto con el que colisionó tiene la etiqueta "Ship"
-    //     if (collision.gameObject.CompareTag("Ship"))
-    //     {
-    //         collisionWithShip = true;
-    //         // sonido al colisionar
-    //         if (collision.gameObject.CompareTag("Bullet"))//
-    //         {
-    //             // Aquí podrías tener una variable llamada 'isDead' 
-    //             // o simplemente forzar el cambio de estado en tu StateMachine
-    //             collisionWithShip = true; // Si usas esta misma variable para activar la explosión
-    //         }
-    //     }
 
+//     private void OnCollisionEnter2D(Collision2D collision)
+// {
+//     // Si choca con el barco
+//     if (collision.gameObject.CompareTag("Ship"))
+//     {
+//         collisionWithShip = true;
+//     }
+    
+//     // Si choca con una bala (fuera del if anterior)
+//     if (collision.gameObject.CompareTag("Bullet"))
+//     {
+//         // Aquí podrías activar otra variable como 'isDead' 
+//         // para que tu StateMachine cambie a Globo_Explotando
+//         collisionWithShip = true; 
+//     }
+// }
 
     }
