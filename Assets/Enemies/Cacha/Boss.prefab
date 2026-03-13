@@ -181,6 +181,7 @@ MonoBehaviour:
   HP: 15
   speed: 5
   isAlive: 1
+  retreatSpeed: 1
   verticalSpeed: 2
   attackInterval: 4
   attackPool:
@@ -213,7 +214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 3955035021231847198}
-  animations: []
+  animations:
+  - frames: []
+    frameTime: 0
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpPower: 10
   jumpDuration: 2
-  targetDistanceX: 8
-  jumpAnimName: Salto
-  jumpEffectPrefab: {fileID: 0}
 --- !u!114 &4542339417335358752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +300,6 @@ MonoBehaviour:
   biteDuration: 0.5
   stayBitingTime: 0.5
   biteEffectPrefab: {fileID: 0}
-  biteAnimName: mordida
 --- !u!114 &4974943394716349161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd562a4cd5f5e724eb477b1f5de15912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 6044418166369280425, guid: e60d1d1621b73fd42ac28b1415f0b949, type: 3}
-  bombCount: 7
+  ecoPrefab: {fileID: 0}
+  ecoCount: 3
   throwInterval: 0.3
-  throwForce: 10

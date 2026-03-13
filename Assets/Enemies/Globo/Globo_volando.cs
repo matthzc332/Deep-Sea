@@ -30,7 +30,7 @@ public class Globo_Volando : State_Base
         );
 
         // Animacion VOLANDO (indice 0)
-        anim.Play(0, globo.getSpeed());
+        anim.Play(0);
 
         // Colision con el barco
         if (globo.getCollisionWithShip())

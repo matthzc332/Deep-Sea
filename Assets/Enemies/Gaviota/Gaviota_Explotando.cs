@@ -58,7 +58,7 @@ public class Gaviota_Explotando : State_Base
         if (anim == null) return;
 
         // 👉 Animación EXPLOTANDO (índice 2)
-        anim.Play(2, 1f);
+        anim.Play(2);
     }
 
     public override void ExitState(string nextState) { }

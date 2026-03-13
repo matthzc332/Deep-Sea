@@ -11,7 +11,7 @@ public class Idle_pistolero : State_Base
         if (anim != null)
         {
             // Animacion Idle (indice 0)
-            anim.Play(0, 1f);
+            anim.Play(0);
         }
     }
 
@@ -20,7 +20,7 @@ public class Idle_pistolero : State_Base
         if (anim != null)
         {
             // Mantener animacion Idle
-            anim.Play(0, 1f);
+            anim.Play(0);
         }
 
         ManagerMarineros marineroManager =

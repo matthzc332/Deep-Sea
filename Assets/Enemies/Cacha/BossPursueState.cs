@@ -26,7 +26,7 @@ public class BossPursueState : State_Base
         timer = 0f;
 
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
 
         GameObject ship = GameObject.FindGameObjectWithTag("Ship");
         if (ship != null)
@@ -43,7 +43,7 @@ public class BossPursueState : State_Base
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
 
         if (player == null) return;
 

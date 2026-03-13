@@ -16,7 +16,7 @@ public class Focus_pistolero : State_Base
 
         // Activar animacion Focus (indice 1)
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
 
         brazoPistola = FindChildWithName(controlledObject.transform, "brazo con pistola");
         if (brazoPistola != null)
@@ -30,7 +30,7 @@ public class Focus_pistolero : State_Base
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
 
         timer -= Time.deltaTime;
 

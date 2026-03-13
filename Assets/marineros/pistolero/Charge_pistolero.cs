@@ -12,13 +12,13 @@ public class Charge_pistolero : State_Base
 
         // Animacion Charge (indice 2)
         if (anim != null)
-            anim.Play(2, 1f);
+            anim.Play(2);
     }
 
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(2, 1f);
+            anim.Play(2);
 
         timer -= Time.deltaTime;
 

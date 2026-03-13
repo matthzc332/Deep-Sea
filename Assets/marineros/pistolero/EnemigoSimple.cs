@@ -26,7 +26,7 @@ public class EnemigoSimple : MonoBehaviour
             transform.Translate(Vector3.left * speed * Time.deltaTime);
 
             if (anim != null)
-                anim.Play(0, speed); // Animacion movimiento
+                anim.Play(0); // Animacion movimiento
 
             if (timer <= 0f)
             {
@@ -36,7 +36,7 @@ public class EnemigoSimple : MonoBehaviour
         else
         {
             if (anim != null)
-                anim.Play(1, 1f); // Animacion idle si la tienes
+                anim.Play(1); // Animacion idle si la tienes
         }
     }
 }

@@ -26,7 +26,7 @@ public class BossBiteState : State_Base
         startY = controlledObject.transform.position.y;
 
         if (anim != null)
-            anim.Play(2, 1f);
+            anim.Play(2);
 
         if (sequence != null)
             sequence.Kill();
@@ -45,7 +45,7 @@ public class BossBiteState : State_Base
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(2, 1f);
+            anim.Play(2);
     }
 
     public override void ExitState(string next)

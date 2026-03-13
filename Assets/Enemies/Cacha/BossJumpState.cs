@@ -18,7 +18,7 @@ public class BossJumpState : State_Base
     public override void EnterState()
     {
         if (anim != null)
-            anim.Play(3, 1f);
+            anim.Play(3);
 
         if (jumpSequence != null)
             jumpSequence.Kill();
@@ -42,7 +42,7 @@ public class BossJumpState : State_Base
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(3, 1f);
+            anim.Play(3);
     }
 
     public override void ExitState(string next)

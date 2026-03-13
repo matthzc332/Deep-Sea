@@ -33,10 +33,7 @@ public class Gaviota_Picada : State_Base
         );
 
         // 👉 Animación PICADA (índice 1)
-        anim.Play(
-            1,
-            gaviota.velocidadPicada
-        );
+        anim.Play(0);
 
         // Cambio de estado
         float distancia = Vector3.Distance(
@@ -44,7 +41,7 @@ public class Gaviota_Picada : State_Base
             gaviota.barco.position
         );
 
-        if (distancia <= distanciaParaExplotar || gaviota.vida <= 0)
+        if (distancia <= distanciaParaExplotar || gaviota.getHP() <= 0)
         {
             state_machine.SetState<Gaviota_Explotando>();
         }

@@ -17,13 +17,13 @@ public class BossRelocateState : State_Base
 
         // Usamos animacion Pursue (indice 1)
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
     }
 
     public override void UpdateState()
     {
         if (anim != null)
-            anim.Play(1, 1f);
+            anim.Play(1);
 
         timer -= Time.deltaTime;
 

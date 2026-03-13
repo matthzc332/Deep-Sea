@@ -23,6 +23,6 @@ public class Globo_Explotando : State_Base
             return;
 
         // Animacion EXPLOTANDO (indice 1)
-        anim.Play(1, 1f);
+        anim.Play(1);
     }
 }
