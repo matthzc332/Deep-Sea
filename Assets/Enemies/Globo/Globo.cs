@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Globo : Entity
 {
-    [Header("Explosion")]
-    public float duracionExplosion = 2f;
+   
 
     void Start()
     {

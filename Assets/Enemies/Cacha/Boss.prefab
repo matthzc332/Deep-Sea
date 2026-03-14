@@ -214,9 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 3955035021231847198}
-  animations:
-  - frames: []
-    frameTime: 0
+  animations: []
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0

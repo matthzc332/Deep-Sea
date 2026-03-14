@@ -17,11 +17,6 @@ public class Idle_pistolero : State_Base
 
     public override void UpdateState()
     {
-        if (anim != null)
-        {
-            // Mantener animacion Idle
-            anim.Play(0);
-        }
 
         ManagerMarineros marineroManager =
             controlledObject.GetComponent<ManagerMarineros>();

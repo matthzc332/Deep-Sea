@@ -1,28 +1,26 @@
-using UnityEngine;
-
 public class Globo_Explotando : State_Base
 {
     private Animation_Controller anim;
-    private Globo globo;
+    private bool initialized = false;
 
     public override void EnterState()
     {
-        globo = controlledObject.GetComponent<Globo>();
         anim = controlledObject.GetComponent<Animation_Controller>();
-
-        if (globo != null)
-        {
-            // Destruir despues de la duracion configurada
-            Destroy(controlledObject, globo.duracionExplosion);
-        }
+        initialized = true;
+        // Ya no destruimos aquí con un tiempo fijo
     }
 
     public override void UpdateState()
     {
-        if (anim == null)
-            return;
+        if (anim == null) return;
 
-        // Animacion EXPLOTANDO (indice 1)
+        // Ejecutar animación de explosión (índice 1)
         anim.Play(1);
+
+        // Si la animación terminó, destruimos el objeto
+        if (anim.IsFinished())
+        {
+            Destroy(controlledObject);
+        }
     }
 }

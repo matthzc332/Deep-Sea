@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
+// La clase debe estar fuera de Animation_Controller para que sea accesible
 [System.Serializable]
 public class SpriteAnimation
 {
+    public string name; // Útil para identificarla en el inspector
     public Sprite[] frames;
     public float frameTime = 0.1f;
+    public bool loop = true;
 }
 
 public class Animation_Controller : MonoBehaviour
@@ -15,49 +19,56 @@ public class Animation_Controller : MonoBehaviour
     public SpriteAnimation[] animations;
 
     private int currentState = -1;
-    private int frameIndex;
-    private float timer;
+    private Coroutine animationRoutine;
+    private bool hasFinished = false; // Nueva variable de control
 
-    /// state = índice del array animations
-    /// Ahora solo pide el índice del estado, la velocidad se maneja internamente
     public void Play(int state)
     {
-        // 1. Validación de índice
-        if (state < 0 || state >= animations.Length)
-            return;
+        if (state < 0 || state >= animations.Length) return;
+        if (state == currentState) return;
 
-        // 2. Cambio de estado: Reseteamos si es una animación nueva
-        if (state != currentState)
+        currentState = state;
+        hasFinished = false; // Reiniciamos el estado al empezar una nueva
+
+        if (animationRoutine != null)
+            StopCoroutine(animationRoutine);
+
+        animationRoutine = StartCoroutine(AnimateRoutine(animations[state]));
+    }
+
+    private IEnumerator AnimateRoutine(SpriteAnimation anim)
+    {
+        int frameIndex = 0;
+        if (anim.frames == null || anim.frames.Length == 0) yield break;
+
+        while (true)
         {
-            currentState = state;
-            frameIndex = 0;
-            timer = 0f;
-        }
+            sprite.sprite = anim.frames[frameIndex];
+            yield return new WaitForSeconds(anim.frameTime);
 
-        SpriteAnimation anim = animations[state];
-
-        // 3. Validación de frames
-        if (anim.frames == null || anim.frames.Length == 0)
-            return;
-
-        // 4. Avance del temporizador
-        // Simplemente usamos Time.deltaTime. 
-        // El "paso" lo dictará el frameTime de la animación.
-        timer += Time.deltaTime;
-
-        if (timer >= anim.frameTime)
-        {
-            timer = 0f;
             frameIndex++;
 
-            // 5. Bucle (Loop)
             if (frameIndex >= anim.frames.Length)
             {
-                frameIndex = 0;
+                if (anim.loop)
+                {
+                    frameIndex = 0;
+                }
+                else
+                {
+                    // La animación terminó realmente aquí
+                    sprite.sprite = anim.frames[anim.frames.Length - 1];
+                    hasFinished = true;
+                    animationRoutine = null;
+                    yield break;
+                }
             }
-
-            // Solo actualizamos el sprite cuando realmente cambia el frame
-            sprite.sprite = anim.frames[frameIndex];
         }
+    }
+
+    public bool IsFinished()
+    {
+        // Ahora es mucho más robusto
+        return hasFinished;
     }
 }

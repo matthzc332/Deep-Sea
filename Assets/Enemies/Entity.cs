@@ -58,7 +58,7 @@ public class Entity : MonoBehaviour
                         Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
                     }
                 }
-                Destroy(gameObject);
+                
             }
         }
     }

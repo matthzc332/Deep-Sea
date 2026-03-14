@@ -5,7 +5,6 @@ public class Focus_pistolero : State_Base
     private Animation_Controller anim;
     private float timer = 1f;
     private GameObject brazoPistola;
-    private GameObject manoConPistola;
     private ManagerMarineros marineroManager;
     public GameObject proyectilPrefab;
 
@@ -14,24 +13,20 @@ public class Focus_pistolero : State_Base
         anim = controlledObject.GetComponent<Animation_Controller>();
         marineroManager = controlledObject.GetComponent<ManagerMarineros>();
 
-        // Activar animacion Focus (indice 1)
         if (anim != null)
             anim.Play(1);
 
+        // Buscamos el objeto con el nuevo nombre
         brazoPistola = FindChildWithName(controlledObject.transform, "brazo con pistola");
+
         if (brazoPistola != null)
             brazoPistola.SetActive(true);
-
-        manoConPistola = brazoPistola;
 
         timer = 1f;
     }
 
     public override void UpdateState()
     {
-        if (anim != null)
-            anim.Play(1);
-
         timer -= Time.deltaTime;
 
         ApuntarAlEnemigo();
@@ -44,51 +39,48 @@ public class Focus_pistolero : State_Base
 
     private void ApuntarAlEnemigo()
     {
-        if (marineroManager == null || manoConPistola == null)
+        if (marineroManager == null || brazoPistola == null)
             return;
 
         GameObject enemigo = marineroManager.FindClosestEnemy();
         if (enemigo == null)
             return;
 
-        Vector3 centroHombro =
-            controlledObject.transform.position + new Vector3(0.2f, 0.5f, 0);
+        // 1. Obtener la dirección hacia el enemigo
+        Vector3 direccion = enemigo.transform.position - brazoPistola.transform.position;
 
-        Vector3 direccion = enemigo.transform.position - centroHombro;
+        // 2. Calcular el ángulo en grados
+        float anguloDeg = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
 
-        float anguloRad = Mathf.Atan2(direccion.y, direccion.x);
-        float anguloDeg = anguloRad * Mathf.Rad2Deg;
+        // 3. Detectar si el entorno (padre/posición) está invertido
+        // Usamos lossyScale para saber la escala REAL final del objeto en el mundo
+        bool estaInvertido = brazoPistola.transform.lossyScale.x < 0;
 
-        float radio = 0.8f;
-        Vector3 offsetPosicion =
-            new Vector3(Mathf.Cos(anguloRad), Mathf.Sin(anguloRad), 0) * radio;
+        if (estaInvertido)
+        {
+            // Si el mundo está invertido, sumamos 180 grados para compensar 
+            // que el eje X local apunta hacia el otro lado
+            brazoPistola.transform.rotation = Quaternion.Euler(0, 0, anguloDeg + 180f);
+        }
+        else
+        {
+            brazoPistola.transform.rotation = Quaternion.Euler(0, 0, anguloDeg);
+        }
 
-        manoConPistola.transform.position = centroHombro + offsetPosicion;
-        manoConPistola.transform.rotation =
-            Quaternion.Euler(0, 0, anguloDeg - 10f);
-
-        SpriteRenderer sr = manoConPistola.GetComponent<SpriteRenderer>();
+        // 4. Ajustar el Flip del Sprite para que la pistola no quede boca abajo
+        SpriteRenderer sr = brazoPistola.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            bool miraIzquierda = Mathf.Abs(anguloDeg) > 90f;
-            sr.flipY = miraIzquierda;
-            sr.sortingOrder = miraIzquierda ? -1 : 1;
+            // Si el ángulo absoluto es mayor a 90, el brazo apunta "atrás" respecto a su origen
+            bool apuntandoHaciaAtras = Mathf.Abs(anguloDeg) > 90f;
+
+            // Invertimos el eje Y del sprite dependiendo de si el padre ya está invertido o no
+            sr.flipY = estaInvertido ? !apuntandoHaciaAtras : apuntandoHaciaAtras;
         }
     }
 
-    private GameObject FindChildWithName(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child.gameObject;
-
-            GameObject found = FindChildWithName(child, name);
-            if (found != null)
-                return found;
-        }
-        return null;
-    }
+    // El resto de tus métodos (FindChildWithName y ExitState) se mantienen igual, 
+    // pero usando la posición real de brazoPistola para el Instantiate.
 
     public override void ExitState(string nextState)
     {
@@ -103,41 +95,33 @@ public class Focus_pistolero : State_Base
 
                 if (enemigo != null)
                 {
-                    Vector3 posicionInstancia =
-                        brazoPistola != null ?
-                        brazoPistola.transform.position :
-                        controlledObject.transform.position;
+                    // La bala sale del brazo (puedes sumarle un pequeño offset si quieres que salga de la punta)
+                    Vector3 posicionInstancia = brazoPistola.transform.position;
 
-                    GameObject proyectilObj =
-                        Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
-
-                    proyectilObj.transform.localScale =
-                        new Vector3(0.5f, 0.5f, 1f);
+                    GameObject proyectilObj = Instantiate(proyectilPrefab, posicionInstancia, Quaternion.identity);
+                    proyectilObj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
                     Bullet bulletScript = proyectilObj.GetComponent<Bullet>();
-
                     if (bulletScript != null)
                     {
-                        int power = 1;
                         float speed = 20f;
-                        int pierce = 0;
-
-                        bulletScript.Initialize(
-                            enemigo.transform.position,
-                            speed,
-                            power,
-                            pierce
-                        );
-
-                        bulletScript.LaunchTowards(
-                            enemigo.transform,
-                            speed
-                        );
+                        bulletScript.Initialize(enemigo.transform.position, speed, 1, 0);
+                        bulletScript.LaunchTowards(enemigo.transform, speed);
                     }
                 }
             }
-
             state_machine.SetState<Charge_pistolero>();
         }
+    }
+
+    private GameObject FindChildWithName(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name) return child.gameObject;
+            GameObject found = FindChildWithName(child, name);
+            if (found != null) return found;
+        }
+        return null;
     }
 }
