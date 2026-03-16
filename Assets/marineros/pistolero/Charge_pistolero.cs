@@ -2,38 +2,36 @@ using UnityEngine;
 
 public class Charge_pistolero : State_Base
 {
-    private Animator animator;
+    private Animation_Controller anim;
     private float timer = 1f;
-    private GameObject brazoPistola;
-    private ManagerMarineros marineroManager;
 
-    public override void EnterState(){
-        // Obtener componentes y resetear timers
-        animator = controlledObject.GetComponent<Animator>();
-        marineroManager = controlledObject.GetComponent<ManagerMarineros>();
+    public override void EnterState()
+    {
+        anim = controlledObject.GetComponent<Animation_Controller>();
         timer = 1f;
-        // Reproducir la animación "cargando"
-        if (animator != null)
-        {
-            animator.Play("recargando");
-        }
-        else
-        {
-            Debug.LogWarning("Animator no encontrado en el objeto controlado: " + controlledObject.name);
-        }
-        
+
+        // Animacion Charge (indice 2)
+        if (anim != null)
+            anim.Play(2);
     }
 
-    public override void UpdateState(){
-        timer = timer-Time.deltaTime;
+    public override void UpdateState()
+    {
+        if (anim != null)
+            anim.Play(2);
 
-        if (timer <= 0){
+        timer -= Time.deltaTime;
+
+        if (timer <= 0f)
+        {
             ExitState("idle");
         }
     }
 
-    public override void ExitState (string nextState){
-        if (nextState == "idle"){
+    public override void ExitState(string nextState)
+    {
+        if (nextState == "idle")
+        {
             state_machine.SetState<Idle_pistolero>();
         }
     }
