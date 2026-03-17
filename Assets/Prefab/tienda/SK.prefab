@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -309,6 +309,7 @@ MonoBehaviour:
   descTxt: {fileID: 0}
   strongTxt: {fileID: 0}
   weakTxt: {fileID: 0}
+  textoYaComprado: {fileID: 5328800354982251283, guid: b147ada9381604047b68b0a6aa659105, type: 3}
 --- !u!114 &6868024066673207700
 MonoBehaviour:
   m_ObjectHideFlags: 0
