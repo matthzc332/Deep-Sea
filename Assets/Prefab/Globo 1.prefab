@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 1371453057246945213}
   - component: {fileID: -1387397707122676889}
   - component: {fileID: 240181067402559184}
+  - component: {fileID: -8267383322611403501}
   m_Layer: 0
   m_Name: Globo 1
   m_TagString: Enemy
@@ -203,8 +204,7 @@ MonoBehaviour:
   speed: 2
   isAlive: 1
   retreatSpeed: 1
-  hp: 1
-  speed: 2
+  duracionExplosion: 2
 --- !u!114 &3407283603174684500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,3 +387,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8267383322611403501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7332662068828707175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 3626916397498700004, guid: e6ea7a5a94110c84e8f8150768472b4b, type: 3}
+  animations:
+  - frames:
+    - {fileID: -1128329307405786199, guid: faa8e8bfb48398049972e6ae37d8f4a6, type: 3}
+    frameTime: 0
+  - frames:
+    - {fileID: 2753232667851212398, guid: e6ea7a5a94110c84e8f8150768472b4b, type: 3}
+    frameTime: 1
+  - frames:
+    - {fileID: -3588492674029097871, guid: e6ea7a5a94110c84e8f8150768472b4b, type: 3}
+    frameTime: 2
+  - frames:
+    - {fileID: 3118316658153390103, guid: e6ea7a5a94110c84e8f8150768472b4b, type: 3}
+    frameTime: 3
