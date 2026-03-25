@@ -21,30 +21,47 @@ public class Globo_Volando : State_Base
         if (barco == null || globo == null || anim == null)
             return;
 
-        // Movimiento hacia el barco
-        Vector3 direccion =
-            (barco.position - controlledObject.transform.position).normalized;
+        Vector3 direccion = (barco.position - controlledObject.transform.position).normalized;
 
-        controlledObject.transform.Translate(
-            direccion * globo.getSpeed() * Time.deltaTime
-        );
+        // Usamos globo.speed directamente si es pública en Entity, o revisa getSpeed()
+        controlledObject.transform.Translate(direccion * globo.getSpeed() * Time.deltaTime, Space.World);
 
-        // Animacion VOLANDO (indice 0)
-        anim.Play(0);
+        anim.Play(0); // Animación Volando
 
-        // Colision con el barco
         if (globo.getCollisionWithShip())
         {
             ExitState("Colision_con_barco");
-            return;
-        }
-
-        // Si muere
-        if (globo.getHP() <= 0)
-        {
-            ExitState("Globo_Explotando");
         }
     }
+    // public override void UpdateState()
+    // {
+    //     if (barco == null || globo == null || anim == null)
+    //         return;
+
+    //     // Movimiento hacia el barco
+    //     Vector3 direccion =
+    //         (barco.position - controlledObject.transform.position).normalized;
+
+    //     controlledObject.transform.Translate(
+    //         direccion * globo.getSpeed() * Time.deltaTime
+    //     );
+
+    //     // Animacion VOLANDO (indice 0)
+    //     anim.Play(0);
+
+    //     // Colision con el barco
+    //     if (globo.getCollisionWithShip())
+    //     {
+    //         ExitState("Colision_con_barco");
+    //         return;
+    //     }
+
+    //     // Si muere
+    //     if (globo.getHP() <= 0)
+    //     {
+    //         ExitState("Globo_Explotando");
+    //     }
+    // }
 
     public override void ExitState(string nextState)
     {

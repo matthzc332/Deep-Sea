@@ -58,4 +58,56 @@ public class TiendaModular : ShopManager
         base.ConfirmarVenta(objeto, cartaVisual);
         if (inspeccionActual != null) Destroy(inspeccionActual);
     }
-}
+
+public override void ActualizarUI()
+{
+    // 1. Verificamos si esta tienda vende objetos permanentes (habilidades)
+    // para decidir qué texto mostrar en el contador de dinero
+    bool esTiendaDeHabilidades = false;
+    if (todosLosObjetosEnEstaTienda.Count > 0 && todosLosObjetosEnEstaTienda[0] != null)
+    {
+        esTiendaDeHabilidades = todosLosObjetosEnEstaTienda[0].esPermanente;
+    }
+
+    // 2. Actualizamos el texto del dinero según el tipo de tienda
+    if (textoMonedas != null) 
+    {
+        string etiquetaMoneda = esTiendaDeHabilidades ? "Puntos XP" : "Monedas";
+        textoMonedas.text = $"{etiquetaMoneda}: {monedaJugador}";
+    }
+
+    // 3. Manejo del texto de espacio/estado
+    if (textoEspacio != null) 
+    {
+        if (esTiendaDeHabilidades)
+        {
+            textoEspacio.text = "HABILIDADES"; // O dejarlo vacío
+            textoEspacio.color = Color.white;
+        }
+        else
+        {
+            // Si es tienda de marineros, mostramos el espacio del barco
+            ShipPlacementManager placement = Object.FindFirstObjectByType<ShipPlacementManager>();
+            if (placement != null)
+            {
+                int ocupados = placement.GetCantidadOcupada();
+                int total = placement.posicionesExistentes.Count;
+                textoEspacio.text = $"Espacio: {ocupados}/{total}";
+                textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
+            }
+        }
+    }
+}}
+
+//     public override void ActualizarUI()
+// {
+//     // 1. Actualiza solo el dinero usando la lógica de la clase padre
+//     if (textoMonedas != null) textoMonedas.text = $"Monedas: {monedaJugador}";
+
+//     // 2. Limpia o desactiva el texto de espacio para que no diga 0/2
+//     if (textoEspacio != null) 
+//     {
+//         textoEspacio.text = "Ya Adquirido"; // O puedes poner algo como "Habilidades"
+//     }
+// }
+// }

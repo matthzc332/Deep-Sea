@@ -167,14 +167,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 847.42126, y: 0, z: 889.7625, w: -21.635223}
+  m_margin: {x: 836.6866, y: 0, z: 853.9803, w: -25.213478}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -495,6 +495,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progresoHabilidades: {fileID: 11400000, guid: 858552d78385c51469cf09d3c7735fc4, type: 2}
+  textoBoton: {fileID: 7230510359196697471}
+  fondoTarjeta: {fileID: 5802857665578712866}
+  colorBloqueado: {r: 0.6415094, g: 0.60519755, b: 0.60519755, a: 1}
 --- !u!1 &6229661470634573422
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,3 +870,4 @@ MonoBehaviour:
   descTxt: {fileID: 5275891489651831569}
   strongTxt: {fileID: 0}
   weakTxt: {fileID: 0}
+  textoYaComprado: {fileID: 5328800354982251283, guid: b147ada9381604047b68b0a6aa659105, type: 3}
