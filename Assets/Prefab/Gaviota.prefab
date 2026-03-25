@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 5721335033677454835}
+  sprite: {fileID: 0}
   animations:
   - frames:
     - {fileID: -4875193837647451105, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}

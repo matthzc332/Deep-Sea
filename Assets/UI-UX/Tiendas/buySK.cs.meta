@@ -1,14 +1,2 @@
 fileFormatVersion: 2
 guid: 38696fc3dba0c2d4c83c3405fa388ea4
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - progresoHabilidades: {instanceID: 0}
-  - fondoTarjeta: {instanceID: 0}
-  - textoAdquirido: {fileID: 5328800354982251283, guid: b147ada9381604047b68b0a6aa659105, type: 3}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 

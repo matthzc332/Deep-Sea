@@ -438,11 +438,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5188838473846527291, guid: d367ecb8b5910284588e060627db2bcc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 343
+      value: 417
       objectReference: {fileID: 0}
     - target: {fileID: 5188838473846527291, guid: d367ecb8b5910284588e060627db2bcc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 88
+      value: 128.66022
       objectReference: {fileID: 0}
     - target: {fileID: 5188838473846527291, guid: d367ecb8b5910284588e060627db2bcc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Espacio 0/2
+  m_text: ESPACIO 0/2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -911,15 +911,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
-  m_fontSizeMin: 50
-  m_fontSizeMax: 50
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -945,9 +945,9 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvLineOffset: 0
   m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 1
+  m_IsTextObjectScaleStatic: 0
   m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 0
+  m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
   m_margin: {x: -1.2679825, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
@@ -962,7 +962,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350895008}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!224 &350895011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -973,14 +973,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.820865, y: 2.820865, z: 2.820865}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1107255117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -91.592926, y: -483.1463}
-  m_SizeDelta: {x: 300, y: 105.922}
+  m_AnchoredPosition: {x: -115, y: -546}
+  m_SizeDelta: {x: 225, y: 61.3593}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &402913001
 GameObject:
@@ -1017,8 +1017,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 34.248}
-  m_SizeDelta: {x: 1954.7, y: 1025.7}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1954.7, y: 1094.197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402913003
 MonoBehaviour:
@@ -1413,7 +1413,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 502, y: -331}
+  m_AnchoredPosition: {x: 502, y: -427}
   m_SizeDelta: {x: 419.2386, y: 103.2409}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &509131821
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 72
+  m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -1782,11 +1782,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6781010906278527094, guid: 7a5b52b09696a734c95dfb5577c0cfac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -491
+      value: -157.90001
       objectReference: {fileID: 0}
     - target: {fileID: 6781010906278527094, guid: 7a5b52b09696a734c95dfb5577c0cfac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 45
+      value: -39
       objectReference: {fileID: 0}
     - target: {fileID: 6781010906278527094, guid: 7a5b52b09696a734c95dfb5577c0cfac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2026,8 +2026,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 34.23903}
-  m_SizeDelta: {x: 1954.7, y: 1025.7}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1954.7, y: 1094.197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &558058841
 MonoBehaviour:
@@ -2249,11 +2249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5907349022061588506, guid: 29cb1ab30109fd1438d8d9738188d933, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -194
+      value: -62.070587
       objectReference: {fileID: 0}
     - target: {fileID: 5907349022061588506, guid: 29cb1ab30109fd1438d8d9738188d933, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 50
+      value: 52.917694
       objectReference: {fileID: 0}
     - target: {fileID: 5907349022061588506, guid: 29cb1ab30109fd1438d8d9738188d933, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -2745,7 +2745,7 @@ MonoBehaviour:
   textoMonedas: {fileID: 1091579734}
   shipData: {fileID: 0}
   monedaJugador: 1
-  textoEspacio: {fileID: 5375492899320854664, guid: 95944b413c644ba41bc8d80b53fd811c, type: 3}
+  textoEspacio: {fileID: 0}
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: f1fd714436de1aa43834cd373067590f, type: 2}
   cantidadObjetosEnTienda: 1
@@ -3165,7 +3165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 502, y: -382}
+  m_AnchoredPosition: {x: 502, y: -427}
   m_SizeDelta: {x: 419.2386, y: 103.2409}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1000677321
@@ -3386,7 +3386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1091579733
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5645,7 +5645,7 @@ MonoBehaviour:
   inspeccionContainer: {fileID: 1130120434}
   textoMonedas: {fileID: 509131821}
   shipData: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
-  monedaJugador: 2147483647
+  monedaJugador: 500
   textoEspacio: {fileID: 0}
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
