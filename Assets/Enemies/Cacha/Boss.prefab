@@ -184,10 +184,7 @@ MonoBehaviour:
   retreatSpeed: 1
   verticalSpeed: 2
   attackInterval: 4
-  attackPool:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  attackPool: []
 --- !u!114 &1906850539406192618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +211,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 3955035021231847198}
-  animations: []
+  animations:
+  - name: pursue
+    frames:
+    - {fileID: -4331574009084573103, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -3247581201736168115, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -6077671465702949655, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: 4558408656108534236, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -7681618068157663636, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    frameTime: 0.5
+    loop: 0
+  - name: jump
+    frames:
+    - {fileID: 5704694970942330986, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: 69534185713902285, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -207152293763726309, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: 678302183574398953, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -6435406366527213021, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -11950440074657216, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    frameTime: 0.5
+    loop: 0
+  - name: bite
+    frames:
+    - {fileID: 4558408656108534236, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -3462304188286387236, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -7681618068157663636, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    frameTime: 0.5
+    loop: 0
+  - name: eco
+    frames:
+    - {fileID: -1276308793995679557, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: 4558408656108534236, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -3462304188286387236, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    - {fileID: -7681618068157663636, guid: a1137e769a47a3946b1d6e06cd091dc0, type: 3}
+    frameTime: 0.5
+    loop: 0
 --- !u!1 &3006381190256591062
 GameObject:
   m_ObjectHideFlags: 0
