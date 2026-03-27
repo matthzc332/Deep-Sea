@@ -62,79 +62,92 @@
 //         }
 //     }
 // }
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using UnityEngine.UI; // Importante para el componente Button
+using UnityEngine.UI;
 
 public class UpDownButton : MonoBehaviour, IPointerClickHandler
 {
     [Header("Configuración de Movimiento")]
-    public float shopOpenY = 0f;      
-    public float shopClosedY = -1000f; 
+    public float shopOpenY = 0f;
+    public float shopClosedY = -1000f;
     public float shopAnimTime = 0.3f;
 
     [Header("Referencias UI")]
-    public GameObject targetPanel;    
-    public GameObject fondoNegro;     
-    public Button closeButtonHijo; // Arrastra aquí el botón que creaste dentro del panel
+    public GameObject targetPanel;    // El panel que este botón abre (Marineros o Habilidades)
+    public GameObject fondoNegro;     // El fondo oscuro único de la jerarquía
+    public Button closeButtonHijo;    // El botón "X" que está DENTRO del panel
 
-    [HideInInspector] public bool isOpen = false;
+    private bool isOpen = false;
+    private bool isAnimating = false;
     private RectTransform panelRect;
 
-    void Start()
+    void Awake()
     {
         if (targetPanel != null)
         {
             panelRect = targetPanel.GetComponent<RectTransform>();
+            // Empezamos cerrados
             panelRect.anchoredPosition = new Vector2(panelRect.anchoredPosition.x, shopClosedY);
         }
-        
-        if (fondoNegro != null) fondoNegro.SetActive(false);
+    }
 
-        // Configuramos el botón hijo por código para que siempre funcione
+    void Start()
+    {
+        // Configuramos el botón de cerrar que está dentro del panel
         if (closeButtonHijo != null)
         {
+            closeButtonHijo.onClick.RemoveAllListeners();
             closeButtonHijo.onClick.AddListener(CloseMenu);
         }
     }
 
+    // Al hacer clic en el botón de la ISLA
     public void OnPointerClick(PointerEventData eventData)
     {
-        ToggleMenu();
-    }
-
-    public void ToggleMenu()
-    {
-        isOpen = !isOpen;
-        AnimateMenu(isOpen);
-    }
-
-    public void AnimateMenu(bool open)
-    {
-        float targetY = open ? shopOpenY : shopClosedY;
+        if (isAnimating) return;
         
-        // Control del fondo oscuro (Si existe)
-        if (fondoNegro != null) fondoNegro.SetActive(open);
-
-        if (panelRect != null)
-        {
-            panelRect.DOKill();
-            panelRect.DOAnchorPosY(targetY, shopAnimTime)
-                .SetEase(Ease.OutCubic)
-                .SetUpdate(true);
-        }
-        
-        isOpen = open;
+        if (!isOpen) OpenMenu();
+        else CloseMenu();
     }
 
-    // Función que llama el botón hijo y el fondo negro
+    public void OpenMenu()
+    {
+        if (isOpen || isAnimating) return;
+        isOpen = true;
+        
+        // Animación del botón de la isla
+        transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f);
+
+        if (fondoNegro != null) fondoNegro.SetActive(true);
+        AnimateMovement(shopOpenY);
+    }
+
     public void CloseMenu()
     {
-        if (isOpen)
-        {
-            AnimateMenu(false);
-        }
+        if (!isOpen || isAnimating) return;
+        isOpen = false;
+
+        // Animación del botón de cerrar hijo
+        if (closeButtonHijo != null)
+            closeButtonHijo.transform.DOPunchScale(new Vector3(-0.2f, -0.2f, -0.2f), 0.2f);
+
+        AnimateMovement(shopClosedY);
+    }
+
+    private void AnimateMovement(float targetY)
+    {
+        isAnimating = true;
+        panelRect.DOKill();
+        
+        panelRect.DOAnchorPosY(targetY, shopAnimTime)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true)
+            .OnComplete(() => {
+                isAnimating = false;
+                // Si acabamos de cerrar, apagamos el fondo
+                if (!isOpen && fondoNegro != null) fondoNegro.SetActive(false);
+            });
     }
 }
