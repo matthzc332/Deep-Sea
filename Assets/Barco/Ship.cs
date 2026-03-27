@@ -230,16 +230,23 @@ public class Ship : Entity
             Debug.Log("Marinero instanciado en Posición 2");
         }
     }
-    
+
     void Update()
     {
-        // Solo mover si el joystick está activo y está dentro de los límites
+        // 1. Verificación de nulidad: Si no hay joystick asignado, ignoramos el movimiento.
+        if (joystick == null)
+        {
+            vida = HP; // Actualizamos la vida de todos modos para que la UI no se rompa
+            return;
+        }
+
+        // 2. Solo mover si el joystick está activo y está dentro de los límites
         if (joystick.angulo != 0f)
         {
             splitSpeed();
-            
+
             // Verificar límites específicos para cada dirección
-            if ((speed > 0 && Ships.position.x < limiteDerecho) || 
+            if ((speed > 0 && Ships.position.x < limiteDerecho) ||
                 (speed < 0 && Ships.position.x > limiteIzquierdo))
             {
                 move(speed, Ships);
