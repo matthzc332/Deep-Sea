@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0290e199145abf04ca2714ffc60d67f2, type: 3}
   m_Name: ShipData
   m_EditorClassIdentifier: 
-  puntosDeVida: 4
-  municion: 30
-  dinero: 40
-  score: 460
-  balasGastadas: 0
+  puntosDeVida: 5
+  municion: 22
+  dinero: 20
+  score: 85488
+  balasGastadas: 8
   posicion1: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
   posicion2: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
