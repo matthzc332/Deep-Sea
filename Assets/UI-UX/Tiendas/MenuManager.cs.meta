@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 9866479c1c3c49140adfc5f86eb4f750
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - modalOverlay: {fileID: 8730079268056066473, guid: d5cfe30388ae65e4d9c1aa40e4cc9efb, type: 3}
+  - currentActiveMenu: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
