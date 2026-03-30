@@ -24,22 +24,22 @@ public class ShipPlacementManager : MonoBehaviour
     private GameObject cartaOrigenUI;
 
 
-    void Start()
-    {
-        ActualizarTextoContador(); // Actualiza al empezar la escena (0/2)
-    }
-    // public void ActualizarTextoContador()
-    // {
-    //     if (textoEspacio != null)
-    //     {
-    //         int ocupados = GetCantidadOcupada();
-    //         int total = posicionesExistentes.Count;
-    //         textoEspacio.text = $"Espacio: {ocupados}/{total}";
+void Start()
+{
+    ActualizarTextoContador(); // Actualiza al empezar la escena (0/2)
+}
+// public void ActualizarTextoContador()
+// {
+//     if (textoEspacio != null)
+//     {
+//         int ocupados = GetCantidadOcupada();
+//         int total = posicionesExistentes.Count;
+//         textoEspacio.text = $"Espacio: {ocupados}/{total}";
 
-    //         // Feedback visual opcional
-    //         textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
-    //     }
-    // }
+//         // Feedback visual opcional
+//         textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
+//     }
+// }
 
 
 
@@ -88,62 +88,62 @@ public class ShipPlacementManager : MonoBehaviour
 
     // En ShipPlacementManager.cs
 
-    public void ActualizarTextoContador()
+public void ActualizarTextoContador()
+{
+    if (textoEspacio == null) return;
+
+    int ocupados = 0;
+    foreach (var pos in posicionesExistentes)
     {
-        if (textoEspacio == null) return;
-
-        int ocupados = 0;
-        foreach (var pos in posicionesExistentes)
+        // Forzamos la comprobación directa
+        if (pos != null && !pos.EstaDisponible()) 
         {
-            // Forzamos la comprobación directa
-            if (pos != null && !pos.EstaDisponible())
-            {
-                ocupados++;
-            }
-        }
-
-        int total = posicionesExistentes.Count;
-        textoEspacio.text = $"Espacio: {ocupados}/{total}";
-
-        // Feedback visual: Rojo si está lleno
-        textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
-    }
-
-    // public void IntentarColocarEnSlot(PosicionMarinero slot)
-    // {
-    //     if (objetoEnEspera == null || tiendaActiva == null) return;
-
-    //     if (slot.AsignarMarinero(objetoEnEspera))
-    //     {
-    //         tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
-
-    //         // REFRESCAR CONTADOR AQUÍ
-    //         ActualizarTextoContador(); 
-
-    //         CerrarPanel();
-    //     }
-    // }
-    public void IntentarColocarEnSlot(PosicionMarinero slot)
-    {
-        if (objetoEnEspera == null || tiendaActiva == null) return;
-
-        if (slot.AsignarMarinero(objetoEnEspera))
-        {
-            tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
-
-            // 1. Actualizamos el texto 2/2
-            ActualizarTextoContador();
-
-            // 2. BUSCAMOS LOS BOTONES Y LOS ACTUALIZAMOS
-            BuyCrew[] botonesCompra = Object.FindObjectsByType<BuyCrew>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            foreach (var btn in botonesCompra)
-            {
-                btn.ActualizarEstadoBoton();
-            }
-
-            CerrarPanel();
+            ocupados++;
         }
     }
+
+    int total = posicionesExistentes.Count;
+    textoEspacio.text = $"Espacio: {ocupados}/{total}";
+
+    // Feedback visual: Rojo si está lleno
+    textoEspacio.color = (ocupados >= total) ? Color.red : Color.white;
+}
+
+// public void IntentarColocarEnSlot(PosicionMarinero slot)
+// {
+//     if (objetoEnEspera == null || tiendaActiva == null) return;
+
+//     if (slot.AsignarMarinero(objetoEnEspera))
+//     {
+//         tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
+        
+//         // REFRESCAR CONTADOR AQUÍ
+//         ActualizarTextoContador(); 
+        
+//         CerrarPanel();
+//     }
+// }
+public void IntentarColocarEnSlot(PosicionMarinero slot)
+{
+    if (objetoEnEspera == null || tiendaActiva == null) return;
+
+    if (slot.AsignarMarinero(objetoEnEspera))
+    {
+        tiendaActiva.ConfirmarVenta(objetoEnEspera, cartaOrigenUI);
+        
+        // 1. Actualizamos el texto 2/2
+        ActualizarTextoContador(); 
+        
+        // 2. BUSCAMOS LOS BOTONES Y LOS ACTUALIZAMOS
+        BuyCrew[] botonesCompra = Object.FindObjectsByType<BuyCrew>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var btn in botonesCompra)
+        {
+            btn.ActualizarEstadoBoton();
+        }
+        
+        CerrarPanel();
+    }
+}
 
     // // ESTE ES EL MÉTODO QUE DABA ERROR SI ESTABA FUERA DE LA CLASE
     // public void IntentarColocarEnSlot(PosicionMarinero slot)
@@ -181,23 +181,23 @@ public class ShipPlacementManager : MonoBehaviour
     // Contador de lugares en barco
 
 
-    public bool TieneEspacioDisponible()
+   public bool TieneEspacioDisponible()
+{
+    // Si la lista está vacía, intentamos buscar de nuevo
+    if (posicionesExistentes.Count == 0)
     {
-        // Si la lista está vacía, intentamos buscar de nuevo
-        if (posicionesExistentes.Count == 0)
-        {
-            posicionesExistentes.AddRange(Object.FindObjectsByType<PosicionMarinero>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-        }
-
-        foreach (var pos in posicionesExistentes)
-        {
-            if (pos != null && pos.EstaDisponible())
-            {
-                return true;
-            }
-        }
-        return false; // Si no hay ninguna posición disponible, devolvemos false
+        posicionesExistentes.AddRange(Object.FindObjectsByType<PosicionMarinero>(FindObjectsInactive.Include, FindObjectsSortMode.None));
     }
+
+    foreach (var pos in posicionesExistentes)
+    {
+        if (pos != null && pos.EstaDisponible())
+        {
+            return true;
+        }
+    }
+    return false; // Si no hay ninguna posición disponible, devolvemos false
+}
 
     public int GetCantidadOcupada()
     {
@@ -211,25 +211,22 @@ public class ShipPlacementManager : MonoBehaviour
     }
 
     // Ejemplo de feedback para el texto de UI
-    public void FeedbackTextoLleno()
-    {
-        if (textoEspacio == null) return;
+public void FeedbackTextoLleno()
+{
+    if (textoEspacio == null) return;
 
-        // Detenemos cualquier animación previa en el texto para que no se solapen
-        textoEspacio.transform.DOKill();
-        textoEspacio.DOKill();
+    // Detenemos cualquier animación previa en el texto para que no se solapen
+    textoEspacio.transform.DOKill();
+    textoEspacio.DOKill();
 
-        // Reset de escala y color por seguridad
-        Vector3 escalaOriginal = textoEspacio.transform.localScale;
-        textoEspacio.transform.localScale = escalaOriginal;
-        //textoEspacio.transform.localScale = Vector3.one;
+    // Reset de escala y color por seguridad
+    textoEspacio.transform.localScale = Vector3.one;
 
-        // Animación: Sacudida de escala y destello rojo
-        textoEspacio.transform.DOShakePosition(0.4f, 10f, 20, 90);
-        textoEspacio.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
-        {
-            // Al terminar, vuelve al color rojo fijo si sigue lleno o blanco si no
-            textoEspacio.color = (GetCantidadOcupada() >= posicionesExistentes.Count) ? Color.red : Color.white;
-        }).SetUpdate(true);
-    }
+    // Animación: Sacudida de escala y destello rojo
+    textoEspacio.transform.DOShakeScale(0.5f, 0.2f).SetUpdate(true);
+    textoEspacio.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() => {
+        // Al terminar, vuelve al color rojo fijo si sigue lleno o blanco si no
+        textoEspacio.color = (GetCantidadOcupada() >= posicionesExistentes.Count) ? Color.red : Color.white;
+    }).SetUpdate(true);
+}
 }

@@ -10,7 +10,7 @@ public class EcoSonicoProyectil : MonoBehaviour
     public Vector3 escalaFinal = new Vector3(4f, 2.5f, 1f);
 
     [Header("Daño")]
-    public int dañoMaximo = 2;
+    public int dañoMaximo = 4;
     public float distanciaParaDañoMinimo = 12f;
     
     private Vector3 _posicionOrigen;

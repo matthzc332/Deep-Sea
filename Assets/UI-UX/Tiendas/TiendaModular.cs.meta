@@ -1,17 +1,2 @@
 fileFormatVersion: 2
 guid: d6ba76ec76f37a0469bc4ab1a2de8af7
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - cartaPrefab: {instanceID: 0}
-  - inspeccionPrefab: {instanceID: 0}
-  - inspeccionContainer: {instanceID: 0}
-  - textoMonedas: {instanceID: 0}
-  - shipData: {instanceID: 0}
-  - textoEspacio: {fileID: 5328800354982251283, guid: b147ada9381604047b68b0a6aa659105, type: 3}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 

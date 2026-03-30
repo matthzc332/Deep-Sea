@@ -175,8 +175,8 @@ TextureImporter:
         width: 129
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 14, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -197,8 +197,8 @@ TextureImporter:
         width: 130
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -219,8 +219,8 @@ TextureImporter:
         width: 130
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -241,8 +241,8 @@ TextureImporter:
         width: 130
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 14, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -258,12 +258,12 @@ TextureImporter:
       name: BARRA DE VIDAl_4
       rect:
         serializedVersion: 2
-        x: 511
+        x: 525
         y: 73
-        width: 130
+        width: 116
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -280,13 +280,13 @@ TextureImporter:
       name: BARRA DE VIDAl_5
       rect:
         serializedVersion: 2
-        x: 639
+        x: 638
         y: 73
         width: 129
         height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -302,7 +302,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9830260e639e02448a58d809fcd39787
     internalID: 0
     vertices: []
     indices: 

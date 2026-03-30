@@ -187,15 +187,23 @@ public class Ship : Entity
 
     public float vida;
 
+    [Header("UI Visuals")]
+    public SingleSeaWaveUI barraVidaOndulante;
+    private float hpMaximo; // Para calcular el porcentaje
+
+    [Header("Movimiento")]
     // Límites de movimiento
     private float limiteDerecho = 7.300274f;
     private float limiteIzquierdo = -7.300274f;
     public float initialSpeed = 0.9f;
 
-    public ShipData shipData;
+    [Header("Posiciones")]
+    
     public Transform puntoPosicion1;
     public Transform puntoPosicion2;
     //efectos de audio barco
+    [Header("Otros")]
+    public ShipData shipData;
     public ShipSound shipSound;
 
     void Start()
@@ -208,9 +216,12 @@ public class Ship : Entity
         {
             // Sincronizar vida
             HP = shipData.puntosDeVida;
+            hpMaximo = 6;
 
             // INSTANCIAR MARINEROS EN POSICIONES FIJAS
             CargarTripulacionFija();
+            // Inicializamos la barra al 100%
+            ActualizarVisualVida();
         }
     }
 
@@ -230,16 +241,23 @@ public class Ship : Entity
             Debug.Log("Marinero instanciado en Posición 2");
         }
     }
-    
+
     void Update()
     {
-        // Solo mover si el joystick está activo y está dentro de los límites
+        // 1. Verificación de nulidad: Si no hay joystick asignado, ignoramos el movimiento.
+        if (joystick == null)
+        {
+            vida = HP; // Actualizamos la vida de todos modos para que la UI no se rompa
+            return;
+        }
+
+        // 2. Solo mover si el joystick está activo y está dentro de los límites
         if (joystick.angulo != 0f)
         {
             splitSpeed();
-            
+
             // Verificar límites específicos para cada dirección
-            if ((speed > 0 && Ships.position.x < limiteDerecho) || 
+            if ((speed > 0 && Ships.position.x < limiteDerecho) ||
                 (speed < 0 && Ships.position.x > limiteIzquierdo))
             {
                 move(speed, Ships);
@@ -375,17 +393,29 @@ public void splitSpeed()
         sequence.Insert(0.1f, spr.DOColor(Color.white, 0.1f));
     }
 
+
+
+    private void ActualizarVisualVida()
+    {
+        if (barraVidaOndulante != null)
+        {
+            float porcentaje = (float)HP / hpMaximo;
+            barraVidaOndulante.SetHealth(porcentaje);
+        }
+    }
+
+
+
+
     // modifico take damage para no morir de ataques constantes del jefe
     public override void takeDamage(int damage)
     {
-        // 1. Si ya murió o es invulnerable, no hacemos nada
         if (!isAlive || esInvulnerable) return;
 
-        // 2. Aplicamos daño
         HP -= damage;
-        
-        // Debug para ver que no baje a lo loco
-        Debug.Log($"Barco golpeado. Vida restante: {HP}");
+
+        // NUEVO: Actualizamos la barra de vida ondulante
+        ActualizarVisualVida();
 
         if (HP <= 0)
         {
@@ -394,35 +424,25 @@ public void splitSpeed()
         }
         else
         {
-            Debug.Log("Algo golpeo invicibilidad, vida actual: " + HP);
-            // 3. Si sigue vivo, activamos la invulnerabilidad temporal
             StartCoroutine(RutinaInvulnerabilidad());
         }
     }
 
-    // CORRUTINA NUEVA PARA EL TIEMPO DE GRACIA
     IEnumerator RutinaInvulnerabilidad()
     {
         esInvulnerable = true;
-        
-        // Opcional: Hacemos que el barco parpadee (se ponga medio transparente)
-        // Usamos DOTween para que el parpadeo sea fluido
-        if (spr != null) 
+        if (spr != null)
         {
             spr.DOFade(0.5f, 0.2f).SetLoops(-1, LoopType.Yoyo);
         }
 
-        // Esperamos 1.5 segundos (puedes cambiar este número)
         yield return new WaitForSeconds(1.5f);
 
-        // Volvemos a la normalidad
-        if (spr != null) 
+        if (spr != null)
         {
-            spr.DOKill(); // Detenemos el parpadeo de DOTween
+            spr.DOKill();
             spr.color = Color.white;
         }
         esInvulnerable = false;
-        
-        Debug.Log("Barco vulnerable de nuevo.");
     }
 }
