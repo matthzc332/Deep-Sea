@@ -219,9 +219,6 @@ public void FeedbackTextoLleno()
     textoEspacio.transform.DOKill();
     textoEspacio.DOKill();
 
-    // Reset de escala y color por seguridad
-    textoEspacio.transform.localScale = Vector3.one;
-
     // Animación: Sacudida de escala y destello rojo
     textoEspacio.transform.DOShakeScale(0.5f, 0.2f).SetUpdate(true);
     textoEspacio.DOColor(Color.red, 0.2f).SetLoops(2, LoopType.Yoyo).OnComplete(() => {
