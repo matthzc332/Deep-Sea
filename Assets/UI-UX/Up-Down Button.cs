@@ -43,7 +43,7 @@
 //     public void OnPointerClick(PointerEventData eventData)
 //     {
 //         if (isAnimating) return;
-        
+
 //         if (!isOpen) OpenMenu();
 //         else CloseMenu();
 //     }
@@ -52,7 +52,7 @@
 //     {
 //         if (isOpen || isAnimating) return;
 //         isOpen = true;
-        
+
 //         // Animación del botón de la isla
 //         transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f);
 
@@ -97,7 +97,7 @@
 
 //     isAnimating = true;
 //     panelRect.DOKill();
-    
+
 //     panelRect.DOAnchorPosY(targetY, shopAnimTime)
 //         .SetEase(Ease.OutBack)
 //         .SetUpdate(true)
@@ -113,7 +113,7 @@
 //     {
 //         isAnimating = true;
 //         panelRect.DOKill();
-        
+
 //         panelRect.DOAnchorPosY(targetY, shopAnimTime)
 //             .SetEase(Ease.OutBack)
 //             .SetUpdate(true)
@@ -124,6 +124,7 @@
 //             });
 //     }
 // }
+
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -150,73 +151,223 @@ public class UpDownButton : MonoBehaviour, IPointerClickHandler
     {
         if (targetPanel != null)
         {
+            Debug.Log($"Instancia creada: {gameObject.name} | ID: {GetInstanceID()}");
             panelRect = targetPanel.GetComponent<RectTransform>();
-            // Forzamos la posición inicial CERRADA para que no haya dudas
+            // IMPORTANTE: Forzamos la posición cerrada antes de que se vea nada
             panelRect.anchoredPosition = new Vector2(panelRect.anchoredPosition.x, shopClosedY);
-            targetPanel.SetActive(true);
         }
     }
 
     void Start()
     {
-        // SINCRONIZACIÓN: Forzamos el estado lógico a falso porque Awake lo cerró
+        // Forzamos el estado lógico a CERRADO para que el primer clic sea siempre OPEN
         isOpen = false;
+        isAnimating = false;
 
         if (closeButtonHijo != null)
         {
             closeButtonHijo.onClick.RemoveAllListeners();
             closeButtonHijo.onClick.AddListener(CloseMenu);
+
+            // Deshabilitar el botón hijo cuando el panel está cerrado
+      //      closeButtonHijo.gameObject.SetActive(false);
         }
 
-        // Si por alguna razón el fondo negro quedó prendido en la escena, lo apagamos
         if (fondoNegro != null) fondoNegro.SetActive(false);
     }
 
+    // Clic en el botón de la ISLA
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log($"CLICK recibido | isOpen: {isOpen} | isAnimating: {isAnimating}");
+
         if (isAnimating) return;
-        
-        // Si clickeamos el botón de la isla
+
+        // Feedback visual
+         DOTween.Kill(transform);
         transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f);
 
-        if (!isOpen) OpenMenu();
-        else CloseMenu();
+        // Lógica directa: si no está abierto, abre. Si está abierto, cierra.
+        if (!isOpen)
+        {
+            OpenMenu();
+        }
+        // else
+        // {
+        //     CloseMenu();
+        // }
     }
 
     public void OpenMenu()
     {
         if (isOpen || isAnimating) return;
-        isOpen = true;
-        
+
+        isOpen = true; // Cambiamos el estado ANTES de la animación
+        Debug.Log($"isOpen seteado a TRUE");
+
         if (fondoNegro != null) fondoNegro.SetActive(true);
-        AnimateMovement(shopOpenY);
+        //prueba boton
+     //   if (closeButtonHijo != null) closeButtonHijo.gameObject.SetActive(true);
+    //    AnimateMovement(shopOpenY);
     }
 
     public void CloseMenu()
     {
+        Debug.Log($"CloseMenu llamado desde:\n{System.Environment.StackTrace}");
         if (!isOpen || isAnimating) return;
-        isOpen = false;
+
+        isOpen = false; // Cambiamos el estado ANTES de la animación
 
         if (closeButtonHijo != null)
+        {
+            closeButtonHijo.transform.DOKill();
+            closeButtonHijo.transform.localScale = Vector3.one;
             closeButtonHijo.transform.DOPunchScale(new Vector3(-0.2f, -0.2f, -0.2f), 0.2f);
+        }
 
         AnimateMovement(shopClosedY);
     }
+private void AnimateMovement(float targetY)
+{
+    if (panelRect == null) return;
 
-    private void AnimateMovement(float targetY)
-    {
-        if (targetPanel == null || panelRect == null) return;
-
-        isAnimating = true;
-        panelRect.DOKill();
-        
-        panelRect.DOAnchorPosY(targetY, shopAnimTime)
-            .SetEase(Ease.OutBack)
-            .SetUpdate(true)
-            .OnComplete(() => {
-                isAnimating = false;
-                // Verificación extra: si cerramos, el fondo SE APAGA sí o sí
-                if (!isOpen && fondoNegro != null) fondoNegro.SetActive(false);
-            });
-    }
+    DOTween.Kill(panelRect); // ← reemplazá panelRect.DOKill()
+    isAnimating = true;
+    
+    Debug.Log($"AnimateMovement hacia Y={targetY} | isOpen al iniciar: {isOpen}");
+    
+    panelRect.DOAnchorPosY(targetY, shopAnimTime)
+        .SetEase(Ease.OutBack)
+        .SetUpdate(true)
+        .OnComplete(() => {
+            Debug.Log($"Animación completa | isOpen: {isOpen}");
+            isAnimating = false;
+            if (!isOpen && fondoNegro != null)
+                fondoNegro.SetActive(false);
+        });
 }
+    // private void AnimateMovement(float targetY)
+    // {
+    //     if (panelRect == null) return;
+
+    //     isAnimating = true;
+    //     panelRect.DOKill();
+
+    //     panelRect.DOAnchorPosY(targetY, shopAnimTime)
+    //         .SetEase(Ease.OutBack)
+    //         .SetUpdate(true)
+    //         .OnComplete(() =>
+    //         {
+    //             isAnimating = false;
+    //             // Al terminar, si el estado es cerrado, apagamos el fondo
+    //             if (!isOpen && fondoNegro != null)
+    //             {
+    //                 fondoNegro.SetActive(false);
+
+    //                 //prueba boton cerrar
+    //                  if (closeButtonHijo != null) 
+    //                 closeButtonHijo.gameObject.SetActive(false);
+    //             }
+    //         });
+    // }
+    
+}
+
+
+// using UnityEngine;
+// using UnityEngine.EventSystems;
+// using DG.Tweening;
+// using UnityEngine.UI;
+
+// public class UpDownButton : MonoBehaviour, IPointerClickHandler
+// {
+//     [Header("Configuración de Movimiento")]
+//     public float shopOpenY = 0f;
+//     public float shopClosedY = -1000f;
+//     public float shopAnimTime = 0.4f; // Un poco más lento para notar el Ease.OutBack
+
+//     [Header("Referencias UI")]
+//     public GameObject targetPanel;    
+//     public GameObject fondoNegro;     
+//     public Button closeButtonHijo;    
+
+//     private bool isOpen = false;
+//     private bool isAnimating = false;
+//     private RectTransform panelRect;
+
+//     void Awake()
+//     {
+//         if (targetPanel != null)
+//         {
+//             panelRect = targetPanel.GetComponent<RectTransform>();
+//             // Posición inicial cerrada
+//             panelRect.anchoredPosition = new Vector2(panelRect.anchoredPosition.x, shopClosedY);
+//         }
+//     }
+
+//     void Start()
+//     {
+//         if (closeButtonHijo != null)
+//         {
+//             closeButtonHijo.onClick.AddListener(CloseMenu);
+//         }
+
+//         if (fondoNegro != null) fondoNegro.SetActive(false);
+//     }
+
+//     public void OnPointerClick(PointerEventData eventData)
+//     {
+//         // Si ya está abierto o animando, no hacemos nada aquí 
+//         // (El botón de cerrar se encarga de lo demás)
+//         if (isOpen || isAnimating) return;
+
+//         transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f);
+//         OpenMenu();
+//     }
+
+//     public void OpenMenu()
+//     {
+//         if (isOpen || isAnimating) return;
+
+//         isOpen = true;
+//         if (fondoNegro != null) fondoNegro.SetActive(true);
+
+//         // Habilitar el botón de cierre
+//         if (closeButtonHijo != null) closeButtonHijo.interactable = true;
+
+//         AnimateMovement(shopOpenY);
+//     }
+
+//     public void CloseMenu()
+//     {
+//         if (!isOpen || isAnimating) return;
+
+//         isOpen = false;
+
+//         // Deshabilitar el botón de cierre para evitar doble clic
+//         if (closeButtonHijo != null)
+//         {
+//             closeButtonHijo.interactable = false;
+//             closeButtonHijo.transform.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.2f);
+//         }
+
+//         AnimateMovement(shopClosedY);
+//     }
+
+//     private void AnimateMovement(float targetY)
+//     {
+//         if (panelRect == null) return;
+
+//         isAnimating = true;
+//         panelRect.DOKill(); // Detiene cualquier animación previa
+
+//         panelRect.DOAnchorPosY(targetY, shopAnimTime)
+//             .SetEase(Ease.OutBack)
+//             .SetUpdate(true) // Funciona aunque el juego esté pausado
+//             .OnComplete(() => {
+//                 isAnimating = false;
+//                 if (!isOpen && fondoNegro != null)
+//                     fondoNegro.SetActive(false);
+//             });
+//     }
+// }
