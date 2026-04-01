@@ -22,37 +22,31 @@ public class Gaviota_Volando : State_Base
 
     public override void UpdateState()
     {
-        // Early exit si algo falta o si ya no está viva (para evitar errores si Entity ya procesó la muerte)
-        if (gaviota == null || anim == null || !gaviota.getIsAlive()) return;
+        if (gaviota == null || anim == null) return;
 
-        // Comprobar muerte primero: Si ya murió, saltamos al estado de explosión y salimos
+        // 1. Prioridad Máxima: Si se queda sin vida, explota
         if (gaviota.getHP() <= 0)
         {
             state_machine.SetState<Gaviota_Explotando>();
             return;
         }
 
-        // Movimiento
-        Vector3 movimiento = new Vector3(
-            direccionX * gaviota.velocidadNormal * Time.deltaTime,
-            -0.2f * Time.deltaTime, // Un ligero descenso constante
-            0
-        );
-
-        controlledObject.transform.Translate(movimiento);
-
-        // Animación: Estado 0 = Volando. 
-        // Tip: Ajusta el multiplicador (0.5f por ejemplo) para que los frames no pasen tan rápido.
-        anim.Play(0);
-
-        // Cambio de estado por proximidad
+        // 2. Si toca el barco (detectado por el trigger en la clase Gaviota), pasa a Picada
         if (gaviota.enAreaBarco)
         {
             state_machine.SetState<Gaviota_Picada>();
             return;
         }
 
-        // Límites de pantalla y cambio de escala (Flip)
+        // Movimiento normal
+        Vector3 movimiento = new Vector3(
+            direccionX * gaviota.velocidadNormal * Time.deltaTime,
+            -0.2f * Time.deltaTime,
+            0
+        );
+        controlledObject.transform.Translate(movimiento);
+
+        anim.Play(0);
         ManejarLimitesYEscala();
     }
 
