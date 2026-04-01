@@ -75,14 +75,116 @@
 
 //         PlantillaObjeto datos = objetoPadre.GetDatos();
         
-//         // Si es permanente y ya está en la lista, desactivamos el botón
-//         // if (datos != null && datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId))
-//         // {
-//         //     if (miBoton != null) miBoton.interactable = false;
-//         //     // Opcional: Cambiar texto a "Vendido" si tienes una referencia al texto del botón
-//         // }
+//       //  Si es permanente y ya está en la lista, desactivamos el botón
+//         if (datos != null && datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId))
+//         {
+//             if (miBoton != null) miBoton.interactable = false;
+//             // Opcional: Cambiar texto a "Vendido" si tienes una referencia al texto del botón
+//         }
 //     }
 // }
+
+// using UnityEngine;
+// using UnityEngine.UI;
+// using DG.Tweening;
+// using TMPro;
+
+// public class buySK : MonoBehaviour
+// {
+//     [Header("Referencia al Progreso")]
+//     public WeaponSkillStatus progresoHabilidades; 
+    
+//     [Header("Configuración de UI")]
+//     [SerializeField] private TextMeshProUGUI textoBoton; 
+//     [SerializeField] private Image fondoTarjeta;      
+//     [SerializeField] private Color colorBloqueado = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+//     private Button miBoton;
+//     private RectTransform rectTransform;
+
+//     private void Awake()
+//     {
+//         miBoton = GetComponent<Button>();
+//         rectTransform = GetComponent<RectTransform>();
+//     }
+
+//     private void OnEnable()
+//     {
+//         // Añadimos un pequeño retraso o verificación para evitar el Null al instanciar
+//         Invoke(nameof(ValidarDisponibilidad), 0.05f);
+//     }
+
+//     public void ComprarDirecto()
+//     {
+//         Objeto objetoPadre = GetComponentInParent<Objeto>();
+//         if (objetoPadre == null) return;
+
+//         PlantillaObjeto datos = objetoPadre.GetDatos();
+//         ShopManager tienda = objetoPadre.GetManager();
+
+//         // Seguridad: Si no hay datos o tienda, no hacer nada
+//         if (datos == null || tienda == null || progresoHabilidades == null) return;
+
+//         if (datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId))
+//         {
+//             FeedbackError();
+//             return;
+//         }
+
+//         if (tienda.monedaJugador >= datos.precio)
+//         {
+//             tienda.ConfirmarVenta(datos, objetoPadre.GetCartaOriginal());
+
+//             if (datos.esPermanente)
+//             {
+//                 if (!progresoHabilidades.habilidadesDesbloqueadas.Contains(datos.nombreId))
+//                 {
+//                     progresoHabilidades.habilidadesDesbloqueadas.Add(datos.nombreId);
+//                 }
+//             }
+//             ValidarDisponibilidad();
+//         }
+//         else
+//         {
+//             FeedbackError();
+//         }
+//     }
+
+//     public void ValidarDisponibilidad()
+//     {
+//         // 1. Buscamos el objeto padre (la carta o el inspector)
+//         Objeto objetoPadre = GetComponentInParent<Objeto>();
+        
+//         // 2. VERIFICACIÓN DE SEGURIDAD (Esto evita el NullReferenceException)
+//         if (objetoPadre == null || progresoHabilidades == null) return;
+
+//         PlantillaObjeto datos = objetoPadre.GetDatos();
+//         if (datos == null) return; // Si aún no tiene datos cargados, esperamos.
+
+//         bool yaComprado = datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId);
+
+//         if (yaComprado)
+//         {
+//             if (textoBoton != null) textoBoton.text = "DESBLOQUEADO";
+//             if (fondoTarjeta != null) fondoTarjeta.color = colorBloqueado;
+//         }
+//         else
+//         {
+//             if (textoBoton != null) textoBoton.text = "ADQUIRIR";
+//             if (fondoTarjeta != null) fondoTarjeta.color = Color.white;
+//         }
+//     }
+
+//     private void FeedbackError()
+//     {
+//         if (rectTransform != null)
+//         {
+//             rectTransform.DOComplete();
+//             rectTransform.DOShakePosition(0.4f, 10f, 20);
+//         }
+//     }
+// }
+
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -110,7 +212,6 @@ public class buySK : MonoBehaviour
 
     private void OnEnable()
     {
-        // Añadimos un pequeño retraso o verificación para evitar el Null al instanciar
         Invoke(nameof(ValidarDisponibilidad), 0.05f);
     }
 
@@ -122,9 +223,9 @@ public class buySK : MonoBehaviour
         PlantillaObjeto datos = objetoPadre.GetDatos();
         ShopManager tienda = objetoPadre.GetManager();
 
-        // Seguridad: Si no hay datos o tienda, no hacer nada
         if (datos == null || tienda == null || progresoHabilidades == null) return;
 
+        // Si ya está comprado, salimos
         if (datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId))
         {
             FeedbackError();
@@ -142,7 +243,8 @@ public class buySK : MonoBehaviour
                     progresoHabilidades.habilidadesDesbloqueadas.Add(datos.nombreId);
                 }
             }
-            ValidarDisponibilidad();
+            // Actualizamos el texto y color inmediatamente
+            ValidarDisponibilidad(); 
         }
         else
         {
@@ -152,35 +254,35 @@ public class buySK : MonoBehaviour
 
     public void ValidarDisponibilidad()
     {
-        // 1. Buscamos el objeto padre (la carta o el inspector)
         Objeto objetoPadre = GetComponentInParent<Objeto>();
-        
-        // 2. VERIFICACIÓN DE SEGURIDAD (Esto evita el NullReferenceException)
         if (objetoPadre == null || progresoHabilidades == null) return;
 
         PlantillaObjeto datos = objetoPadre.GetDatos();
-        if (datos == null) return; // Si aún no tiene datos cargados, esperamos.
+        if (datos == null) return;
 
         bool yaComprado = datos.esPermanente && progresoHabilidades.EstaDesbloqueada(datos.nombreId);
 
         if (yaComprado)
         {
-            if (textoBoton != null) textoBoton.text = "DESBLOQUEADO";
-            if (fondoTarjeta != null) fondoTarjeta.color = colorBloqueado;
+            if (textoBoton != null) textoBoton.text = "DESBLOQUEADO"; // Cambia el texto
+            if (fondoTarjeta != null) fondoTarjeta.color = colorBloqueado; // Cambia el color a gris
+            if (miBoton != null) miBoton.interactable = false; // Opcional: bloquea el clic
         }
         else
         {
             if (textoBoton != null) textoBoton.text = "ADQUIRIR";
             if (fondoTarjeta != null) fondoTarjeta.color = Color.white;
+            if (miBoton != null) miBoton.interactable = true;
         }
     }
 
+    // ESTE ES EL MÉTODO QUE TE FALTABA Y CAUSABA EL ERROR
     private void FeedbackError()
     {
         if (rectTransform != null)
         {
             rectTransform.DOComplete();
-            rectTransform.DOShakePosition(0.4f, 10f, 20);
+            rectTransform.DOShakePosition(0.4f, 10f, 20).SetUpdate(true);
         }
     }
 }
