@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5413910017317024528}
   - component: {fileID: 5637020219804354414}
   - component: {fileID: 6423032087357548086}
+  - component: {fileID: 7320979993249828016}
   m_Layer: 0
   m_Name: Cofre
   m_TagString: Cofre
@@ -29,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 6549202885219787810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.55, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalPosition: {x: -0.74, y: -0.53, z: 0}
+  m_LocalScale: {x: 3.76, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2449109871443933174, guid: 3f0ea7af126c15e4d95915629319e68b, type: 3}
+  m_Sprite: {fileID: -5199205957799258685, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,17 +125,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0099922195, y: 0.0033308864}
+  m_Offset: {x: -0.009992212, y: 0.31051558}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.28, y: 0.2}
+    pivot: {x: 0.5135135, y: -0.7916666}
+    oldSize: {x: 0.37, y: 0.24}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.38714224, y: 0.28055805}
+  m_Size: {x: 0.38714224, y: 0.28547052}
   m_EdgeRadius: 0
 --- !u!114 &5637020219804354414
 MonoBehaviour:
@@ -152,7 +153,7 @@ MonoBehaviour:
   speed: 3
   isAlive: 1
   retreatSpeed: 1
-  efecto: {fileID: 0}
+  efecto: {fileID: 5148792224514994849, guid: a86c49b0fc0f41a4f90ad6d3ed638378, type: 3}
   cantidadPuntos: 10
 --- !u!114 &6423032087357548086
 MonoBehaviour:
@@ -167,4 +168,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  animations: []
+  animations:
+  - name: cerrado
+    frames:
+    - {fileID: -5199205957799258685, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -8744468175009721609, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: 1889827520082604266, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    frameTime: 0.25
+    loop: 1
+  - name: abierto
+    frames:
+    - {fileID: 6954271665809168670, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -4034607277910214549, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: 7142078423060139927, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -806947209717138320, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: 6610692816557266614, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -112511156307800112, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -6349634938933698757, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    - {fileID: -8013572599308262079, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
+    frameTime: 0.25
+    loop: 0
+--- !u!114 &7320979993249828016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549202885219787810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d09f89cd3f05d4ca9983f43a1d09ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: {fileID: 0}
