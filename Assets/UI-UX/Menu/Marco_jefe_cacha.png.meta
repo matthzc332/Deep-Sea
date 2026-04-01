@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4fa38ca51281bcb46884d4398d1245ac
+guid: 5f6cb8b9d8b892d49bd9f4f3bde1ee47
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7824150447428816900
-    second: nube 2 bru_0
+      213: 1056513544110290395
+    second: Marco_jefe_cacha_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: nube 2 bru_0
+      name: Marco_jefe_cacha_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 55
-        height: 26
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4005538b067f49c60800000000000000
-      internalID: 7824150447428816900
+      spriteID: bd53511887d79ae00800000000000000
+      internalID: 1056513544110290395
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      nube 2 bru_0: 7824150447428816900
+      Marco_jefe_cacha_0: 1056513544110290395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
