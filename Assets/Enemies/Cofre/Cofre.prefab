@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6423032087357548086}
   - component: {fileID: 7320979993249828016}
   - component: {fileID: -1947363595060799895}
+  - component: {fileID: 2176394290092419531}
   m_Layer: 0
   m_Name: Cofre
   m_TagString: Cofre
@@ -154,7 +155,7 @@ MonoBehaviour:
   speed: 3
   isAlive: 1
   retreatSpeed: 1
-  efecto: {fileID: 5148792224514994849, guid: a86c49b0fc0f41a4f90ad6d3ed638378, type: 3}
+  efecto: {fileID: 6549202885219787810}
   cantidadPuntos: 10
 --- !u!114 &6423032087357548086
 MonoBehaviour:
@@ -201,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d09f89cd3f05d4ca9983f43a1d09ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
+  currentState: {fileID: 2176394290092419531}
 --- !u!114 &-1947363595060799895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +215,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ba13ab82ff83b48bd7c88a7cc9809f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2176394290092419531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549202885219787810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5ee7db667793046be8c4aaf785a2ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animController: {fileID: 6423032087357548086}
+  speed: 2
+  animationIndex: 0
