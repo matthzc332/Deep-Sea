@@ -39,6 +39,7 @@ Transform:
   m_Children:
   - {fileID: 3553071297557301018}
   - {fileID: 5124872348044976231}
+  - {fileID: 4364197466762354195}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5721335033677454835
@@ -330,19 +331,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 5721335033677454835}
   animations:
-  - frames:
+  - name: 
+    frames:
     - {fileID: -4875193837647451105, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     - {fileID: -4457855320075607528, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     - {fileID: 8486003743918834160, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     frameTime: 0.5
-  - frames:
+    loop: 1
+  - name: 
+    frames:
     - {fileID: 7917609852174615587, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     - {fileID: 6903545028192050788, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     - {fileID: -2921811739764731922, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
     - {fileID: -2261610096831537681, guid: 89afda1ab6c72f94c818da84fb0047a3, type: 3}
-    frameTime: 0.2
+    frameTime: 0.3
+    loop: 0
+--- !u!1 &2661063825176918276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4364197466762354195}
+  - component: {fileID: 8848213453205068822}
+  m_Layer: 0
+  m_Name: Gaviota_Picada
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4364197466762354195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661063825176918276}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5641146098987151703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8848213453205068822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661063825176918276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c1d73fd20a28841ad1fbd25b9d0136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5932107102603200552
 GameObject:
   m_ObjectHideFlags: 0

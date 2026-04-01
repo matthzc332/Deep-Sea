@@ -67,8 +67,15 @@ public class Gaviota : Entity
         {
             enAreaBarco = true;
 
-            if (debug)
-                Debug.Log("Gaviota entró en área del barco");
+            // Si quieres que explote AL TOCARLO (en lugar de solo entrar en modo picada)
+            // Puedes forzar el cambio de estado aquí mismo:
+            var stateMachine = GetComponentInChildren<State_Machine>(); // O como lo tengas referenciado
+            if (stateMachine != null)
+            {
+                stateMachine.SetState<Gaviota_Explotando>();
+            }
+
+            if (debug) Debug.Log("Gaviota colisionó con el barco - EXPLOSIÓN");
         }
     }
 
