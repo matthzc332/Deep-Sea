@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5637020219804354414}
   - component: {fileID: 6423032087357548086}
   - component: {fileID: 7320979993249828016}
+  - component: {fileID: -1947363595060799895}
   m_Layer: 0
   m_Name: Cofre
   m_TagString: Cofre
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6549202885219787810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.74, y: -0.53, z: 0}
+  m_LocalPosition: {x: -0.8, y: -1.68, z: 0}
   m_LocalScale: {x: 3.76, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -167,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ded5606425c0745b36e3602e231677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 8203156578716418398}
   animations:
   - name: cerrado
     frames:
@@ -201,3 +202,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
+--- !u!114 &-1947363595060799895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549202885219787810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ba13ab82ff83b48bd7c88a7cc9809f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
