@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5099263697048821448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882128710397396640}
+  - component: {fileID: 5663319474698830272}
+  - component: {fileID: 584781539043855512}
+  m_Layer: 0
+  m_Name: Estados
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1882128710397396640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099263697048821448}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8242113207582323143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5663319474698830272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099263697048821448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfae1fa1a7857d499346a17794a9e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &584781539043855512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099263697048821448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a04404431c48b24aa5c77e52d23a542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6549202885219787810
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,7 +91,8 @@ Transform:
   m_LocalPosition: {x: -0.8, y: -1.68, z: 0}
   m_LocalScale: {x: 3.76, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1882128710397396640}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8203156578716418398
@@ -150,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ad2264cdb955d45b236ffdb6a524b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 4
+  HP: 1
   speed: 3
   isAlive: 1
   retreatSpeed: 1
@@ -187,7 +245,7 @@ MonoBehaviour:
     - {fileID: -112511156307800112, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
     - {fileID: -6349634938933698757, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
     - {fileID: -8013572599308262079, guid: 68149cc7a24226542a8ccc58a1f6cc71, type: 3}
-    frameTime: 0.25
+    frameTime: 0.1
     loop: 0
 --- !u!114 &7320979993249828016
 MonoBehaviour:
@@ -201,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d09f89cd3f05d4ca9983f43a1d09ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
+  currentState: {fileID: 5663319474698830272}
 --- !u!114 &-1947363595060799895
 MonoBehaviour:
   m_ObjectHideFlags: 0
