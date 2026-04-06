@@ -25,15 +25,29 @@ public class BossPursueState : State_Base
     {
         timer = 0f;
 
-        if (anim != null)
-            anim.Play(1);
+        // Busca el Animation_Controller en el padre si no lo encuentra en el objeto
+        if (anim == null) anim = GetComponentInParent<Animation_Controller>();
 
+        if (anim != null) anim.Play(1);
+
+        // RE-ACTIVA ESTO: Es necesario para el Flip y la lógica de ataque
         GameObject ship = GameObject.FindGameObjectWithTag("Ship");
-        if (ship != null)
-            player = ship.transform;
+        if (ship != null) player = ship.transform;
 
-        if (entrySequence != null)
-            entrySequence.Kill();
+        // Movimiento inicial de entrada
+        entrySequence = DOTween.Sequence();
+        entrySequence.Append(controlledObject.transform.DOMoveY(entrySinkDepth, transitionDuration / 2));
+        entrySequence.Append(controlledObject.transform.DOMoveY(targetY, transitionDuration));
+
+        // if (anim != null)
+        //     anim.Play(1);
+
+        // GameObject ship = GameObject.FindGameObjectWithTag("Ship");
+        // if (ship != null)
+        //     player = ship.transform;
+
+        // if (entrySequence != null)
+        //     entrySequence.Kill();
 
         entrySequence = DOTween.Sequence();
         entrySequence.Append(controlledObject.transform.DOMoveY(entrySinkDepth, transitionDuration / 2));

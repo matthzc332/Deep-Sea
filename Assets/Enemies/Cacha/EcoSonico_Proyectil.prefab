@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6727821919573407348}
   - component: {fileID: 8272217079661169119}
   - component: {fileID: -5040560612957343593}
+  - component: {fileID: -8854509638388263626}
   m_Layer: 0
   m_Name: EcoSonico_Proyectil
   m_TagString: BulletEnemy
@@ -152,3 +153,25 @@ MonoBehaviour:
   escalaFinal: {x: 4, y: 2.5, z: 1}
   "da\xF1oMaximo": 4
   "distanciaParaDa\xF1oMinimo": 12
+--- !u!95 &-8854509638388263626
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757801670334387962}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54bde4cb6dff0fc4cbcdcfc1c4ea45e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
