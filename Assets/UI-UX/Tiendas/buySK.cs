@@ -264,19 +264,18 @@ public class buySK : MonoBehaviour
 
         if (yaComprado)
         {
-            if (textoBoton != null) textoBoton.text = "DESBLOQUEADO"; // Cambia el texto
+            if (textoBoton != null) textoBoton.text = "Desbloqueado"; // Cambia el texto
             if (fondoTarjeta != null) fondoTarjeta.color = colorBloqueado; // Cambia el color a gris
             if (miBoton != null) miBoton.interactable = false; // Opcional: bloquea el clic
         }
         else
         {
-            if (textoBoton != null) textoBoton.text = "ADQUIRIR";
+            if (textoBoton != null) textoBoton.text = "Desbloquear";
             if (fondoTarjeta != null) fondoTarjeta.color = Color.white;
             if (miBoton != null) miBoton.interactable = true;
         }
     }
 
-    // ESTE ES EL MÉTODO QUE TE FALTABA Y CAUSABA EL ERROR
     private void FeedbackError()
     {
         if (rectTransform != null)

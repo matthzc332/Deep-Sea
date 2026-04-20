@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1251429956493808359}
   - component: {fileID: 5615226720653615200}
   - component: {fileID: 6895862158236199075}
-  - component: {fileID: 9126364004555137057}
+  - component: {fileID: 803574857800423206}
   m_Layer: 5
   m_Name: buyButton
   m_TagString: Untagged
@@ -197,9 +197,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9126364004555137057}
-        m_TargetAssemblyTypeName: BuyCrew, Assembly-CSharp
-        m_MethodName: IntentarIniciarCompra
+      - m_Target: {fileID: 803574857800423206}
+        m_TargetAssemblyTypeName: buySK, Assembly-CSharp
+        m_MethodName: ComprarDirecto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -209,7 +209,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9126364004555137057
+--- !u!114 &803574857800423206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,10 +218,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1941777037461339736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7cbdf6b31de27b4cb18c506e423c5ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 38696fc3dba0c2d4c83c3405fa388ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cartelLleno: {fileID: 0}
+  progresoHabilidades: {fileID: 11400000, guid: 858552d78385c51469cf09d3c7735fc4, type: 2}
+  textoBoton: {fileID: 4063038910974324621}
+  fondoTarjeta: {fileID: 8414042159866530070}
+  colorBloqueado: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &2206873908589015094
 GameObject:
   m_ObjectHideFlags: 0

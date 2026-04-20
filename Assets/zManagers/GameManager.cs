@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
             Color color = fadeImage.color;
             color.a = 0f;
             fadeImage.color = color;
-            fadeImage.gameObject.SetActive(false);
+            
         }
 
         // Si estamos en la escena de juego al empezar, lanzamos el conteo
@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
             countdownText.text = "0";
             yield return new WaitForSeconds(0.5f);
             countdownText.gameObject.SetActive(false);
+            fadeImage.gameObject.SetActive(false);
         }
 
         RealStartWaveLogic();
