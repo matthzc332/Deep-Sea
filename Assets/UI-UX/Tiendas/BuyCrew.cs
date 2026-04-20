@@ -34,11 +34,11 @@ using UnityEngine.UI;
 public class BuyCrew : MonoBehaviour
 {
     [Header("Aviso de UI")]
-    public GameObject cartelLleno; 
+    public GameObject cartelLleno;
 
     private Button miBoton;
     private Image imagenBoton;
-
+public ShipData shipData;
     void Awake()
     {
         miBoton = GetComponent<Button>();
@@ -59,12 +59,12 @@ public class BuyCrew : MonoBehaviour
         {
             // HACER QUE EL CONTADOR REACCIONE (Vibración)
             placement.FeedbackTextoLleno();
-            
+
             // Feedback en el propio botón para que el jugador sienta el clic bloqueado
             transform.DOShakePosition(0.3f, 10f).SetUpdate(true);
-            
+
             Debug.Log("Barco lleno: Reacción del contador activada.");
-            return; 
+            return;
         }
 
         // 2. Si hay espacio, procedemos con la lógica de obtención de datos
@@ -85,7 +85,7 @@ public class BuyCrew : MonoBehaviour
                 placement.AbrirSeleccionDePosicion(datos, tienda, cartaOriginal);
             }
         }
-        else 
+        else
         {
             Debug.Log("No hay suficiente dinero.");
             // Opcional: podrías hacer que el texto de dinero vibre aquí también
@@ -109,5 +109,16 @@ public class BuyCrew : MonoBehaviour
 
         // Nota: No desactivamos miBoton.interactable para que el clic 
         // siga funcionando y pueda activar la reacción del contador.
+    }
+
+    // Ejemplo de lógica a añadir tras confirmar la compra
+    public void AplicarEfectoDeCompra(PlantillaObjeto datos)
+    {
+        if (datos.nombre == "Cargador") // O el ID que uses
+        {
+            // Accedes al ShipData y aumentas la munición
+            shipData.municion += 20;
+            Debug.Log("Munición aumentada!");
+        }
     }
 }

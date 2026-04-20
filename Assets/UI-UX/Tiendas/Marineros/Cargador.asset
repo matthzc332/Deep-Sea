@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Cargador
   m_EditorClassIdentifier: 
   esPermanente: 0
-  nombreId: 
-  nombre: Pistolero
+  nombreId: Cargador
+  nombre: Cargador
   strongWith: Nada
   weakWith: Nada
-  descripcion: Un pistolero divertido que dispara con su arma
-  precio: 10
+  descripcion: Un marinero trabajador que aumenta las balas del barco mientras hay
+    enemigos cerca.
+  precio: 15
   idleAnimationSprites:
   - {fileID: -4278730133319402960, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
   - {fileID: 7349418900479874527, guid: 849f6d643dbdf69488bbd173f6da4ce7, type: 3}
   animationSpeed: 8
-  prefabDelObjeto: {fileID: 6205863701267634285, guid: 2e6dd21a30822bb46a6006a6430ef842, type: 3}
+  prefabDelObjeto: {fileID: 6205863701267634285, guid: e528181d66493d647bfa8487f407a716, type: 3}
