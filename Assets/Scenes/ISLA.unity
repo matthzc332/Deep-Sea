@@ -1875,7 +1875,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.4
+  m_fontSize: 22.2
   m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3421,7 +3421,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.4
+  m_fontSize: 22.2
   m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4317,6 +4317,7 @@ MonoBehaviour:
   textoEspacio: {fileID: 0}
   todosLosObjetosEnEstaTienda:
   - {fileID: 11400000, guid: d707269a38184df45b3a56aad57a3eb1, type: 2}
+  - {fileID: 11400000, guid: 64793af9312b051479f2f508dedced49, type: 2}
   cantidadObjetosEnTienda: 3
   posicionInspeccion: {x: 0, y: 0}
 --- !u!114 &2010857736

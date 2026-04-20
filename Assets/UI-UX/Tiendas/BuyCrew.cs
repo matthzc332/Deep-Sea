@@ -38,7 +38,7 @@ public class BuyCrew : MonoBehaviour
 
     private Button miBoton;
     private Image imagenBoton;
-public ShipData shipData;
+    public ShipData shipData;
     void Awake()
     {
         miBoton = GetComponent<Button>();
@@ -111,10 +111,10 @@ public ShipData shipData;
         // siga funcionando y pueda activar la reacción del contador.
     }
 
-    // Ejemplo de lógica a añadir tras confirmar la compra
+    // lógica a añadir tras confirmar la compra
     public void AplicarEfectoDeCompra(PlantillaObjeto datos)
     {
-        if (datos.nombre == "Cargador") // O el ID que uses
+        if (datos.nombre.Trim().Equals("Cargador", System.StringComparison.OrdinalIgnoreCase))
         {
             // Accedes al ShipData y aumentas la munición
             shipData.municion += 20;

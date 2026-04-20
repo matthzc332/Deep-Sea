@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistolero
   m_EditorClassIdentifier: 
   esPermanente: 0
-  nombreId: 
+  nombreId: Pistolero
   nombre: Pistolero
   strongWith: Nada
   weakWith: Nada
