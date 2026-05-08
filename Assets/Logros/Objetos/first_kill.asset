@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: first_kill
   m_EditorClassIdentifier: 
   id: first_kill
-  titulo: first_kill
+  titulo: muerte 1
   descripcion: primera muerte
   icono: {fileID: 75585129933943764, guid: 16035724c1ff5f24f890f7c8dd9f014e, type: 3}
   desbloqueado: 1

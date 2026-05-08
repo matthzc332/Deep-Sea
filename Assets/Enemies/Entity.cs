@@ -1,6 +1,6 @@
 // using UnityEngine;
 // using System.Collections;
-
+//funciona 
 // public class Entity : MonoBehaviour
 // {
 //     [SerializeField] public float HP;
@@ -43,36 +43,53 @@
 //             {
 //                 StartCoroutine(DamageEffectRoutine());
 //             }
+//             // Dentro de takeDamage, en la parte de muerte del enemigo:
 //             else
 //             {
 //                 isAlive = false;
-//                 // --- NUEVO: LÓGICA DE PUNTUACIÓN AL MORIR ---
-//                 // Verificamos si es un enemigo para dar puntos
-//                 if (CompareTag("Enemy")) 
+//                 if (CompareTag("Enemy"))
 //                 {
-//                     // Buscamos el barco para acceder al ShipData (Forma segura)
 //                     Ship playerShip = FindFirstObjectByType<Ship>();
 //                     if (playerShip != null && playerShip.shipData != null)
 //                     {
 //                         playerShip.shipData.score += 10;
-//                         Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
 //                     }
 
-//                     // NUEVO: Notificar al sistema de logros
-//                 if (AchievementManager.instance != null)
-//                 {
-//                     AchievementManager.instance.CheckLogro("first_kill");
+//                     // NOTA: Usamos RegisterEnemyKill para que cuente y verifique logros de cantidad
+//                     if (AchievementManager.instance != null)
+//                     {
+//                         AchievementManager.instance.RegisterEnemyKill();
+//                         Destroy(gameObject); // Asegúrate de destruir el objeto al morir
+//                     }
+
+                    
 //                 }
-                
+
+//                 // if (CompareTag("Enemy")) 
+//                 // {
+//                 //     // Buscamos el barco para acceder al ShipData (Forma segura)
+//                 //     Ship playerShip = FindFirstObjectByType<Ship>();
+//                 //     if (playerShip != null && playerShip.shipData != null)
+//                 //     {
+//                 //         playerShip.shipData.score += 10;
+//                 //         Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+//                 //     }
+
+//                 //     // NUEVO: Notificar al sistema de logros
+//                 // if (AchievementManager.instance != null)
+//                 // {
+//                 //     AchievementManager.instance.CheckLogro("first_kill");
+//                 // }
+
+
 //             }
 //         }
-//     }
 //     }
 
 //     private IEnumerator DamageEffectRoutine()
 //     {
 //         if (spriteRenderer == null) yield break;
-//         spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f); 
+//         spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f);
 //         yield return new WaitForSeconds(0.3f);
 //         spriteRenderer.color = originalColor;
 //     }
@@ -81,7 +98,7 @@
 //     protected virtual void OnTriggerEnter2D(Collider2D collision)
 //     {
 //         // La lógica de daño por balas ahora vive solo en Bullet.cs
-        
+
 //         if (collision.CompareTag("Ship"))
 //         {
 //             collision_with_ship = true;
@@ -119,6 +136,140 @@
 // }
 
 
+// using UnityEngine;
+// using System.Collections;
+
+// public class Entity : MonoBehaviour
+// {
+//     [SerializeField] public float HP;
+//     [SerializeField] protected float speed;
+//     [SerializeField] protected bool isAlive = true;
+
+//     protected bool collision_with_ship = false;
+
+//     public float getSpeed() { return speed; }
+//     public float getHP() { return HP; }
+//     public bool getIsAlive() { return isAlive; }
+//     public bool getCollisionWithShip() { return collision_with_ship; }
+
+//     private SpriteRenderer spriteRenderer;
+//     private Color originalColor;
+//     private bool isRetreating = false;
+//     public float retreatSpeed = 1;
+
+//     protected virtual void Awake()
+//     {
+//         spriteRenderer = GetComponent<SpriteRenderer>();
+//         if (spriteRenderer != null)
+//             originalColor = spriteRenderer.color;
+
+//         if (GameManager.instance != null)
+//             HP += GameManager.difficultyLevel;
+//     }
+// public virtual void takeDamage(int damage)
+// {
+//     if (!isAlive) return;
+
+//     HP -= damage;
+
+//     if (HP > 0)
+//     {
+//         StartCoroutine(DamageEffectRoutine());
+//     }
+//     else
+//     {
+//         isAlive = false;
+
+//         if (CompareTag("Enemy"))
+//         {
+//             // Sumar puntos
+//             Ship playerShip = FindFirstObjectByType<Ship>();
+//             if (playerShip != null && playerShip.shipData != null)
+//             {
+//                 playerShip.shipData.score += 10;
+//                 Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+//             }
+
+//             // Notificar al sistema de logros
+//             if (AchievementManager.instance != null)
+//             {
+//                 AchievementManager.instance.RegisterEnemyKill();
+//             } // ← llave que faltaba
+
+//         } // ← cierra CompareTag("Enemy")
+
+//         Destroy(gameObject); // ← siempre se destruye, independiente del AchievementManager
+
+//     } // ← cierra else
+// }
+//     // public virtual void takeDamage(int damage)
+//     // {
+//     //     if (!isAlive) return;
+
+//     //     HP -= damage;
+
+//     //     if (HP > 0)
+//     //     {
+//     //         StartCoroutine(DamageEffectRoutine());
+//     //     }
+//     //     else
+//     //     {
+//     //         isAlive = false;
+
+//     //         if (CompareTag("Enemy"))
+//     //         {
+//     //             // Sumar puntos
+//     //             Ship playerShip = FindFirstObjectByType<Ship>();
+//     //             if (playerShip != null && playerShip.shipData != null)
+//     //             {
+//     //                 playerShip.shipData.score += 10;
+//     //                 Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+//     //             }
+
+//     //             // Notificar al sistema de logros
+//     //             if (AchievementManager.instance != null)
+//     //             {
+//     //                 AchievementManager.instance.RegisterEnemyKill();
+//     //             //ultimo agregado
+//     //             Destroy(gameObject);
+//     //         }
+//     //     }
+//     // }}
+
+//     private IEnumerator DamageEffectRoutine()
+//     {
+//         if (spriteRenderer == null) yield break;
+//         spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f);
+//         yield return new WaitForSeconds(0.3f);
+//         spriteRenderer.color = originalColor;
+//     }
+
+//     protected virtual void OnTriggerEnter2D(Collider2D collision)
+//     {
+//         if (collision.CompareTag("Ship"))
+//             collision_with_ship = true;
+//     }
+
+//     public void StartRetreat(float speed)
+//     {
+//         if (isRetreating) return;
+//         isRetreating = true;
+//         retreatSpeed = speed;
+//         StartCoroutine(RetreatRoutine());
+//     }
+
+//     private IEnumerator RetreatRoutine()
+//     {
+//         while (true)
+//         {
+//             transform.Translate(Vector2.left * retreatSpeed * Time.deltaTime);
+//             yield return null;
+//         }
+//     }
+// }
+
+//claudia
+
 using UnityEngine;
 using System.Collections;
 
@@ -149,75 +300,33 @@ public class Entity : MonoBehaviour
         if (GameManager.instance != null)
             HP += GameManager.difficultyLevel;
     }
-public virtual void takeDamage(int damage)
-{
-    if (!isAlive) return;
 
-    HP -= damage;
-
-    if (HP > 0)
+    public virtual void takeDamage(int damage)
     {
-        StartCoroutine(DamageEffectRoutine());
-    }
-    else
-    {
-        isAlive = false;
+        if (!isAlive) return;
 
-        if (CompareTag("Enemy"))
+        HP -= damage;
+
+        if (HP > 0)
         {
-            // Sumar puntos
-            Ship playerShip = FindFirstObjectByType<Ship>();
-            if (playerShip != null && playerShip.shipData != null)
+            StartCoroutine(DamageEffectRoutine());
+        }
+        else
+        {
+            isAlive = false;
+
+            if (CompareTag("Enemy"))
             {
-                playerShip.shipData.score += 10;
-                Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
+                // Suma puntos
+                Ship playerShip = FindFirstObjectByType<Ship>();
+                if (playerShip != null && playerShip.shipData != null)
+                    playerShip.shipData.score += 10;
+                Debug.Log("Entity: enemigo muerto, llamando GameEvents.EnemyKilled()");
+                // Solo avisa que pasó algo — no sabe nada de logros
+                GameEvents.EnemyKilled();
             }
-
-            // Notificar al sistema de logros
-            if (AchievementManager.instance != null)
-            {
-                AchievementManager.instance.RegisterEnemyKill();
-            } // ← llave que faltaba
-
-        } // ← cierra CompareTag("Enemy")
-
-        Destroy(gameObject); // ← siempre se destruye, independiente del AchievementManager
-
-    } // ← cierra else
-}
-    // public virtual void takeDamage(int damage)
-    // {
-    //     if (!isAlive) return;
-
-    //     HP -= damage;
-
-    //     if (HP > 0)
-    //     {
-    //         StartCoroutine(DamageEffectRoutine());
-    //     }
-    //     else
-    //     {
-    //         isAlive = false;
-
-    //         if (CompareTag("Enemy"))
-    //         {
-    //             // Sumar puntos
-    //             Ship playerShip = FindFirstObjectByType<Ship>();
-    //             if (playerShip != null && playerShip.shipData != null)
-    //             {
-    //                 playerShip.shipData.score += 10;
-    //                 Debug.Log("Enemigo eliminado. Puntos +10. Total: " + playerShip.shipData.score);
-    //             }
-
-    //             // Notificar al sistema de logros
-    //             if (AchievementManager.instance != null)
-    //             {
-    //                 AchievementManager.instance.RegisterEnemyKill();
-    //             //ultimo agregado
-    //             Destroy(gameObject);
-    //         }
-    //     }
-    // }}
+        }
+    }
 
     private IEnumerator DamageEffectRoutine()
     {

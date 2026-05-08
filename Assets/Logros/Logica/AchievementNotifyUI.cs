@@ -3,6 +3,7 @@
 // using UnityEngine.UI;
 // using DG.Tweening;
 // using System.Collections;
+//esta funcionando
 
 // public class AchievementNotifyUI : MonoBehaviour
 // {
@@ -12,10 +13,11 @@
 //     public void Show(AchievementSO logro)
 //     {
 //         tituloTxt.text = logro.titulo;
-
 //         if (logro.icono != null)
 //             iconoImg.sprite = logro.icono;
 
+//         // Detener animaciones previas para que no se solapen
+//         DOTween.Kill(transform);
 //         StopAllCoroutines();
 //         StartCoroutine(AnimarPopup());
 //     }
@@ -25,22 +27,20 @@
 //         transform.localScale = Vector3.zero;
 //         gameObject.SetActive(true);
 
-//         yield return null; // espera un frame para que Unity procese el SetActive
+//         yield return null; // Espera un frame para asegurar el renderizado
 
-//         DOTween.Kill(transform);
+//         // Animación de entrada
+//         transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
 
-//         transform.DOScale(1f, 0.5f)
-//             .SetEase(Ease.OutBack)
-//             .OnComplete(() =>
-//             {
-//                 transform.DOScale(0f, 0.5f)
-//                     .SetDelay(3f)
-//                     .OnComplete(() => gameObject.SetActive(false));
-//             });
+//         // Espera de 3 segundos visible
+//         yield return new WaitForSeconds(3f);
+
+//         // Animación de salida y desactivación
+//         transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).OnComplete(() => {
+//             gameObject.SetActive(false);
+//         });
 //     }
 // }
-
-
 // using UnityEngine;
 // using TMPro;
 // using UnityEngine.UI;
@@ -78,48 +78,13 @@
 
 
 
-
-// using UnityEngine;
-// using TMPro;
-// using UnityEngine.UI;
-// using DG.Tweening;
-
-// public class AchievementNotifyUI : MonoBehaviour
-// {
-//     public TextMeshProUGUI tituloTxt;
-//     public Image iconoImg;
-
-//     public void PrepararDatos(AchievementSO logro)
-//     {
-//         tituloTxt.text = logro.titulo;
-
-//         if (logro.icono != null)
-//             iconoImg.sprite = logro.icono;
-//     }
-
-//     public void Animar()
-//     {
-//         DOTween.Kill(transform);
-//         transform.localScale = Vector3.zero;
-
-//         transform.DOScale(1f, 0.5f)
-//             .SetEase(Ease.OutBack)
-//             .OnComplete(() =>
-//             {
-//                 transform.DOScale(0f, 0.5f)
-//                     .SetDelay(3f)
-//                     .OnComplete(() => gameObject.SetActive(false));
-//             });
-//     }
-// }
-
-
-
+//claudia
 
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 public class AchievementNotifyUI : MonoBehaviour
 {
@@ -133,16 +98,28 @@ public class AchievementNotifyUI : MonoBehaviour
         if (logro.icono != null)
             iconoImg.sprite = logro.icono;
 
+        StopAllCoroutines();
         DOTween.Kill(transform);
+        gameObject.SetActive(true);
         transform.localScale = Vector3.zero;
 
-        transform.DOScale(1f, 0.5f)
+        StartCoroutine(AnimarPopup());
+    }
+
+    private IEnumerator AnimarPopup()
+    {
+        yield return null;
+
+        yield return transform.DOScale(1f, 0.5f)
             .SetEase(Ease.OutBack)
-            .OnComplete(() =>
-            {
-                transform.DOScale(0f, 0.5f)
-                    .SetDelay(3f)
-                    .OnComplete(() => gameObject.SetActive(false));
-            });
+            .WaitForCompletion();
+
+        yield return new WaitForSeconds(3f);
+
+        yield return transform.DOScale(0f, 0.5f)
+            .SetEase(Ease.InBack)
+            .WaitForCompletion();
+
+        gameObject.SetActive(false);
     }
 }
