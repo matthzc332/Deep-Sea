@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc7b196a9a11b114d8e00b9962e02edd, type: 3}
+  m_Name: first_kill
+  m_EditorClassIdentifier: 
+  id: first_kill
+  titulo: muerte 1
+  descripcion: primera muerte
+  icono: {fileID: 75585129933943764, guid: 16035724c1ff5f24f890f7c8dd9f014e, type: 3}
+  desbloqueado: 1
+  recompensaDinero: 0
+  desbloqueaItem: 0
+  idItemADesbloquear: 

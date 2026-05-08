@@ -4,47 +4,61 @@ public class Globo_Volando : State_Base
 {
     private Transform barco;
     private Globo globo;
-    Ship shipScript;
+    private Ship shipScript;
+    private Animation_Controller anim;
 
     public override void EnterState()
     {
         globo = controlledObject.GetComponent<Globo>();
         barco = GameObject.FindGameObjectWithTag("Ship")?.transform;
-        shipScript = barco?.GetComponent<Ship>();
-        //Debug.Log("El globo comienza a volar hacia el barco.");
+        shipScript = barco != null ? barco.GetComponent<Ship>() : null;
+
+        anim = controlledObject.GetComponent<Animation_Controller>();
     }
 
     public override void UpdateState()
     {
-        if (barco == null || globo == null) return;
+        if (barco == null || globo == null || anim == null)
+            return;
 
-        // Mover el globo hacia el barco
-        Vector3 direccion = (barco.position - controlledObject.transform.position).normalized;
-        controlledObject.transform.Translate(direccion * globo.getSpeed() * Time.deltaTime);
+        // Movimiento hacia el barco
+        Vector3 direccion =
+            (barco.position - controlledObject.transform.position).normalized;
 
-        // Verificar si el globo ha alcanzado el barco
-        if (globo.getCollisionWithShip() == true)
+        controlledObject.transform.Translate(
+            direccion * globo.getSpeed() * Time.deltaTime
+        );
+
+        // Animacion VOLANDO (indice 0)
+        anim.Play(0);
+
+        // Colision con el barco
+        if (globo.getCollisionWithShip())
         {
             ExitState("Colision_con_barco");
-            
+            return;
         }
-        if (globo.getHP() <= 0){
+
+        // Si muere
+        if (globo.getHP() <= 0)
+        {
             ExitState("Globo_Explotando");
         }
     }
 
     public override void ExitState(string nextState)
     {
-        //Debug.Log($"El globo sale de Volando y va a {nextState}.");
-        if(nextState == "Colision_con_barco"){
-            shipScript.takeDamage(1);
+        if (nextState == "Colision_con_barco")
+        {
+            if (shipScript != null)
+                shipScript.takeDamage(1);
+
             state_machine.SetState<Globo_Explotando>();
         }
 
-        if (nextState == "Globo_Explotando"){
+        if (nextState == "Globo_Explotando")
+        {
             state_machine.SetState<Globo_Explotando>();
         }
     }
-
-
 }

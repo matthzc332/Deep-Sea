@@ -2,34 +2,64 @@
 
 public class Gaviota_Explotando : State_Base
 {
-    private Animator animation;
-    
+    private bool yaExploto = false;
+    private Animation_Controller anim;
+    private Gaviota gaviota;
+
     public override void EnterState()
     {
-
-        animation = controlledObject.GetComponent<Animator>();
-
-        controlledObject = transform.parent.gameObject;
+        controlledObject = state_machine.gameObject;
         if (controlledObject == null) return;
 
-        Gaviota gaviota = controlledObject.GetComponent<Gaviota>();
+        gaviota = controlledObject.GetComponent<Gaviota>();
         if (gaviota == null) return;
 
-        if (gaviota.debug)
-            Debug.Log("Gaviota entra en Explota");
-        animation.Play("Explotando");
+        anim = controlledObject.GetComponent<Animation_Controller>();
 
-        // Instancia explosión si hay prefab
-        if (gaviota.prefabExplosion != null)
+        if (!yaExploto)
         {
-            GameObject exp = Instantiate(gaviota.prefabExplosion, gaviota.transform.position, Quaternion.identity);
-            Destroy(exp, gaviota.duracionExplosion);
-        }
+            yaExploto = true;
 
-        // Destruye la gaviota después de duracionExplosion
-        Destroy(controlledObject, gaviota.duracionExplosion);
+            // 🔴 DAÑO DE EXPLOSIÓN
+            Collider2D[] hits = Physics2D.OverlapCircleAll(
+                controlledObject.transform.position,
+                gaviota.radioExplosion
+            );
+
+            foreach (Collider2D hit in hits)
+            {
+                if (hit.CompareTag("Ship"))
+                {
+                    Ship ship = hit.GetComponent<Ship>();
+                    if (ship != null)
+                        ship.takeDamage(gaviota.dañoAlBarco);
+                }
+            }
+
+            // FX visual opcional
+            if (gaviota.prefabExplosion != null)
+            {
+                GameObject exp = Instantiate(
+                    gaviota.prefabExplosion,
+                    controlledObject.transform.position,
+                    Quaternion.identity
+                );
+
+                Destroy(exp, gaviota.duracionExplosion);
+            }
+
+            // 🔥 Destruir después de la animación
+            Destroy(controlledObject, gaviota.duracionExplosion);
+        }
     }
 
-    public override void UpdateState() { }
+    public override void UpdateState()
+    {
+        if (anim == null) return;
+
+        // 👉 Animación EXPLOTANDO (índice 2)
+        anim.Play(1);
+    }
+
     public override void ExitState(string nextState) { }
 }

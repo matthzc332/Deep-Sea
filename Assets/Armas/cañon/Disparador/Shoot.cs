@@ -1,3 +1,71 @@
+// using UnityEngine;
+
+// public class Shoot_Cannon : State_Base
+// {
+//     protected Cannon2 cannon;
+//     public GameObject bulletPrefab;
+
+//     [Header("Audio")]
+//     public AudioClip sonidoDisparo;
+
+//     private ShipData shipData;
+
+//     public override void EnterState()
+//     {
+//         // 1. VALIDACIÓN INICIAL (¿Puedo disparar?)
+//         if (Joystick.estoyTocando || BloqueoUI.TocandoBoton)
+//         {
+//             ExitState("Idle");
+//             return;
+//         }
+
+      
+
+//         cannon = controlledObject.GetComponent<Cannon2>();
+//         AudioSource audioSource = controlledObject.GetComponent<AudioSource>();
+
+//         // 2. FEEDBACK INSTANTÁNEO (Sonido apenas entra al estado)
+//         if (audioSource != null && sonidoDisparo != null)
+//         {
+//             audioSource.PlayOneShot(sonidoDisparo);
+//         }
+
+//         // 3. LÓGICA DE PROCESAMIENTO (Búsqueda de datos y spawn)
+//         if (shipData == null)
+//         {
+//             Ship playerShip = controlledObject.GetComponentInParent<Ship>();
+//             if (playerShip != null) shipData = playerShip.shipData;
+//         }
+
+//         if (bulletPrefab != null)
+//         {
+//             GameObject bulletObj = Instantiate(bulletPrefab, controlledObject.transform.position, Quaternion.identity);
+//             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+
+//             if (bulletScript != null)
+//             {
+//                 bulletScript.Initialize(cannon.objective, cannon.power_shoot, 1, 0);
+//                 cannon.amount_ammunition -= 1;
+
+//                 if (shipData != null)
+//                 {
+//                     shipData.balasGastadas++;
+//                 }
+//             }
+//         }
+
+//         ExitState("Idle");
+//     }
+
+//     public override void ExitState(string nextState)
+//     {
+//         if (nextState == "Idle")
+//         {
+//             state_machine.SetState<Idle_Cannon>();
+//         }
+//     }
+// }
+
 using UnityEngine;
 
 public class Shoot_Cannon : State_Base
@@ -5,47 +73,60 @@ public class Shoot_Cannon : State_Base
     protected Cannon2 cannon;
     public GameObject bulletPrefab;
 
+    [Header("Audio")]
+    public AudioClip sonidoDisparo;
+
+    private ShipData shipData;
+    private AudioSource audioSource; // Referencia persistente para evitar GetComponent repetidos
+
     public override void EnterState()
     {
-        if (Joystick.estoyTocando)
+        // 3. VALIDACIÓN DE UI (¿El toque fue en un botón o joystick?)
+        if (Joystick.estoyTocando || BloqueoUI.TocandoBoton)
         {
-            Debug.Log("No se puede disparar - Joystick en uso");
             ExitState("Idle");
             return;
         }
+        // 1. OBTENER REFERENCIAS NECESARIAS
+        if (cannon == null) cannon = controlledObject.GetComponent<Cannon2>();
+        if (audioSource == null) audioSource = controlledObject.GetComponent<AudioSource>();
 
-        cannon = controlledObject.GetComponent<Cannon2>();
-
-        if (bulletPrefab != null)
+        // 2. FEEDBACK INSTANTÁNEO (Sonido)
+        // Se coloca al principio para que el jugador sienta la respuesta inmediata al clic
+        if (audioSource != null && sonidoDisparo != null)
         {
-            Vector3 spawnPosition = controlledObject.transform.position;
-            GameObject bulletObj = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
-            
+            audioSource.Stop(); 
+            audioSource.clip = sonidoDisparo;
+            audioSource.Play(); 
+        }
+
+        
+
+        // 4. LÓGICA DE PROCESAMIENTO
+        if (shipData == null)
+        {
+            Ship playerShip = controlledObject.GetComponentInParent<Ship>();
+            if (playerShip != null) shipData = playerShip.shipData;
+        }
+
+        // 5. INSTANCIACIÓN DE BALA
+        if (bulletPrefab != null && cannon != null)
+        {
+            GameObject bulletObj = Instantiate(bulletPrefab, controlledObject.transform.position, Quaternion.identity);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-            
+
             if (bulletScript != null)
             {
-                float speed = cannon.power_shoot;
-                int power = 1; 
-                int pierceCount = 0; // Añadimos el valor de pierce que faltaba
-
-                // Corregido: Ahora enviamos los 4 parámetros que pide Bullet.cs
-                bulletScript.Initialize(cannon.objective, speed, power, pierceCount);
-                
-                // IMPORTANTE:
-                // Si 'cannon.objective' es un Vector3, no podemos usar LaunchTowards(Transform).
-                // Como Initialize ya aplica la velocidad, NO es necesario llamar a LaunchTowards aquí.
-                // bulletScript.LaunchTowards(...) -> Se elimina para evitar conflictos de tipos.
-
-                Debug.Log($"Bala disparada hacia: {cannon.objective}");
+                bulletScript.Initialize(cannon.objective, cannon.power_shoot, 1, 0);
                 cannon.amount_ammunition -= 1;
-            }
-            else
-            {
-                Debug.LogError("El prefab de bala no tiene el componente Bullet");
+
+                if (shipData != null)
+                {
+                    shipData.balasGastadas++;
+                }
             }
         }
-        
+
         ExitState("Idle");
     }
 

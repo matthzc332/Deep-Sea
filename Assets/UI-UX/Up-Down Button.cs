@@ -1,76 +1,95 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class UpDownButton : MonoBehaviour, IPointerClickHandler
 {
-    public  float shopOpenY = 300f;
-    private const float shopClosedY = -300f;
-    private const float shopAnimTime = 0.25f;
+    [Header("Configuración de Movimiento")]
+    public float shopOpenY = 0f;
+    public float shopClosedY = -1080f; // Ajusta según el alto de tu resolución
+    public float shopAnimTime = 0.4f;
 
-    public GameObject NPCShop;
-    public GameObject otherButton;
-    public bool upper = false;
-    
-    [Header("Background (opcional)")]
-    public GameObject background;
-    private RectTransform npcShopRect;
-    
+    [Header("Referencias UI")]
+    public GameObject targetPanel;
+    public GameObject fondoNegro;
+    public Button closeButtonHijo;
+
+    private bool isOpen = false;
+    private bool isAnimating = false;
+    private RectTransform panelRect;
+
+    void Awake()
+    {
+        if (targetPanel != null)
+        {
+            panelRect = targetPanel.GetComponent<RectTransform>();
+            // Forzamos posición inicial cerrada
+            panelRect.anchoredPosition = new Vector2(panelRect.anchoredPosition.x, shopClosedY);
+        }
+    }
+
     void Start()
     {
-        if (NPCShop != null)
+        if (closeButtonHijo != null)
         {
-            npcShopRect = NPCShop.GetComponent<RectTransform>();
+            closeButtonHijo.onClick.RemoveAllListeners();
+            closeButtonHijo.onClick.AddListener(CloseMenu);
         }
+
+        if (fondoNegro != null) fondoNegro.SetActive(false);
     }
 
-    // Este método se llama automáticamente cuando se hace click
+    // Clic en el botón de la ISLA
     public void OnPointerClick(PointerEventData eventData)
     {
-        ExecuteButtonClick();
+        if (isAnimating || isOpen) return;
+
+        // Feedback visual del botón clicado
+        transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.2f);
+        OpenMenu();
     }
 
-    void ExecuteButtonClick()
-{
-    float targetY = upper ? shopOpenY : shopClosedY;
-    
-    Debug.Log(upper ? "Bajando Cartel (Abriendo Tienda)" : "Subiendo Cartel (Cerrando Tienda)");
-    
-    // Alternar botones
-    if (otherButton != null) 
-        otherButton.SetActive(true);
-    
-    gameObject.SetActive(false);
-    
-    // Controlar background según si se abre (upper=true) o cierra (upper=false)
-    if (background != null)
+    public void OpenMenu()
     {
-        // Mostrar background cuando se ABRE la tienda, ocultar cuando se CIERRA
-        background.SetActive(upper);
-        
-        // O si prefieres al revés (mostrar cuando se cierra):
-        // background.SetActive(!upper);
+        if (isOpen || isAnimating) return;
+
+        isOpen = true;
+        if (fondoNegro != null) fondoNegro.SetActive(true);
+
+        AnimateMovement(shopOpenY);
     }
 
-    // Mover la tienda
-    if (npcShopRect != null)
+    public void CloseMenu()
     {
-        npcShopRect
-            .DOAnchorPosY(targetY, shopAnimTime)
-            .SetEase(Ease.OutCubic)
-            .SetUpdate(true)
-            .OnComplete(() => Debug.Log("Animación completada"));
-    }
-    else if (NPCShop != null)
-    {
-        npcShopRect = NPCShop.GetComponent<RectTransform>();
-        if (npcShopRect != null)
+        if (!isOpen || isAnimating) return;
+
+        isOpen = false;
+
+        // Animación del botón X
+        if (closeButtonHijo != null)
         {
-            npcShopRect
-                .DOAnchorPosY(targetY, shopAnimTime)
-                .SetEase(Ease.OutCubic)
-                .SetUpdate(true);
+            closeButtonHijo.transform.DOPunchScale(new Vector3(-0.2f, -0.2f, -0.2f), 0.2f);
         }
+
+        AnimateMovement(shopClosedY);
     }
-}
+
+    private void AnimateMovement(float targetY)
+    {
+        if (panelRect == null) return;
+
+        isAnimating = true;
+        panelRect.DOKill(); // Detiene animaciones previas para evitar conflictos
+
+        panelRect.DOAnchorPosY(targetY, shopAnimTime)
+            .SetEase(Ease.OutBack) // Ese efecto "rebote" profesional
+            .SetUpdate(true)       // Funciona aunque el juego esté en pausa (TimeScale = 0)
+            .OnComplete(() => {
+                isAnimating = false;
+                // Solo apagamos el fondo si el menú terminó de cerrarse
+                if (!isOpen && fondoNegro != null)
+                    fondoNegro.SetActive(false);
+            });
+    }
 }

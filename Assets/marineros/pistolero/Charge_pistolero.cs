@@ -2,39 +2,49 @@ using UnityEngine;
 
 public class Charge_pistolero : State_Base
 {
-    private Animator animator;
-    private float timer = 1f;
-    private GameObject brazoPistola;
+    private Animation_Controller anim;
     private ManagerMarineros marineroManager;
+    private float timer = 1f;
 
-    public override void EnterState(){
-        // Obtener componentes y resetear timers
-        animator = controlledObject.GetComponent<Animator>();
+    public override void EnterState()
+    {
+        anim = controlledObject.GetComponent<Animation_Controller>();
         marineroManager = controlledObject.GetComponent<ManagerMarineros>();
         timer = 1f;
-        // Reproducir la animaci√≥n "cargando"
-        if (animator != null)
-        {
-            animator.Play("recargando");
-        }
-        else
-        {
-            Debug.LogWarning("Animator no encontrado en el objeto controlado: " + controlledObject.name);
-        }
-        
+
+        // Animacion Charge (indice 2)
+        if (anim != null)
+            anim.Play(2);
     }
 
-    public override void UpdateState(){
-        timer = timer-Time.deltaTime;
+    public override void UpdateState()
+    {
 
-        if (timer <= 0){
-            ExitState("idle");
+        timer -= Time.deltaTime;
+
+        if (timer <= 0f)
+        {
+            if (marineroManager != null && marineroManager.enemiesInArea)
+            {
+                ExitState("focus");
+            }
+            else
+            {
+                ExitState("idle");
+            }
         }
     }
 
-    public override void ExitState (string nextState){
-        if (nextState == "idle"){
+    public override void ExitState(string nextState)
+    {
+        if (nextState == "idle")
+        {
             state_machine.SetState<Idle_pistolero>();
+        }
+        // AGREGAR ESTA CONDICI”N:
+        else if (nextState == "focus")
+        {
+            state_machine.SetState<Focus_pistolero>();
         }
     }
 }

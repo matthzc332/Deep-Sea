@@ -6,6 +6,14 @@ TagManager:
   tags:
   - Tienda
   - Equipo
+  - Ship
+  - Enemy
+  - Bullet
+  - FondoModalTienda
+  - ContenedorBarco
+  - Boss
+  - Cofre
+  - BulletEnemy
   layers:
   - Default
   - TransparentFX

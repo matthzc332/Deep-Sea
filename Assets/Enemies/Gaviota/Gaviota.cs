@@ -11,10 +11,6 @@ public class Gaviota : Entity
     public float limiteXIzquierda = -10f;
     public float limiteXDerecha = 10f;
 
-    [Header("Vida")]
-    public float vida = 10f;
-
-    [Header("Referencia al barco")]
     public Transform barco;
 
     [Header("Opciones adicionales")]
@@ -24,44 +20,63 @@ public class Gaviota : Entity
     public GameObject prefabExplosion;
     public float duracionExplosion = 2f;
 
+    [Header("Daño explosión")]
+    public float radioExplosion = 0.8f;
+    public int dañoAlBarco = 1;
+
     [HideInInspector]
     public bool enAreaBarco = false;
 
-    // Referencia al teclado para el nuevo Input System
     private Keyboard keyboard;
 
     void Start()
     {
-        // Obtener referencia al teclado
+        GameObject objetoBarco = GameObject.FindGameObjectWithTag("Ship");
+
+        if (objetoBarco != null)
+        {
+            barco = objetoBarco.transform;
+
+            if (debug)
+                Debug.Log("Barco encontrado en: " + barco.position);
+        }
+        else
+        {
+            if (debug)
+                Debug.LogWarning("No se encontró ningún objeto con el Tag 'Ship'");
+        }
+
         keyboard = Keyboard.current;
     }
 
     void Update()
     {
-        // Test: restar vida con D - Usando nuevo Input System
+        // Test: restar vida con D usando el sistema base
         if (keyboard != null && keyboard.dKey.wasPressedThisFrame)
         {
-            vida -= 1f;
-            if (debug) Debug.Log($"Gaviota recibe daño, vida actual: {vida}");
+            takeDamage(1);
+
+            if (debug)
+                Debug.Log($"Gaviota recibe daño, HP actual: {getHP()}");
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"=== COLISIÓN DETECTADA ===");
-    Debug.Log($"Objeto: {other.gameObject.name}");
-    Debug.Log($"Tag: {other.tag}");
-    Debug.Log($"Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
-    
-    if (other.CompareTag("Ship"))
-    {
-        Debug.Log("✅ Gaviota entró en área del barco");
-        enAreaBarco = true;
-    }
-    else
-    {
-        Debug.Log("❌ No es el barco");
-    }
+        if (other.CompareTag("Ship"))
+        {
+            enAreaBarco = true;
+
+            // Si quieres que explote AL TOCARLO (en lugar de solo entrar en modo picada)
+            // Puedes forzar el cambio de estado aquí mismo:
+            var stateMachine = GetComponentInChildren<State_Machine>(); // O como lo tengas referenciado
+            if (stateMachine != null)
+            {
+                stateMachine.SetState<Gaviota_Explotando>();
+            }
+
+            if (debug) Debug.Log("Gaviota colisionó con el barco - EXPLOSIÓN");
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -69,7 +84,9 @@ public class Gaviota : Entity
         if (other.CompareTag("Ship"))
         {
             enAreaBarco = false;
-            if (debug) Debug.Log("Gaviota salió del área del barco");
+
+            if (debug)
+                Debug.Log("Gaviota salió del área del barco");
         }
     }
 }

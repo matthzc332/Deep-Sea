@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: e7cbdf6b31de27b4cb18c506e423c5ae
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cartelLleno: {fileID: 1054713871736592274, guid: e304ff8b9b20c4c4d9ed13b32599c780, type: 3}
+  - shipData: {fileID: 11400000, guid: dc4aa875e6fe98d4da2eb5e6bf2f03ca, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
